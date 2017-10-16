@@ -1,0 +1,152 @@
+<script type="text/javascript">
+function toggleLayer(val)
+{
+	if(val == 'on' || val === true)
+	{
+		document.getElementById('club_new_toggle').checked = true;
+		document.getElementById('club_new').style.display = 'block';
+		document.getElementById('club_existing').style.display = 'none';        
+		document.getElementById('season_id_container').style.display = 'none';
+ 		document.getElementById('season_new').style.display = 'block';
+ 		document.getElementById('existing_season_link').style.display = 'none';
+ 		document.getElementById('season_new_toggle').checked = true;
+	}
+	else if(val == 'off' || val === false)
+	{
+		document.getElementById('club_existing_toggle').checked = true;
+		document.getElementById('club_new').style.display = 'none';
+		document.getElementById('club_existing').style.display = 'block'; 
+ 		document.getElementById('existing_season_link').style.display = 'block';                       
+	}
+}
+function toggleLayerSeason(val)
+{
+	if(val == 'on' || val === true)
+	{
+		document.getElementById('season_new_toggle').checked = true;
+		document.getElementById('season_id_container').style.display = 'none';
+ 		document.getElementById('season_new').style.display = 'block';
+	}
+	else if(val == 'off' || val === false)
+	{
+		document.getElementById('season_existing_toggle').checked = true;
+		document.getElementById('season_id_container').style.display = 'block';
+ 		document.getElementById('season_new').style.display = 'none';
+	}
+}
+function toggleLayerteam(val)
+{
+	if(val == 'on' || val === true)
+	{
+		document.getElementById('team_new_toggle').checked = true;
+		document.getElementById('team_id_container').style.display = 'none';
+ 		document.getElementById('team_new').style.display = 'block';
+	}
+	else if(val == 'off' || val === false)
+	{
+		document.getElementById('team_existing_toggle').checked = true;
+		document.getElementById('team_id_container').style.display = 'block';
+ 		document.getElementById('team_new').style.display = 'none';
+	}
+}
+</script>
+    
+
+<h2>Create a Crew, Event, or Result</h2>
+<p>This page is very powerful. It allows you to add crews, events or results to your profile (even if the club, event, or crew don't yet exist).</p>
+
+<%= error_messages_for :club %>
+<%= error_messages_for :season %>
+<%= error_messages_for :team %>
+
+<% form_for :club, :url => { :controller => "fullform", :action => "create"} do |f| %>
+
+<fieldset><legend>Choose the Club</legend>
+<input id="club_existing_toggle" name="switcher" type="radio" value="on" checked="checked" onclick="toggleLayer(!this.checked);" /><label for="club_new_toggle">Existing Club</label> <input id="club_new_toggle" name="switcher" type="radio" value="off" onclick="toggleLayer(this.checked);" /> <label for="club_existing_toggle">New Club</label><BR />
+<BR />
+    <div id="club_existing">
+    <b>Choose an Existing Club</b><BR />
+    <% @clubs = Club.find(:all, :order => "name ASC") %>
+    <%= f.collection_select(:id, @clubs, "id", "name", {},        {:onchange => remote_function(
+						:with => "'id='+escape(value)",
+						:url => url_for(:controller => 'fullform', :action => 'list_seasons') ) } ) %><BR />
+    
+    </div>
+
+    <div id="club_new" style="display: none;">
+        <b>Create a New Club</b><BR />
+        <% @sports = DataSports.find(:all, :order => "name ASC") %>
+        <table>
+          <tr><td>Name:</td><td><%= f.text_field :name, :class => "text" %></td><td><div class="smaller">Please enter the club name in this field.</div></td></tr>
+          <tr><td>Initials:</td><td><%= f.text_field :initials, :class => "text" %></td><td><div class="smaller">Sipbib often refers to your club by the initials of your club. For example, the initials of "Queens' College Boat Club" are "QCBC".</div></td></tr>
+          <tr><td>Sport:</td><td><%= f.collection_select(:sport_id, @sports, "id", "name", options ={:prompt => "Select a Sport"}) %></td><td><div class="smaller">Please select your sport. If your sport does not appear in this list, please email the webmaster here.</div></td></tr>
+          <tr><td>Club&nbsp;Colour:</td><td><%= f.text_field :backgroundcolor, :size => 7, :class => "text" %></td><td><div class="smaller">Click <a href="/images/bgcolors216.gif" target="_blank">here</a> to see the list of colours you can choose. They must be entered in the format of a hash symbol "#" followed by six characters taken from the chart e.g. "#ffffff" (black) or "#ff0000" (red).</div></td></tr>
+          <tr><td>Post&nbsp;Code:</td><td><%= f.text_field :locationcode, :size => 10, :class => "text" %></td><td><div class="smaller">Each sports club should have a location where it is based. Please enter your nearest UK postcode here.</div></td></tr>
+        </table>
+      	<% i=0 %>
+        <% @dynpage={ "0" => "Club News", 
+          "1" => "Committee", 
+          "2" => "Members"} -%>
+        <% @dynpath={ "0" => "club_path(session[:club_id])",
+          "1" => "club_committees_path(session[:club_id])", 
+          "2" => "club_memberships_path(session[:club_id])"} -%>
+        <% for dynamic in @dynpage -%>
+          <% @club.navigation.build -%>
+        <% end -%>
+      	<% for navigation in @club.navigation %>
+      		<% fields_for "club[navigation_attributes][]", navigation do |foreign| %>
+      			<%= foreign.hidden_field :indexlinkname, :value => @dynpage[i.to_s] %>
+      			<%= foreign.hidden_field :path, :value => @dynpath[i.to_s] %>
+      			<%= foreign.hidden_field :indexorder, :value => i.to_i %>
+            <%= foreign.hidden_field :sub_page, :value => 0 %>
+      		<% end %>
+      	<% i += 1 %>
+      	<% end %>
+        <BR />
+    </div>
+    </fieldset>    
+    
+    
+    <fieldset><legend>Season</legend>
+    <div id="existing_season_link"><input id="season_existing_toggle" name="season_switch" type="radio" value="on" checked="checked" onclick="toggleLayerSeason(!this.checked);" /><label for="season_new_toggle">Existing Season</label> <input id="season_new_toggle" name="season_switch" type="radio" value="off" onclick="toggleLayerSeason(this.checked);" /> <label for="season_existing_toggle">New Season</label><BR /><BR /></div>
+    
+      <div id="season_id_container">
+        <b>Choose a Season</b><BR /><select id='season_id' name='season[id]' onchange='new Ajax.Updater('team_id_container', '/fullform/list_teams', {asynchronous:true, evalScripts:true, parameters:'season_id='+escape(value)})' disabled='disabled'><option value=''>No Club Selected</option></select>
+      </div>
+
+      <div id="season_new" style="display: none;">
+        <b>Create a Season</b><BR />
+        <table>
+          <tr><td>Starts On:</td><td><%= date_select 		:season,	 :starts_from, 
+                           :start_year => Spec::START_YEAR,
+                           :end_year => Time.now.year+5,
+                           :include_blank => false,
+                           :order => [:day, :month, :year] %></td><td><div class="smaller">Please enter the date your season starts.</div></td></tr>
+          <tr><td>Description:</td><td><%= text_field :season, :description, :class => "text" %></td><td><div class="smaller">Enter the season description here. A typical one might be the years the season spans, e.g. "2008-2009". Be sure that your season will include the year that your event took place!</div></td></tr>
+        </table>
+      </div>
+</fieldset>
+    <fieldset><legend>Team</legend>
+    <div id="existing_team_link"></div><input id="team_existing_toggle" name="team_switch" type="radio" value="on" checked="checked" onclick="toggleLayerteam(!this.checked);" /><label for="team_new_toggle">Existing team</label> <input id="team_new_toggle" name="team_switch" type="radio" value="off" onclick="toggleLayerteam(this.checked);" /> <label for="team_existing_toggle">New team</label><BR /><BR />
+
+      <div id="team_id_container">
+        <b>Choose a Team</b><BR /><select id="season_id" onchange="new Ajax.Updater('team_id_container', '/fullform/list_teams', {asynchronous:true, evalScripts:true, parameters:'season_id='+escape(value)})" name="season[id]" disabled='disabled'><option value=''>No Club Selected</option></select>
+      </div>
+
+      <div id="team_new" style="display: none;">
+        <b>Create a team</b><BR />
+        <%= render :partial => "teams/formteam" %>
+      </div>
+</fieldset>
+
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+  
+
+
+<% end %>
+
+
+

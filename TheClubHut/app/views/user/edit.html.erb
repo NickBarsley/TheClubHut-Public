@@ -1,0 +1,38 @@
+
+<h2><%= @title %></h2>
+<%= error_messages_for 'user' %>
+
+<% form_for :user do |form| %>
+<fieldset>
+  <legend>Email</legend> 
+  <table>
+  <%= render :partial => "email_field_row", :locals  => { :form => form } %>  
+  </table>
+  <%= hidden_field_tag "attribute", "email", :id => nil%>
+  <%= submit_tag "Update", :class => "submit" %>   
+</fieldset>  
+<% end %>
+<BR />
+
+<% form_for :user do |form| %>
+<fieldset>
+  <legend>Password</legend> 
+  <table>
+  <%= render :partial => "password_field_row",
+             :locals  => { :form => form, 
+                           :field => "current_password",
+													 :field_title => "Current (old) Password" } %>
+                           <tr><td colspan=2>&nbsp;</td></tr>
+  <%= render :partial => "password_field_row",
+             :locals  => { :form => form, 
+                           :field => "password",
+                           :field_title => "New Password" } %>
+  <%= render :partial => "password_field_row",
+             :locals  => { :form => form, 
+                           :field => "password_confirmation",
+                           :field_title => "New Password Confirmation" } %>
+  </table>
+  <%= hidden_field_tag "attribute", "password", :id => nil %>
+  <%= submit_tag "Update", :class => "submit" %>
+</fieldset>  
+<% end %>

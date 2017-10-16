@@ -1,0 +1,28 @@
+<h1>New suggestion</h1>
+
+<%= error_messages_for :suggestion %>
+
+<% form_for(@suggestion) do |f| %>
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+<% if session[:user_id] %>
+	<%= f.hidden_field :user_id, :value => session[:user_id] %>
+<% else %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+<% end %>
+
+  <p>
+    <b>Idea</b><br />
+    <%= f.text_area :idea %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', suggestions_path %>

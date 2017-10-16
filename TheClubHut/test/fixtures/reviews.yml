@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  item_id: 1
+  sport_id: 1
+  date: 2008-08-28 15:03:41
+  rating_overall: 1
+  rating_value: 1
+  used_product_since: 2008-08-28
+  price_paid: 1.5
+  bought_where: MyString
+  summary: MyText
+  strengths: MyText
+  weaknesses: MyText
+  similar_products: 1
+
+two:
+  user_id: 1
+  item_id: 1
+  sport_id: 1
+  date: 2008-08-28 15:03:41
+  rating_overall: 1
+  rating_value: 1
+  used_product_since: 2008-08-28
+  price_paid: 1.5
+  bought_where: MyString
+  summary: MyText
+  strengths: MyText
+  weaknesses: MyText
+  similar_products: 1

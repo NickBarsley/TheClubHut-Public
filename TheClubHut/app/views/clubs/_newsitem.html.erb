@@ -1,0 +1,10 @@
+<div id="blog">
+	<% if current_club_committee? -%>
+	<div class="smaller" align="right">[ <%= link_to 'Add a news story', new_blog_blogpost_path(@blog.id) %> ]</div>
+	<% end -%>
+  <% if @posts.size != 0 -%>
+  <%= render :partial => "blogposts/blogpost", :collection => @posts %>
+  <% else -%>
+  <BR />No news stories currently exist for <%= @club.initials %>. <br /><br />To create a news story, you must be a member of the <%= @club.initials %> committee.
+  <% end -%>
+</div>

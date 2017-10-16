@@ -1,0 +1,28 @@
+<% if @user.id.to_i == session[:user_id].to_i -%>
+  <h1>Edit Your Membership of <%= @club.initials %>:</h1>
+<% else -%>
+  <h1>Edit <%= @user.firstname %>'s Membership of <%= @club.initials %>:</h1>
+<% end -%>
+<BR />
+<%= error_messages_for :membership %>
+<% form_for(@membership) do |f| -%>
+  <%= f.hidden_field :user_id, :value => @membership.user_id %>
+  <%= f.hidden_field :club_id, :value => @membership.club_id %>
+  <table>
+	<tr>
+		<td>Membership Requested:</td>
+		<td><% @requested_status_options = Membershiptype.find(:all, :conditions => ["club_id=?", @membership.club_id]) %>
+			<select name="membership[membershiptype_id]">
+				<% @requested_status_options.each do |type| %>
+				<option value="<%= type.id %>" <% if @membership.membershiptype_id == type.id -%>SELECTED<% end -%>><%= type.name %></option>
+				<% end %>
+			</select>
+			<%= f.submit "Update Membership" %>
+		</td>
+	</tr>	
+  </table>
+<% end -%>
+<BR />
+
+To delete <%= @user.firstname %>'s <%= @membership.membershiptype.name %> membership of <%= @club.name %> click <%= link_to 'here', club_membership_path(@club, @membership.id), :confirm => 'Are you sure you want to remove this membership?', :method => :delete %>.
+<BR /><BR /><BR />

@@ -1,0 +1,27 @@
+<h2><%= @title %></h2>
+
+<%= error_messages_for :photo %>
+<% if @race %>
+  <% form_for(:photo, :url => event_race_photos_path, :html => { :multipart => true }) do |f| %>
+  <%= f.hidden_field :race_id, :value => @race.id %>
+  <p>Photo title:<BR /><%= f.text_field 'title', :value => '' %></p>
+  <p>Photo description: <BR /><%= f.text_area 'body', :rows => 6, :cols => 40 %></p>
+  Select file: <%= f.file_field :uploaded_data %><br /><br />
+  <%= submit_tag 'Upload Photo' %>
+  <% end %>
+<% elsif @item %>
+  <% form_for(:photo, :url => item_photos_path, :html => { :multipart => true }) do |f| %>
+  <p>Select a photo to upload</p>
+  <%= f.hidden_field :item_id, :value => @item.id %>
+  Select File: <%= f.file_field :uploaded_data %>
+  <%= submit_tag 'Upload Photo' %>
+  <% end %>
+<% elsif @team %>
+  <% form_for(:photo, :url => team_photos_path, :html => { :multipart => true }) do |f| %>
+  <%= f.hidden_field :team_id, :value => @team.id %>
+  <p>Photo title:<BR /><%= f.text_field 'title', :value => '' %></p>
+  <p>Photo description: <BR /><%= f.text_area 'body', :rows => 6, :cols => 40 %></p>  
+  Select file: <%= f.file_field :uploaded_data %><br /><br />
+  <%= submit_tag 'Upload Photo' %>
+  <% end %>  
+<% end %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_id: 1
+  team_id: 1
+  user_id: 1
+  result: MyString
+  position: 1
+  gallery_id: 1
+  report: MyText
+
+two:
+  event_id: 1
+  team_id: 1
+  user_id: 1
+  result: MyString
+  position: 1
+  gallery_id: 1
+  report: MyText

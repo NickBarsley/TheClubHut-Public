@@ -1,0 +1,23 @@
+<h1><%= @club.name %> Pages</h1>
+
+<table width=100%>
+  <tr>
+    <th>Browser Title</th>
+    <th>Page Title</th>
+    <th>Main Text</th>
+		<th>Admin</th>
+  </tr>
+
+<% for staticpage in @staticpages %>
+  <tr>
+    <td><%=h staticpage.toolbar_title %></td>
+    <td><%=h staticpage.title %></td>
+    <td><%=h staticpage.body[0,20] %>...</td>
+    <td><%= link_to 'Edit', edit_club_staticpage_path(@club, staticpage) %> | <%= link_to 'Del', club_staticpage_path(@club, staticpage), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Static Page', new_club_staticpage_path %>

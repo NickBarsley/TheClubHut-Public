@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  club_id: 1
+  elected_on: 2008-08-21 09:36:07
+  in_office_from: 2008-08-21 09:36:07
+  description: MyString
+
+two:
+  club_id: 1
+  elected_on: 2008-08-21 09:36:07
+  in_office_from: 2008-08-21 09:36:07
+  description: MyString

@@ -1,0 +1,26 @@
+<h1>Editing staticpage</h1>
+
+<%= error_messages_for :staticpage %>
+
+<% form_for(:staticpage, :url => club_staticpage_path(:id => @staticpage.id), :html => { :method => :put }) do |f| %>
+	<%= f.hidden_field :club_id, :value => params[:club_id] %>
+
+  <p>
+    <b>Toolbar title</b><br />
+    <%= f.text_field :toolbar_title %>
+  </p>
+
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <b>Body</b><br />
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', club_staticpage_path(@club, @staticpage) %>

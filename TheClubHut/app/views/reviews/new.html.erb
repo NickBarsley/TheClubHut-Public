@@ -1,0 +1,48 @@
+<h1>Create a New Review</h1>
+
+<%= error_messages_for :review %>
+
+
+
+<table>
+<% form_for(:review, :url => item_reviews_path) do |foreign| -%>
+  <%= foreign.hidden_field :user_id, :value => session[:user_id] -%>
+  <%= foreign.hidden_field :item_id, :value => params[:item_id] -%>
+  <%= foreign.hidden_field :date, :value => Time.now -%>
+    <tr><td>Overall Rating (out of 5)</td><td>
+      
+			 <select name="review[rating_overall]">
+       <% i=0%>
+			 <% 6.times do %>
+			 <option value="<%= i %>"> 
+			 <%= i %>
+			 </option>
+       <% i+=1 %>
+			 <% end %>
+			 </select>	
+      
+      </td></tr>
+    <tr><td>Value Rating (out of 5)</td><td>
+			 <select name="review[rating_value]">
+       <% i=0%>
+			 <% 6.times do %>
+			 <option value="<%= i %>"> 
+			 <%= i %>
+			 </option>
+       <% i+=1 %>
+			 <% end %>
+			 </select>		
+
+      </td></tr>
+    <tr><td>Used product since</td><td><%= foreign.date_select :used_product_since %></td></tr>
+    <tr><td>Price paid</td><td><%= foreign.text_field :price_paid %></td></tr>
+    <tr><td>Bought where</td><td><%= foreign.text_field :bought_where %></td></tr>
+    <tr><td>Summary</td><td><%= foreign.text_area :summary, :rows => '5', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Strengths</td><td><%= foreign.text_area :strengths, :rows => '3', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Weaknesses</td><td><%= foreign.text_area :weaknesses, :rows => '3', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Similar products</td><td><%= foreign.text_field :similar_products %></td></tr>
+    <tr><td colspan=2><%= foreign.submit "Create Review" %></td></tr>    
+</table>      
+<% end %>
+
+<%= link_to 'Back', item_path(@item.id) %>

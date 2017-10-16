@@ -1,0 +1,37 @@
+<% if logged_in? -%>
+	<%  @user = User.find(session[:user_id]) -%>
+	<%  @club = Club.find(session[:club_id]) -%>
+	<ul id="usersections">
+		<li class="self">You are signed in as<br /><em><%= nav_link @user.full_name, "profile", "show", session[:user_id] -%></em>&nbsp;&nbsp;(<%= nav_link "edit", "spec", "edit" %>)</li>
+		<li><%= nav_link "Edit my<br /> log in", "user", "edit" %></li>
+		<li><%= nav_link "My <br />clubs", admin_memberships_path %></li>
+		<li>Workouts &amp;<br />records</li>
+		<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") -%>
+		<% if @seasons.size != 0 -%>
+			<% latestteamid = 0 -%>
+			<% @seasons.each do |season| -%>
+				<% if latestteamid == 0 -%>
+					<% @teams = Team.find(:all, :conditions => ["club_id=? and season_id=?", session[:club_id], season], :order => "season_id DESC, roworder DESC") -%>
+					<% @teams.each do |team| -%>
+						<% if latestteamid == 0 -%>
+							<% @teammembers = Teammember.find(:all, :conditions => ["team_id=?", team.id]) -%>
+							<% @teammembers.each do |teammember| -%>
+								<% if teammember.user_id.to_i == session[:user_id].to_i -%>
+									<% latestteamid = team.id.to_i -%>
+								<% end -%>
+							<% end -%>
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+			<% if latestteamid != 0 -%>
+				<li><%= nav_link "My current<br />"+@club.initials+" crew", "teams", "show", latestteamid%></li>
+			<% else -%>
+				<li>My current<br />crew</li>
+			<% end -%>
+		<% else -%>
+			<li>My current<br />crew</li>
+		<% end -%>
+		<li><%= nav_link "Sign<br />out", "user", "logout" %></a></li>
+	</ul>
+<% end -%>

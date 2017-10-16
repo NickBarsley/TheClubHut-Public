@@ -1,0 +1,54 @@
+<% @photo = Photo.find(:first, :conditions => ["team_id=?", @team.id]) -%>
+
+<H2><%= @team.description %></H2>
+
+<% if @photo %>
+  <table width=100% cellpadding=5><tr>
+    <td width=100%><%= render :partial => "teammember", :collection => @team.teammember %></td>
+    <td align=center><%= link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb", :title => [@team.description + " Photos"]), team_photos_path(@team.id) %><div class="smaller"><%= link_to "Add another photo", new_team_photo_path(@team.id) %></div></td>
+  </tr></table>
+<% else %>
+<%= render :partial => "teammember", :collection => @team.teammember %>
+<% end %>
+
+<% if logged_in? %>
+  <% c = current_club_committee? -%>
+  <% t = current_team(@team.id) -%>
+	<% if c and t -%>
+    <div class="teamlinks"> 
+    <%= link_to 'Email Crew', teamemail_team_path(@team.id) %> | 
+    <%= link_to 'Crew Forum', teamforum_team_path(@team.id) %> | 
+    <%= link_to 'Add a Substitute', new_team_substitute_path(@team.id) %> |
+    <%= link_to 'Edit Crew', edit_team_path(@team.id) %> | 
+    <%= link_to 'Delete Crew', team_path(@team.id), :confirm => 'Are you sure?', :method => :delete %> |
+    <%= link_to "Add a Team Photo", new_team_photo_path(@team.id) %>
+    </div>
+  <% elsif c and !t %>
+    <div class="teamlinks">
+    <%= link_to 'Email Crew', teamemail_team_path(@team.id) %> | 
+    <%= link_to 'Add a Substitute', new_team_substitute_path(@team.id) %> |
+    <%= link_to 'Edit Crew', edit_team_path(@team.id) %> | 
+    <%= link_to 'Delete Crew', team_path(@team.id), :confirm => 'Are you sure?', :method => :delete %> |    
+    <%= link_to "Add a Team Photo", new_team_photo_path(@team.id) %>
+    </div>  
+  <% elsif !c and t %>
+    <div class="teamlinks"> 
+    <%= link_to 'Email Crew', teamemail_team_path(@team.id) %> | 
+    <%= link_to 'Crew Forum', teamforum_team_path(@team.id) %> |     
+    <%= link_to 'Add a Substitute', new_team_substitute_path(@team.id) %> |
+    <%= link_to 'Edit Crew', edit_team_path(@team.id) %> | 
+    <%= link_to "Add a Team Photo", new_team_photo_path(@team.id) %>
+    </div>  
+  <% else %>
+    <% if @photo %>
+    <% else %>
+    <div class="teamlinks">
+    <%= link_to "Add a Team Photo", new_team_photo_path(@team.id) %>
+    </div>
+    <% end %>  
+	<% end %>
+<% end %>
+
+
+<BR />
+<%= render :partial => "events/raceforcrew", :collection => @races %> 

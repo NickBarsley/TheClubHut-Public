@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  age: 1
+  favourite: 1
+  cerness: 2008-12-14 18:46:19
+
+two:
+  name: MyString
+  age: 1
+  favourite: 1
+  cerness: 2008-12-14 18:46:19

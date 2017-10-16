@@ -1,0 +1,46 @@
+<h1>Events</h1>
+<%= link_to 'Create a new event', new_event_path %>
+
+<div class="clear event">
+	<!-- Upcoming events -->	
+	<% @events = Event.find(:all, :conditions => ["date>=?", Date.today], :order => "date DESC") %>
+	<% i=1 -%>
+	<% if @events != nil -%>
+		<% if @events.size != 0 -%>
+		<h2>Upcoming events</h2>
+		<ol class="shortevents">
+		<% for event in @events -%>
+			<% if i <= 6 -%>
+				<% @teams = Race.find(:all, :conditions => ["event_id=?", event]) -%>
+				<li><%= nav_link "<strong>"+event.title+"</strong><em>"+distance_of_time_in_words(Date.today, event.date, include_seconds = false)+"</em><span>"+@teams.size.to_s+" boats</span>", report_event_path(event.id) %></li>
+				<% i += 1 -%>
+			<% end -%>
+		<% end -%>
+		</ol>
+		<% end -%>
+	<% end -%>	
+	<div class="clear"></div>
+	
+	<!-- Past events -->	
+	<% firstseason = true -%>
+	<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") -%>
+	<% for season in @seasons -%>
+		<% if firstseason == true -%>
+			<% @events = Event.find(:all, :conditions => ["date>=? and date<?", season.starts_from, Date.today], :order => "date DESC") -%>
+			<% firstseason = false -%>
+		<% end -%>
+	<% end -%>
+	<% i=1 -%>
+	<% if @events != nil -%>
+		<h2>Past events</h2>
+		<ol class="shortevents">
+		<% for event in @events -%>
+			<% if i <= 10 -%>
+				<% @teams = Race.find(:all, :conditions => ["event_id=?", event]) -%>
+				<li><%= nav_link "<strong>"+event.title+"</strong><em>"+distance_of_time_in_words(event.date, Date.today, include_seconds = false)+"</em><span>"+@teams.size.to_s+" boats</span>", report_event_path(event.id) %></li>
+				<% i += 1 -%>
+			<% end -%>
+		<% end -%>
+		</ol>
+	<% end -%>
+</div>

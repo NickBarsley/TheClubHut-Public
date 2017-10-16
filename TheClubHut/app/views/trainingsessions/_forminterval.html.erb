@@ -1,0 +1,118 @@
+
+<div class="interval" style="display: inline;">
+<% new_or_existing = forminterval.new_record? ? 'new' : 'existing' %>
+<% prefix = "trainingsession[#{new_or_existing}_interval_attributes][]" %>
+<% fields_for prefix, forminterval do |interval_form| -%>
+<table>
+  <tr>
+    <td valign="bottom">
+<div class="smaller" style="display: inline;"><%= interval_form.hidden_field :position, :value => @numinterval %>
+  <div id="dist_or_duration_<%= @numinterval %>"><input type="hidden" value="distance" name="trainingsession[new_interval_attributes][][dist_or_dur]" id="trainingsession_new_interval_attributes__dist_or_dur"/></div>
+  </div>
+</td><td><div class="newspostwithLborder <% if @numinterval % 2 == 0 %>newspost_even<% else %>newspost_odd<% end %>" style="display: inline;"><div class="smaller" style="display: inline;">
+<table cellspacing=0 cellpadding=3px>
+  <tr>
+    <td rowspan="2" bgcolor="#dbecdd"><b>Target:</b></td>
+    <td bgcolor="#dbecdd">Rest?</td>
+    <td rowspan=2 bgcolor="#dbecdd">
+      <input id="distance_toggle_<%= @numinterval %>" name="distance_switch_<%= @numinterval %>" type="radio" value="on" checked="checked" onclick="toggleLayerDistance(!this.checked, <%= @numinterval %>);" />
+      <label for="distance_toggle_<%= @numinterval %>">Distance</label><BR/>
+      <input id="duration_toggle_<%= @numinterval %>" name="distance_switch_<%= @numinterval %>" type="radio" value="off" onclick="toggleLayerDistance(this.checked, <%= @numinterval %>);" />
+      <label for="duration_toggle_<%= @numinterval %>">Time</label>
+    </td>
+    <td bgcolor="#dbecdd" align=center>
+      <div id="target_header_<%= @numinterval %>"><b>Distance</b></div>
+    </td>
+    <td bgcolor="#f0f8f1" align=center v-align="middle"><input id="trainingsession_new_interval_attributes__aim_for_rate_q" name="trainingsession[new_interval_attributes][][aim_for_rate_q]" type="checkbox" value="1"  onclick="toggle_aim_for_rate(this.checked, <%= @numinterval %>);"/><b>Rate</b></td>
+    <td bgcolor="#dbecdd" align=center><input id="trainingsession_new_interval_attributes__aim_for_split_q" name="trainingsession[new_interval_attributes][][aim_for_split_q]" type="checkbox" value="1"  onclick="toggle_aim_for_split(this.checked, <%= @numinterval %>);"/><b>500m Split</b> Min:Sec.P</td>
+    <td bgcolor="#f0f8f1" align=center><input id="trainingsession_new_interval_attributes__aim_for_wattage_q" name="trainingsession[new_interval_attributes][][aim_for_wattage_q]" type="checkbox" value="1"  onclick="toggle_aim_for_wattage(this.checked, <%= @numinterval %>);"/><b>Wattage</b></td>
+  </tr>
+  <tr>
+    <% @hour = Array.new -%>
+    <% 6.times do |i| -%>
+    <% @hour << ["0" + i.to_s] -%>
+    <% end -%>
+
+    <% @min = Array.new -%>
+    <% 60.times do |i| -%>
+    <% if i.to_s.length == 1 -%>
+    <% @min << ["0" + i.to_s] -%>
+    <% else -%>
+    <% @min << [i] -%>
+    <% end -%>
+    <% end -%>
+    
+    <% @sec = Array.new -%>
+    <% 60.times do |i| -%>
+    <% if i.to_s.length == 1 -%>
+    <% @sec << ["0" + i.to_s] -%>
+    <% else -%>
+    <% @sec << [i] -%>
+    <% end -%>
+    <% end -%>
+    
+    <% @point = Array.new -%>
+    <% 10.times do |i| -%>
+    <% @point << [i] -%>
+    <% end -%>  
+    
+
+    <td align=center valign="top" bgcolor="#dbecdd"><input id="trainingsession_new_interval_attributes__rest" name="trainingsession[new_interval_attributes][][rest]" type="checkbox" value="1" /></td>
+    <td align=center style="padding-left: 5px; padding-right: 5px;" bgcolor="#dbecdd">
+      <div id="target_<%= @numinterval %>"><%= interval_form.text_field :distance, :class=> "textinterval", :size => 5 %> <%= interval_form.select "distance_units", %w{ m Miles Km } %></div></td>
+    <% @aim_for_rate = Array.new -%>
+    <% 50.times do |i| -%>
+    <% if i >= 10 -%>
+    <% @aim_for_rate << [i.to_s] -%>
+    <% end -%>
+    <% end -%>
+
+    <% @min = Array.new -%>
+    <% 6.times do |i| -%>
+    <% if i != 0 -%>
+    <% @min << ["0" + i.to_s] -%>
+    <% end -%>
+    <% end -%>
+            
+    <td align=center style="padding-left: 5px; padding-right: 5px;" bgcolor="#f0f8f1"><div id="aim_for_rate_<%= @numinterval %>" style="display: none;"><%= interval_form.select ("aim_for_rate", @aim_for_rate.map {|u| [u[0],u[0]]}) %></div></td>
+    <td align=center style="padding-left: 5px; padding-right: 5px;" bgcolor="#dbecdd"><div id="aim_for_split_<%= @numinterval %>" style="display: none;"><%= interval_form.select ("aim_for_split_min", @min.map {|u| [u[0],u[0]]}) %><b>&nbsp;:&nbsp;</b><%= interval_form.select ("aim_for_split_sec", @sec.map {|u| [u[0],u[0]]}) %><b>&nbsp;.&nbsp;</b><%= interval_form.select ("aim_for_split_point", @point.map {|u| [u[0],u[0]]}) %></div></td>
+    <td align=center style="padding-left: 5px; padding-right: 5px;" bgcolor="#f0f8f1"><div id="aim_for_wattage_<%= @numinterval %>" style="display: none;"><%= interval_form.text_field :aim_for_wattage, :class=> "textinterval", :size => 1 %> W</div></td>
+  </tr>
+  <tr class="result">
+    <td bgcolor="#dbdfec" colspan=3 rowspan=2 valign="middle" align="left"><b>Result:</b></td>
+        <td bgcolor="#dbdfec" align=center>
+      <div id="result_header_<%= @numinterval %>"><b>Time</b> Hr:Min:Sec.P</div>
+    </td>
+    <td bgcolor="#eef0f6"></td>
+    <td bgcolor="#dbdfec"></td>
+    <td bgcolor="#eef0f6"></td>
+  </tr>
+  
+      <% @min = Array.new -%>
+    <% 60.times do |i| -%>
+    <% if i.to_s.length == 1 -%>
+    <% @min << ["0" + i.to_s] -%>
+    <% else -%>
+    <% @min << [i] -%>
+    <% end -%>
+    <% end -%>
+  
+  <tr class="result">
+    <td align=center style="padding-left: 5px; padding-right: 5px;" bgcolor="#dbdfec" align=center><div id="result_<%= @numinterval %>"><%= interval_form.select ("duration_hr", @hour.map {|u| [u[0],u[0]]}) %><b>&nbsp;:&nbsp;</b><%= interval_form.select ("duration_min", @min.map {|u| [u[0],u[0]]}) %><b>&nbsp;:&nbsp;</b><%= interval_form.select ("duration_sec", @sec.map {|u| [u[0],u[0]]}) %><b>&nbsp;.&nbsp;</b><%= interval_form.select ("duration_point", @point.map {|u| [u[0],u[0]]}) %></div></td>
+    <td bgcolor="#eef0f6" align=center><%= interval_form.select ("res_rate", @aim_for_rate.map {|u| [u[0],u[0]]}) %></td>
+    <td bgcolor="#dbdfec" align=center><%= interval_form.select ("res_split_min", @min.map {|u| [u[0],u[0]]}) %><b>&nbsp;:&nbsp;</b><%= interval_form.select ("res_split_sec", @sec.map {|u| [u[0],u[0]]}) %><b>&nbsp;.&nbsp;</b><%= interval_form.select ("res_split_point", @point.map {|u| [u[0],u[0]]}) %></td>
+    <td bgcolor="#eef0f6" align=center><%= interval_form.text_field :res_wattage, :class=> "textinterval", :size => 1 %> W</td>
+    
+  </tr>
+  
+  </table>
+
+<%= link_to_function "Remove Interval", "$(this).up('.interval').remove()" %>
+
+  </div>
+  </div>
+</td></tr></table>
+<div style="clear: both; height: 5px"></div>
+<% end -%>
+</div>
+

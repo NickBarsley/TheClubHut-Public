@@ -1,0 +1,135 @@
+<h1>Create a New Event</h1>
+
+<%= error_messages_for :event %>
+
+<% form_for(@event) do |f| %>
+	<%= f.hidden_field :user_id, :value => session[:user_id] %>
+	<table>
+		<tr>
+			<td>Are you the event organiser?</td>
+			<td><%= radio_button :event, :created_by_owner, "Yes" %>Yes<%= radio_button :event, :created_by_owner, "No", :checked => true%>No</td>
+		</tr>
+<% if @userclubs != nil %>
+		<tr>
+			<td>Is this event run by one of your clubs?</td>
+			<td>
+			 <select name="event[club_id]">
+		 	<option value="" SELECTED>No</Option>
+			 <% @userclubs.each do |club| %>
+			 <% @club = Club.find_by_id(club) -%>
+			 <option value="<%= @club.id %>"> 
+			 Yes - <%= @club.name %>
+			 </option>
+			 <% end %>
+			 </select>
+			</td>
+		</tr>
+<% end %>
+		<tr>
+			<td>Sport:</td>
+			<td>
+			 <select name="event[sport_id]">
+			 <% @sports.each do |sport| %>
+			 <option value="<%= sport.id %>" <% if sport.id==@club.sport_id %>SELECTED<% end %>> 
+			 <%= sport.name %>
+			 </option>
+			 <% end %>
+			 </select>				
+			</td>
+		</tr>
+		<tr>
+			<td>Event Type:</td>
+			<td>
+			 <select name="event[dataetype_id]">
+				 <% @etypes.each do |etype| %>
+					 <option value="<%= etype.id %>"> 
+						 <%= etype.description %>
+					 </option>
+				 <% end %>
+			 </select>
+			</td>
+		</tr>
+		<tr>
+			<td>Event Date, Time:</td>
+			<td>
+				<%= f.date_select :date %>, <%= f.time_select :start_time %>
+			</td>
+		</tr>
+		<tr>
+			<td>Event Name:</td>
+			<td>
+		    <%= f.text_field :title, :class => "text" %>
+			</td>
+		</tr>			
+		<tr>
+			<td>Event Description:</td>
+			<td>
+				<%= f.text_area :description, :size => "50", :class => "text" %>
+			</td>
+		</tr>				
+		<tr>
+			<td>Venue/Location</td>
+			<td>
+		    <%= f.text_field :venue, :class => "text" %>
+			</td>
+		</tr>	
+		<tr>
+			<td>Country:</td>
+			<td>
+				 <select name="event[datacountry_id]">
+					 <% @countrys.each do |country| %>
+						 <option value="<%= country.id %>"> 
+							 <%= country.name %>
+						 </option>
+					 <% end %>
+				 </select>
+			</td>
+		</tr>	
+		<tr>
+			<td>Post or Zip Code:</td>
+			<td>
+				<%= f.text_field :locationcode, :class => "text" %>
+			</td>
+		</tr>	
+		<tr>
+			<td>Will entries be on an <b>individual</b> or <b>team</b> basis?</td>
+			<td><%= radio_button :event, :ind_or_team, "Individual" %>Individual<%= radio_button :event, :ind_or_team, "Team" %>Team</td>
+		</tr>
+<!--		<tr>
+			<td>Number of Categories:</td>
+			<td>
+				 <select name="event[num_of_categories]">
+					<% i = 0 %>
+					 <% 20.times do %>
+				     <% i += 1 %>
+						 <option value="<%= i %>"><%= i %></option>
+					 <% end %>
+				 </select>				
+			</td>
+		</tr> -->
+		</table>
+
+<H3>In the Future</H3>
+<div>
+		<table>
+		<tr>
+			<td>When do Entries Open?:</td>
+			<td>
+				<%= f.datetime_select :when_entries_open %>
+			</td>
+		</tr>		
+		<tr>
+			<td>When do Entries Close?:</td>
+			<td>
+				<%= f.datetime_select :when_entries_close %>
+			</td>
+		</tr>		
+		</table>
+</div>
+
+<table>
+		<tr><td colspan=2><%= f.submit "Create Event" %></td></tr>
+		</table>
+		
+<% end %>
+<%= link_to 'Back', events_path %>

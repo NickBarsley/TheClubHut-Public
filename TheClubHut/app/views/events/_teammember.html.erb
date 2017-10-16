@@ -1,0 +1,9 @@
+
+<% if teammember.position=="9" -%>C<% elsif teammember.position=="8" -%>S<% elsif teammember.position=="1" -%>B<% elsif teammember.position=="0" -%>Coach<% else %><%= teammember.position -%>
+<% end %>: 
+<% @substitute = Substitute.find(:first, :conditions => ["teammember_id=? and race_id=?", teammember.id, race.id]) %>
+<% if @substitute -%>
+  <%= link_to shortername(@substitute.user.firstname, @substitute.user.surname), :controller => "profile", :action => "show", :id => @substitute.user_id -%>
+<% else -%>
+  <%= link_to shortername(teammember.user.firstname, teammember.user.surname), :controller => "profile", :action => "show", :id => teammember.user_id -%>
+<% end -%>

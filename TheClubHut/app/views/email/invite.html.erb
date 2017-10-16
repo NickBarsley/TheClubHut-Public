@@ -1,0 +1,26 @@
+<H2>Invite a Member to your Website</H2>
+
+<p>This form is to invite a member of your club to join. They will then be able to book resources, and add photos and race reports online.</p>
+
+<table align=center cellspacing=25>
+<%= error_messages_for 'user' %>
+<% form_for :user do |form| %> 
+<table cellpadding=5 align=center>
+  <tr><td><label for="firstname">Firstname:</label> </td><td><%= form.text_field :firstname, :class => "text" %> </td></tr>
+  <tr><td><label for="surname">Surname:</label> </td><td><%= form.text_field :surname, :class => "text" %> </td></tr>
+  <%= render :partial => "user/email_field_row", :locals => { :form => form } %>
+	<tr>
+		<td>Membership Requested:</td>
+		<td><% @requested_status_options = Membershiptype.find(:all, :conditions => ["club_id=?", session[:club_id]]) %>
+			<select name="user[membershiptype_id]">
+				<% @requested_status_options.each do |type| %>
+				<option value="<%= type.id %>"><%= type.name %></option>
+				<% end %>
+			</select>
+		</td>
+	</tr>	
+  <tr><td colspan=2 align=center><%= submit_tag "Invite Member", :class => "submit" %> </td></tr>    
+</table>
+
+		
+<% end %>

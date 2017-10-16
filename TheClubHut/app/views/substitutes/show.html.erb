@@ -1,0 +1,18 @@
+<p>
+  <b>Teammember:</b>
+  <%=h @substitute.teammember_id %>
+</p>
+
+<p>
+  <b>Race:</b>
+  <%=h @substitute.race_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @substitute.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_substitute_path(@substitute) %> |
+<%= link_to 'Back', substitutes_path %>

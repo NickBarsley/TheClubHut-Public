@@ -1,0 +1,6 @@
+<tr class="<%= cycle('event_row_odd', 'event_row_even')%>">
+  <td><%= returndatestring(event.date) %></td>
+  <td><%= link_to event.title, event %></td>
+  <td><%=h event.venue %>, <%= event.locationcode %></td>
+  <% if current_club_committee? -%><TD><%= link_to 'E', edit_event_path(event) %>, <%= link_to 'D', event, :confirm => 'Are you sure?', :method => :delete %>, <%= link_to '+Result', new_event_race_path(event) %></td><% end %>
+</tr>

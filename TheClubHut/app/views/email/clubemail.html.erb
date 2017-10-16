@@ -1,0 +1,18 @@
+<H2>Email All Current Club Members:</H2>
+<% @user = User.find_by_id(session[:user_id]) -%>
+<% @membershiptypes = Membershiptype.find(:all, :conditions => ["club_id=?", session[:club_id]]) -%>
+
+<% form_for :email do |form| %>
+<table align=center cellspacing=10>
+<tr><td valign=top align=right> From:</td><td><%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %> <i>< <%= @user.email %> ></i></td>
+<tr><td valign=top align=right> To:</td><td>
+<% @membershiptypes.each do |type| -%>
+  <%= check_box_tag "email[membershiptype_ids][]", type.id, 0 -%> <%= type.name_plural %><BR />
+<% end -%>
+</td>
+<tr><td valign=middle align=right> Email Subject:</td><td><%= form.text_field :emailsubject, :class => "text" %></td>
+<tr><td valign=top align=right>Email Body:</td><td><%= form.text_area :emailbody, :rows => 7, :cols => 50, :class => "text" %></td></tr>
+<tr><td colspan=2 align=center><%= submit_tag "Email the club", :class => "submit" %></td></tr>
+</table>
+<% end %>
+

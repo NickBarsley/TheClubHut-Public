@@ -1,0 +1,22 @@
+<p>
+  <b>Committee:</b>
+  <%=h @committeemember.committee_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @committeemember.user_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @committeemember.position %>
+</p>
+
+<p>
+  <b>Roworder:</b>
+  <%=h @committeemember.roworder %>
+</p>
+
+<%= link_to 'Add Another Member', new_club_committee_committeemember_path(@club, @committeemember.committee_id) %>
+<%= link_to 'Back', committeemembers_path %>

@@ -1,0 +1,45 @@
+<H2><%=h @event.title %> <%= @event.date.year %></H2>
+<%= tabnav :event %>
+<BR />
+
+<% if @event.ind_or_team == "Individual" %>
+  <!-- Social event -->
+  <% anyinfo = false %>
+  <% signedinuserwritten = nil %>
+  <% @event.race.each do |race| %>
+    <% if race.report != nil%>
+      <!-- Something there! -->
+      <% anyinfo = true %>
+    <% else %>
+      <!-- There isn't, does this race belong to the logged in user? -->
+      <% if race.user_id == session[:user_id] %>
+        <% signedinuserwritten = race.id %>
+      <% end %>
+    <% end %>
+    <% @photo = Photo.find(:first, :conditions => {:race_id => race.id }) %>
+    <% if @photo != nil%>
+      <% anyinfo = true %>
+    <% end %>    
+  <% end %>
+
+  <!-- If there are no reports, say so and give options. If not render the reports with content --> 
+  <% if anyinfo == false %>
+    There are no reports or photos for this event yet. <BR />
+    <% if signedinuserwritten != nil %>
+      Click <%= link_to 'here', edit_event_race_path(@event.id, signedinuserwritten) %> to write your report of the event.
+    <% end %>
+
+  <% else %>
+    <% if signedinuserwritten != nil %>
+      You've not written a report yet. Click <%= link_to 'here', edit_event_race_path(@event.id, signedinuserwritten) %> to write an event report, or <%= link_to "here", new_event_race_photo_path(@event.id, signedinuserwritten)%> to upload event photos.<BR /><BR />
+    <% end %>
+    <%= render :partial => "social_report", :collection => @event.race %> 
+  <% end %>
+
+<% elsif @event.ind_or_team == "Team" %>
+  <!-- its a team event -->
+
+  <!-- to do - order by roworder -->
+  <%= render :partial => "race", :collection => @event.race %> 
+
+<% end %>

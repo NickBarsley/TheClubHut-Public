@@ -1,0 +1,23 @@
+<p>
+  <b>Club:</b>
+  <%=h @committee.club_id %>
+</p>
+
+<p>
+  <b>Elected on:</b>
+  <%=h @committee.elected_on %>
+</p>
+
+<p>
+  <b>In office from:</b>
+  <%=h @committee.in_office_from %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @committee.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_club_committee_path(@club, @committee) %> |
+<%= link_to 'Back', club_committees_path(@club) %>

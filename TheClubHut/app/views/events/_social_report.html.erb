@@ -1,0 +1,31 @@
+<% @photo = Photo.find(:first, :conditions => {:race_id => social_report.id }) %>
+<% if social_report.report != nil or @photo %>
+  
+<div class="<%= cycle('report_odd', 'report_even')%>">
+<table width=100%>
+	<tr>
+	  <td><%= link_to social_report.user.full_name, :controller => "profile", :action => "show", :id => social_report.user.id %></td>
+    <td align=right>
+      
+<% if session[:user_id] == social_report.user_id %>    	<div class="smaller">
+		[ <%= link_to 'Edit Report', edit_event_race_path(social_report.event_id, social_report.id) %> <% if !@photo %>| <%= link_to "Add Photos", new_event_race_photo_path(social_report.event_id, social_report.id)%> <% end %> ]
+			</div>
+      <% end %>
+		</td>
+  </tr>
+	<tr>
+    <td colspan="2">
+
+	<% if @photo  %>
+	<div class="report_gallery">
+	<%= link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb"), event_race_photos_path(:event_id => @event, :race_id => social_report) %>
+	<% end %>
+	<% if session[:user_id] == social_report.user_id and @photo %><div class="smaller">[ <%= link_to "Add More Photos", new_event_race_photo_path(social_report.event_id, social_report.id) %> ]</div>
+	</div>
+  <% end %>
+  <%= social_report.report %>
+		</td>
+	</tr>
+</table>
+</div>
+<% end %>

@@ -1,0 +1,6 @@
+<div class="blogpost"> 
+  <div class="blogpost_title"><%= sanitize @blogpost.title %></div> 
+  <div class="blogpost_body"><%= sanitize @blogpost.body %></div> 
+</div> 
+<%= render :partial => "comment", :collection => @blogpost.comments %> 
+<%= render :partial => "new" %>

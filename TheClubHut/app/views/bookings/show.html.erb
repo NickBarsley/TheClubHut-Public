@@ -1,0 +1,33 @@
+<p>
+  <b>User:</b>
+  <%=h @booking.user_id %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%=h @booking.start_time %>
+</p>
+
+<p>
+  <b>Finish time:</b>
+  <%=h @booking.duration %>
+</p>
+
+<p>
+  <b>No ergs:</b>
+  <%=h @booking.no_ergs %>
+</p>
+
+<p>
+  <b>Weights:</b>
+  <%=h @booking.weights %>
+</p>
+
+<p>
+  <b>Club:</b>
+  <%=h @booking.club_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_booking_path(@booking) %> |
+<%= link_to 'Back', bookings_path %>

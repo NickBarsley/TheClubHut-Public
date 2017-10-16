@@ -1,0 +1,27 @@
+<h1>Editing substitute</h1>
+
+<%= error_messages_for :substitute %>
+
+<% form_for(@substitute) do |f| %>
+  <p>
+    <b>Teammember</b><br />
+    <%= f.text_field :teammember_id %>
+  </p>
+
+  <p>
+    <b>Race</b><br />
+    <%= f.text_field :race_id %>
+  </p>
+
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @substitute %> |
+<%= link_to 'Back', substitutes_path %>

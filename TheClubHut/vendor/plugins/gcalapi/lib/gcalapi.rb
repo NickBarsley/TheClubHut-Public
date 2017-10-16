@@ -1,0 +1,6 @@
+require "vendor/plugins/gcalapi/lib/googlecalendar/auth_sub_util"
+require "vendor/plugins/gcalapi/lib/googlecalendar/calendar"
+require "vendor/plugins/gcalapi/lib/googlecalendar/event"
+require "vendor/plugins/gcalapi/lib/googlecalendar/service_auth_sub"
+require "vendor/plugins/gcalapi/lib/googlecalendar/service_base"
+require "vendor/plugins/gcalapi/lib/googlecalendar/service"

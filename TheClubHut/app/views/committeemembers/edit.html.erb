@@ -1,0 +1,40 @@
+<h1>Edit Committee Member</h1>
+
+<%= error_messages_for :committeemember %>
+
+<% form_for(:committeemember, 
+						:url => club_committee_committeemember_path(:id => @committeemember), 
+            :html => { :method => :put }) do |f| %>
+
+	<%= f.hidden_field :committee_id, :value => @committee_id %>
+
+  <p>
+    <b>Committee Member</b><br />
+			 <select name="committeemember[user_id]">
+			 <% @clubusers.each do |user| %>
+			 <option value="<%= user.id %>" <% if user.id == @committeemember.user_id %> SELECTED<% end %>> 
+			 <%= user.list_name %>
+			 </option>
+			 <% end %>
+       </select>
+  </p>
+
+  <p>
+    <b>Text Description of Committee Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <b>Email Address of Committee Position</b><br />
+    <%= f.text_field :position_email %>
+  </p>
+
+  <p>
+    <b>Display Order of Committee Member</b> <br />
+    <%= f.text_field :roworder %>
+    <div class="smaller">Please enter a number here. <b>The higher the number, the higher in the committee list it will be displayed</b>. This feature will be improved in the future to allow editing of the order by simply dragging the names with the mouse.</div>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+<%= link_to 'Back', club_committees_path %>

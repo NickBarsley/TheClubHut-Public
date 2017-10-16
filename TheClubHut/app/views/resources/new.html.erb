@@ -1,0 +1,31 @@
+<h1>New resource</h1>
+
+<%= error_messages_for :resource %>
+
+<% form_for(@resource) do |f| %>
+  <p>
+    <b>Cal embed</b><br />
+    <%= f.text_area :cal_embed %>
+  </p>
+
+  <p>
+    <b>Feed</b><br />
+    <%= f.text_field :feed %>
+  </p>
+
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Qty</b><br />
+    <%= f.text_field :qty %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', resources_path %>

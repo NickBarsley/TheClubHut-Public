@@ -1,0 +1,69 @@
+<H2><%=h @event.title %> <%= @event.date.year %></H2>
+<%= tabnav :event %>
+
+<h2>Enter Event</h2>
+
+<%= error_messages_for :race %>
+
+  <% if @event.ind_or_team == "Team" %>
+    <!-- If the event requires a team entry put the code here. --> 
+    To enter a team to an event you must either:
+    <ul>
+      <li>belong to an existing team (or create a team which you are a member of).</li>
+      <li>or be a current committee member of the team's club.</li>
+    </ul>
+
+        <% if !@teams %>
+        You currently belong to no teams.<br /><br />
+
+        <% else %>
+
+        <b>Teams You Belong To:</b><br /><br />
+        
+          <% form_for(:race, :url => event_races_path(params[:id])) do |f| %>
+            <%= f.hidden_field :user_id, :value => session[:user_id] %>
+            <%= f.hidden_field :event_id, :value => params[:id] %>
+            <select name="race[team_id]">
+            <% @teams.each do |team| %>
+            <option value="<%= team.id %>"> 
+            <%= team.season.description %> > <%= team.description %>
+            </option>
+            <% end %>
+            </select>
+            <%= f.submit "Sign Up to Event" %>
+          <% end %>
+          <BR /><BR />
+
+        <% end %>
+     <% if current_club_committee? %>
+     
+     <b>As a current Committee Member of <%= @club.initials %> you can enter the following teams:</b><br /><br />
+          <% form_for(:race, :url => event_races_path(params[:id])) do |f| %>
+            <%= f.hidden_field :user_id, :value => session[:user_id] %>
+            <%= f.hidden_field :event_id, :value => params[:id] %>
+            <select name="race[team_id]">
+            <% @allteams.each do |team| %>
+            <option value="<%= team.id %>"> 
+            <%= team.club.initials %> > <%= team.season.description %> > <%= team.description %>
+            </option>
+            <% end %>
+            </select>
+            <%= f.submit "Sign Up to Event" %>
+          <% end %>
+          <BR /><BR />
+      <% end %>     
+      
+   <b>Create a new team:</b><br /><br />
+   Click <%= link_to "here", :controller => "teams", :action => "new" %> to create a new team.
+
+  <% elsif @event.ind_or_team == "Individual" %>
+      <!-- Otherwise it is an individual signing up themselves. Save their User_ID --> 
+      <BR />Click the button below to sign yourself up to this event. <BR /><BR />
+      <!-- Terms and conditions of event here. --> 
+      <% form_for(:race, :url => event_races_path(params[:id])) do |f| %>
+        <%= f.hidden_field :event_id, :value => params[:id] %>
+        <%= f.hidden_field :user_id, :value => session[:user_id] %>
+        <%= f.submit "Sign Up to Event" %>
+      <% end %>      
+      
+  <% end %>

@@ -1,0 +1,27 @@
+<h1>Editing season</h1>
+
+<%= error_messages_for :season %>
+
+<% form_for(@season) do |f| %>
+	<%= f.hidden_field :club_id, :value => @club_id %>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description %>
+  </p>
+
+	<p>
+		<b>Starts From:</b><br />
+    <%= date_select 		:season,	 :starts_from, 
+                           :start_year => Spec::START_YEAR,
+                           :end_year => Time.now.year,
+                           :include_blank => false,
+                           :order => [:day, :month, :year] %>
+	</p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', seasons_path %>

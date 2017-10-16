@@ -1,0 +1,22 @@
+	<% if teammember.position=="9" %>
+		Cox
+	<% elsif teammember.position=="8" %>
+		Stroke
+	<% elsif teammember.position=="1" %>
+		Bow
+	<% elsif teammember.position=="0" %>
+    <% if @intocoaches != true %>
+		Coaching
+    <% @intocoaches = true %>
+    <% end %>
+	<% else %>	
+		<%= teammember.position %>
+	<% end %>
+
+
+  <%= link_to teammember.user.full_name, :controller => "profile", :action => "show", :id => teammember.user_id %>
+
+
+<% if current_club_committee? -%>
+[&nbsp;<%= link_to "E", edit_season_team_teammember_url(teammember.team.season, teammember.team, teammember) %>&nbsp;|&nbsp;<%= link_to "D", season_team_teammember_url(teammember.team.season, teammember.team, teammember), :method => :delete, :confirm => 'Are you sure?' %>&nbsp;]
+<% end %>

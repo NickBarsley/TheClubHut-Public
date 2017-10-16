@@ -1,0 +1,31 @@
+<h1 id="new_topic"><%= 'New Topic'[] %></h1>
+
+
+<% if @forum.user_id != nil -%>
+  <% bg = "#AAA" -%>
+<% elsif @forum.club_id != nil -%>
+  <% @club = Club.find_by_id(@forum.club_id) -%>
+  <% bg = @club.backgroundcolor -%>  
+<% end %>
+
+<p class="topsubtitle">
+  <%= link_to "All Forums"[:forums_title], forums_path %> <span class="arrow">&rarr;</span>
+  <% if @forum.club_id != nil -%>
+    <% linker = @club.initials + " " + @forum.name -%>
+    <% else -%>
+    <% linker = @forum.name -%>
+  <% end -%>
+  <%= link_to linker, forum_path(@forum) %> <span class="arrow">&rarr;</span> New Topic
+</p>
+<p class="topsubtitle">by <%= @current_user.full_name %></p>
+<p>
+<%= error_messages_for :post %>
+<%= error_messages_for :topic %>
+<% form_for :topic, :url  => forum_topics_path(@forum) do |f| -%>
+<%= render :partial => "form", :object => f %><BR />
+<%= submit_tag 'Post Topic'[], :or => link_to('Cancel'[], forum_path(@forum)) %>
+<% end -%>
+
+<%= javascript_tag "$('topic_title').focus();" %>
+
+</p>

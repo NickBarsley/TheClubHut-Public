@@ -1,0 +1,487 @@
+<script type="text/javascript">
+function ShowMyForums()
+{
+  document.getElementById("MyForums").style.display = "block";
+  document.getElementById("ShowMyForumsLink").className = 'active';
+  document.getElementById("ShowMyForumsLinkLI").className = 'active';
+  
+  document.getElementById("ClubForums").style.display = "none";
+  document.getElementById("ShowClubForumsLink").className = '';
+  document.getElementById("ShowClubForumsLinkLI").className = '';
+
+
+  document.getElementById("NonClubForums").style.display = "none";
+  document.getElementById("ShowNonClubForumsLink").className = '';
+  document.getElementById("ShowNonClubForumsLinkLI").className = '';  
+
+  document.getElementById("SipbibForums").style.display = "none";
+  document.getElementById("SipbibForumsLink").className = '';
+  document.getElementById("SipbibForumsLinkLI").className = '';  
+}
+function ShowMyClubs()
+{
+  document.getElementById("MyForums").style.display = "none";
+  document.getElementById("ShowMyForumsLink").className = '';
+  document.getElementById("ShowMyForumsLinkLI").className = '';
+  
+  document.getElementById("ClubForums").style.display = "block";
+  document.getElementById("ShowClubForumsLink").className = 'active';
+  document.getElementById("ShowClubForumsLinkLI").className = 'active';
+  
+  document.getElementById("NonClubForums").style.display = "none";
+  document.getElementById("ShowNonClubForumsLink").className = '';
+  document.getElementById("ShowNonClubForumsLinkLI").className = '';
+
+  document.getElementById("SipbibForums").style.display = "none";
+  document.getElementById("SipbibForumsLink").className = '';
+  document.getElementById("SipbibForumsLinkLI").className = '';    
+}
+
+function ShowNonClubs()
+{
+  document.getElementById("MyForums").style.display = "none";
+  document.getElementById("ShowMyForumsLink").className = '';
+  document.getElementById("ShowMyForumsLinkLI").className = '';
+  
+  document.getElementById("ClubForums").style.display = "none";
+  document.getElementById("ShowClubForumsLink").className = '';
+  document.getElementById("ShowClubForumsLinkLI").className = '';
+  
+  document.getElementById("NonClubForums").style.display = "block";
+  document.getElementById("ShowNonClubForumsLink").className = 'active';
+  document.getElementById("ShowNonClubForumsLinkLI").className = 'active';
+
+  document.getElementById("SipbibForums").style.display = "none";
+  document.getElementById("SipbibForumsLink").className = '';
+  document.getElementById("SipbibForumsLinkLI").className = '';
+}
+
+function ShowSipbib()
+{
+  document.getElementById("MyForums").style.display = "none";
+  document.getElementById("ShowMyForumsLink").className = '';
+  document.getElementById("ShowMyForumsLinkLI").className = '';
+  
+  document.getElementById("ClubForums").style.display = "none";
+  document.getElementById("ShowClubForumsLink").className = '';
+  document.getElementById("ShowClubForumsLinkLI").className = '';
+  
+  document.getElementById("NonClubForums").style.display = "none";
+  document.getElementById("ShowNonClubForumsLink").className = '';
+  document.getElementById("ShowNonClubForumsLinkLI").className = '';
+
+  document.getElementById("SipbibForums").style.display = "block";
+  document.getElementById("SipbibForumsLink").className = 'active';
+  document.getElementById("SipbibForumsLinkLI").className = 'active';
+
+}
+
+</script>
+
+<div class="profiletabs_tabnav" id="profiletabs_tabnav">
+<ul>
+<li id="ShowMyForumsLinkLI" class="active"><a href="javascript:ShowMyForums();" title="Your Forums" id="ShowMyForumsLink" class="active">Your Forums</a></li> 
+<li id="ShowClubForumsLinkLI"><a href="javascript:ShowMyClubs();" title="Forums for all the clubs that you are a member of." id="ShowClubForumsLink">Your Club Forums</a></li> 
+<li id="ShowNonClubForumsLinkLI"><a href="javascript:ShowNonClubs();" title="Public forums belonging to clubs which you are not a member of." id="ShowNonClubForumsLink">Other Club Forums</a></li> 
+<li id="SipbibForumsLinkLI"><a href="javascript:ShowSipbib();" title="Sipbib.com Forums - please leave feedback and suggestions for how to make this site better for you!" id="SipbibForumsLink">Sipbib.com Forums</a></li> 
+</ul></div>
+
+<div id="MyForums">
+<% if session[:user_id] != nil -%>
+<h2>Your Forum</h2>
+<!-- My coaching Feedback -->
+<table border="0" width="100%" cellspacing="0" cellpadding="0" class="wide forums">
+  <tr>
+    <th class="forumtableth" style="background: #AAA;" width="70%" colspan="3"><%= 'Coaching Feedback:'[:forum_title] %></th>
+    <th class="forumtableth" style="background: #AAA;" width="30%" colspan="1"><%= 'Last Post'[:last_post] %></th>
+  </tr>
+  <tr>
+    <td class="vat c1">
+      <% if recent_forum_activity(@coachingfeedback) %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => 'Recent activity'[:recent_activity], :plugin => "savage_beast" %>
+      <% else %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => 'No recent activity'[:no_recent_activity], :plugin => "savage_beast" %>
+      <% end %>
+    </td>
+    <td class="c2 vat">
+      <div class="forumname"><%= link_to h(@coachingfeedback.name), forum_path(@coachingfeedback), :class => "title" %> </div>
+      <div class="forumsummary">
+        <%= '{count} topics'[(count=@coachingfeedback.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] %>, 
+        <%= '{count} posts'[(count=@coachingfeedback.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] %><BR />
+      </div>
+      <div class="forumdesc">
+        <%= @coachingfeedback.description %>
+      </div>
+    </td>
+    <td class="c3">
+    </td>
+
+    <td class="forumlastpost">
+      <% if @coachingfeedback.recent_post %>
+        <%= time_ago_in_words(@coachingfeedback.recent_post.created_at) %><BR />
+        ...by <%= link_to @coachingfeedback.recent_post.user.full_name, :controller => "profile", :action => "show", :id => @coachingfeedback.recent_post.user.id %>
+        <span>(<%= link_to 'view post'[], forum_topic_path(:forum_id => @coachingfeedback, :id => @coachingfeedback.recent_post.topic_id, :page => @coachingfeedback.recent_post.topic.last_page, :anchor => @coachingfeedback.recent_post.dom_id) %>)</span>
+      <% end %>
+    </td>
+  </tr>
+</table>
+<BR />
+<% end -%>
+
+
+<% @teamforums = Forum.find(:all, :conditions => ["team_id != ?", ""]) %>
+<H2>My Team Forums</H2>
+<table border="0" width="100%" cellspacing="0" cellpadding="0" class="wide forums">
+  <tr>
+    <th class="forumtableth" width="70%" style="background-color: #AAA;" colspan="3">Team Forums</th>
+    <th class="forumtableth" width="30%" style="background-color: #AAA;" colspan="1"><%= 'Last Post'[:last_post] %></th>
+  </tr>
+<% numteams = Array.new -%>
+<% allteams = Array.new -%>
+<% for forum in @teamforums do -%>  
+  <% allteams << forum.team_id -%>
+  <% if current_team(forum.team_id) -%>
+  <% numteams << forum.team_id -%>
+  <tr>
+    <td class="vat c1">
+      <% if recent_forum_activity(forum) %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => 'Recent activity'[:recent_activity], :plugin => "savage_beast" %>
+      <% else %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => 'No recent activity'[:no_recent_activity], :plugin => "savage_beast" %>
+      <% end %>
+    </td>
+    <td class="c2 vat">
+      <% if allowed_to_view_forum(forum, session[:user_id]) -%>
+      <div class="warning"><%= forum.name %> > access denied</div>
+      <% else %>
+        <div class="forumname"><%= link_to h(forum.name), forum_path(forum), :class => "title" %> </div>
+        <div class="forumsummary">
+          <%= '{count} topics'[(count=forum.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] %>, 
+          <%= '{count} posts'[(count=forum.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] %><BR />
+        </div>
+      <% end -%>
+  
+      <div class="forumdesc">
+        <%= forum.description %>
+      </div>
+    </td>
+      <td class="forumadmincol">
+      </td>
+
+    <td class="forumlastpost">
+      <% if forum.recent_post %>
+        <% if !allowed_to_view_forum(forum, session[:user_id]) -%><span><%= time_ago_in_words(forum.recent_post.created_at) %><BR />...by <%= link_to forum.recent_post.user.full_name, :controller => "profile", :action => "show", :id => forum.recent_post.user.id %> (<%= link_to 'view post'[], forum_topic_path(:forum_id => forum, :id => forum.recent_post.topic_id, :page => forum.recent_post.topic.last_page, :anchor => forum.recent_post.dom_id) %>)</span><% end -%>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+<% end %>
+<% if numteams.size == 0 -%>
+<tr><td class="forumlastpost" colspan=4>None of your teams currently have forums set up. To setup a forum for your team, go to your team page and select "Create Team Forum".</td></tr>
+<% end -%>
+</table>
+<div class="forumlastpost" align="right">...there are <%= (allteams - numteams).size %> other team forums which you don't have access to.</div>
+</div>
+
+<div id="ClubForums" style="display: none;">
+<H2>My Club Forums</H2>
+<% memberofclubs = Array.new -%>
+<% for membership in @memberships do -%>
+<% memberofclubs << membership.club_id -%>
+<% @membershiptypes = Membershiptype.find(:all, :conditions => ["club_id=?", membership.club_id]) -%>
+<% @membershiptypes.each do |membershiptype| -%>
+      <% data = {    "name" => membershiptype.name_plural, 
+                    "description" => "This forum is for the " + membershiptype.description + " only.",
+                    "topics_count" => 0,
+                    "posts_count" => 0,
+                    "position" => 0,
+                    "description_html" => "<p>" + "This forum is for the " + membershiptype.description + " only.</p>",
+                    "club_id" => membershiptype.club_id,
+                    "membershiptype_id" => membershiptype.id } -%>
+      
+      <% @membershiptypeforum = membershiptype.forum ||= Forum.new(data) -%>
+      <% @membershiptypeforum.save -%>
+<% end %>
+<% @committeeforum = Forum.find(:all, :conditions => ["club_id=? AND priveleged=?", membership.club_id, 1 ]) -%>
+<% if @committeeforum.size == 0 %>
+  <% data = {    "name" => "Committee", 
+                "description" => "This " + membership.club.initials + " forum is for current committee members only.",
+                "topics_count" => 0,
+                "posts_count" => 0,
+                "priveleged" => 1,
+                "description_html" => "<p>This " + membership.club.initials + " forum is for current committee members only.</p>",
+                "club_id" => membership.club_id } -%>
+  <% @membershiptypeforum = Forum.new(data) -%>
+  <% @membershiptypeforum.save -%>
+<% end -%>
+<% @clubmembersforum = Forum.find(:all, :conditions => ["club_id=? AND allmembershiptypes=?", membership.club_id, 1 ]) -%>
+<% if @clubmembersforum.size == 0 %>
+  <% data = {    "name" => "All Members", 
+                "description" => "This forum is for all the different membership types of " + membership.club.initials + ".",
+                "topics_count" => 0,
+                "posts_count" => 0,
+                "description_html" => "<p>" + "This forum is for all the different membership types of " + membership.club.initials + ".</p>",
+                "club_id" => membership.club_id,
+                "allmembershiptypes" => 1 } -%>
+  <% @membershiptypeforum = Forum.new(data) -%>
+  <% @membershiptypeforum.save -%>
+<% end -%>
+<% @publicforum = Forum.find(:all, :conditions => ["club_id=? AND public=?", membership.club_id, 1 ]) -%>
+<% if @publicforum.size == 0 %>
+  <% data = {    "name" => "Public", 
+                "description" => "This " + membership.club.initials + " forum is open to all members and to the general public (with a sipbib.com account).",
+                "topics_count" => 0,
+                "posts_count" => 0,
+                "public" => 1,
+                "description_html" => "<p>This " + membership.club.initials + " forum is open to all members, and the general public (with a sipbib.com account).</p>",
+                "club_id" => membership.club_id } -%>
+  <% @membershiptypeforum = Forum.new(data) -%>
+  <% @membershiptypeforum.save -%>
+<% end -%>
+
+<% @forums = Forum.find(:all, :conditions => ["club_id=?", membership.club_id]) -%>
+<% if membership.club_id !=8 %>
+<table border="0" width="100%" cellspacing="0" cellpadding="0" class="wide forums">
+  <tr>
+    <th class="forumtableth" width="70%" style="background-color: <%= membership.club.backgroundcolor %>;" colspan="3"><%= membership.club.name + ' Forums'[:forum_title] %>
+
+      <% if current_club_committee(membership.club_id) and session[:user_id].to_i == 600000 -%><div class="smaller" style="display: inline; vertical-align: middle;">&nbsp;&nbsp;&nbsp;[&nbsp;<%= link_to 'Create New Forum'[:create_new_forum], new_forum_path, :style => "color: #FFF; background-color: " + membership.club.backgroundcolor + ";" %>&nbsp;]</div><% end %></th>
+    <th class="forumtableth" width="30%" style="background-color: <%= membership.club.backgroundcolor %>;" colspan="1"><%= 'Last Post'[:last_post] %></th>
+  </tr>
+<% for forum in @forums do %>  
+  <tr>
+    <td class="vat c1">
+      <% if recent_forum_activity(forum) %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => 'Recent activity'[:recent_activity], :plugin => "savage_beast" %>
+      <% else %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => 'No recent activity'[:no_recent_activity], :plugin => "savage_beast" %>
+      <% end %>
+    </td>
+    <td class="c2 vat">
+      <% if allowed_to_view_forum(forum, session[:user_id]) -%>
+      <div class="warning"><%= forum.name %> > access denied</div>
+      <% else %>
+        <div class="forumname"><%= link_to h(forum.name), forum_path(forum), :class => "title" %> </div>
+        <div class="forumsummary">
+          <%= '{count} topics'[(count=forum.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] %>, 
+          <%= '{count} posts'[(count=forum.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] %><BR />
+        </div>
+      <% end -%>
+    
+      <div class="forumdesc">
+        <%= forum.description %>
+      </div>
+    </td>
+      <td class="forumadmincol">
+        <% if current_club_committee(membership.club_id) -%>
+        [&nbsp;<%= link_to 'Edit'[:edit_title], edit_forum_path(forum), :class => "tiny", :rel => "directory" %>&nbsp;]
+        <% end -%>
+      </td>
+
+    <td class="forumlastpost">
+      <% if forum.recent_post %>
+          <% if !allowed_to_view_forum(forum, session[:user_id]) -%><span><%= time_ago_in_words(forum.recent_post.created_at) %><BR />...by <%= link_to forum.recent_post.user.full_name, :controller => "profile", :action => "show", :id => forum.recent_post.user.id %> (<%= link_to 'view post'[], forum_topic_path(:forum_id => forum, :id => forum.recent_post.topic_id, :page => forum.recent_post.topic.last_page, :anchor => forum.recent_post.dom_id) %>)</span><% end -%>
+      <% end %>
+    </td>
+  </tr>
+<% end -%>
+</table>
+<% end -%>
+<BR />
+<% end %>
+</div>
+
+<div id="NonClubForums" style="display: none;">
+<% if session[:user_id] != nil -%>
+  <H2>Other Public Club Forums</H2>
+<% else -%>
+  <H2>Public Club Forums</H2>
+<% end -%>
+
+<% allclubs = Array.new %>
+<% @clubs = Club.find(:all) -%>
+<% @clubs.each do |club| -%>
+<% allclubs << club.id -%>
+<% end -%>
+
+<% nonmemberclubs = Array.new -%>
+<% if session[:user_id] != nil -%>
+  <% nonmemberclubs = allclubs - memberofclubs -%>
+<% else -%>
+  <% nonmemberclubs = allclubs -%>
+<% end -%>
+
+
+
+<% nonmemberclubs.each do |club| -%>
+  <% @club = Club.find_by_id(club) -%>
+  
+  <% if @membershiptypes != nil -%>
+  <% @membershiptypes.each do |membershiptype| -%>
+      <% data = {    "name" => membershiptype.name_plural, 
+                    "description" => "This forum is for the " + membershiptype.description + " only.",
+                    "topics_count" => 0,
+                    "posts_count" => 0,
+                    "position" => 0,
+                    "description_html" => "<p>" + "This forum is for the " + membershiptype.description + " only.</p>",
+                    "club_id" => membershiptype.club_id,
+                    "membershiptype_id" => membershiptype.id } -%>
+      
+      <% @membershiptypeforum = membershiptype.forum ||= Forum.new(data) -%>
+      <% @membershiptypeforum.save -%>
+  <% end -%>
+  <% end -%>
+  
+  <% @committeeforum = Forum.find(:all, :conditions => ["club_id=? AND priveleged=?", @club, 1 ]) -%>
+  <% if @committeeforum.size == 0 %>
+    <% data = {    "name" => "Committee", 
+                  "description" => "This " + @club.initials + " forum is for current committee members only.",
+                  "topics_count" => 0,
+                  "posts_count" => 0,
+                  "priveleged" => 1,
+                  "description_html" => "<p>This " + @club.initials + " forum is for current committee members only.</p>",
+                  "club_id" => @club.id } -%>
+    <% @membershiptypeforum = Forum.new(data) -%>
+    <% @membershiptypeforum.save -%>
+  <% end -%>
+
+  <% @clubmembersforum = Forum.find(:all, :conditions => ["club_id=? AND allmembershiptypes=?", club, 1 ]) -%>
+  <% if @clubmembersforum.size == 0 -%>
+  <% @membershiptypes = Membershiptype.find(:all, :conditions => ["club_id=?", club] ) -%>
+  <% if @membershiptypes.size != 0 -%>
+    <% data = {    "name" => "All Members", 
+                  "description" => "This forum is for all the different membership types of " + @club.initials + ".",
+                  "topics_count" => 0,
+                  "posts_count" => 0,
+                  "description_html" => "<p>" + "This forum is for all the different membership types of " + @club.initials + ".</p>",
+                  "club_id" => club,
+                  "allmembershiptypes" => 1 } -%>
+    <% @membershiptypeforum = Forum.new(data) -%>
+    <% @membershiptypeforum.save -%>
+  <% end -%>
+  <% end -%>
+  <% @publicforum = Forum.find(:all, :conditions => ["club_id=? AND public=?", club, 1 ]) -%>
+  <% if @publicforum.size == 0 %>
+    <% data = {    "name" => "Public", 
+                  "description" => "This " + @club.initials + " forum is open to all members and to the general public (with a sipbib.com account).",
+                  "topics_count" => 0,
+                  "posts_count" => 0,
+                  "public" => 1,
+                  "description_html" => "<p>This " + @club.initials + " forum is open to all members, and the general public (with a sipbib.com account).</p>",
+                  "club_id" => club } -%>
+    <% @membershiptypeforum = Forum.new(data) -%>
+    <% @membershiptypeforum.save -%>
+  <% end -%>
+
+  <% @forums = Forum.find(:all, :conditions => ["club_id=?", @club]) %>
+  <table border="0" width="100%" cellspacing="0" cellpadding="0" class="wide forums">
+    <tr>
+      <th class="forumtableth" width="70%" style="background-color: <%= @club.backgroundcolor %>;"  colspan="3"><%= @club.name + ' Forums'[:forum_title] %></th>
+      <th class="forumtableth" width="30%" style="background-color: <%= @club.backgroundcolor %>;"  colspan="1"><%= 'Last Post'[:last_post] %></th>
+    </tr>
+  <% for forum in @forums do %>  
+    <tr>
+      <td class="vat c1">
+        <% if recent_forum_activity(forum) %>
+        <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => 'Recent activity'[:recent_activity], :plugin => "savage_beast" %>
+        <% else %>
+        <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => 'No recent activity'[:no_recent_activity], :plugin => "savage_beast" %>
+        <% end %>
+      </td>
+      <td class="c2 vat">
+      <% if allowed_to_view_forum(forum, session[:user_id]) -%>
+      <div  class="warning"><%= forum.name %> > access denied</div>
+      <% else %>
+        <div class="forumname"><%= link_to h(forum.name), forum_path(forum), :class => "title" %> </div>
+        <div class="forumsummary">
+          <%= '{count} topics'[(count=forum.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] %>, 
+          <%= '{count} posts'[(count=forum.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] %><BR />
+        </div>
+      <% end -%>
+        <div class="forumdesc">
+          <%= forum.description %>
+        </div>
+      </td>
+      <td class="forumadmincol">
+        <% if current_club_committee(@club.id) -%>
+        [&nbsp;<%= link_to 'Edit'[:edit_title], edit_forum_path(forum), :class => "tiny", :rel => "directory" %>&nbsp;]
+        <% end -%>
+      </td>
+  
+      <td class="forumlastpost">
+        <% if forum.recent_post %>
+          <% if !allowed_to_view_forum(forum, session[:user_id]) -%><span>          <%= time_ago_in_words(forum.recent_post.created_at) %><BR />
+          ...by <%= link_to forum.recent_post.user.full_name, :controller => "profile", :action => "show", :id => forum.recent_post.user.id %> (<%= link_to 'view post'[], forum_topic_path(:forum_id => forum, :id => forum.recent_post.topic_id, :page => forum.recent_post.topic.last_page, :anchor => forum.recent_post.dom_id) %>)</span><% end -%>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  <BR />
+
+<% end -%>
+</div>
+
+
+
+<div id="SipbibForums" style="display:none;">
+  <BR />
+<% @forums = Forum.find(:all, :conditions => ["club_id=?", 8]) -%>
+<% @club = Club.find(8) -%>
+<table border="0" width="100%" cellspacing="0" cellpadding="0" class="wide forums">
+  <tr>
+    <th class="forumtableth" width="70%" style="background-color: <%= @club.backgroundcolor %>;" colspan="3"><%= @club.name + ' Forums'[:forum_title] %></th>
+    <th class="forumtableth" width="30%" style="background-color: <%= @club.backgroundcolor %>;" colspan="1"><%= 'Last Post'[:last_post] %></th>
+  </tr>
+<% for forum in @forums do %>  
+<tr>
+    <td class="vat c1">
+      <% if recent_forum_activity(forum) %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => 'Recent activity'[:recent_activity], :plugin => "savage_beast" %>
+      <% else %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => 'No recent activity'[:no_recent_activity], :plugin => "savage_beast" %>
+      <% end %>
+    </td>
+    <td class="c2 vat">
+      <% if allowed_to_view_forum(forum, session[:user_id]) -%>
+      <div class="warning"><%= forum.name %> > access denied</div>
+      <% else %>
+        <div class="forumname"><%= link_to h(forum.name), forum_path(forum), :class => "title" %> </div>
+        <div class="forumsummary">
+          <%= '{count} topics'[(count=forum.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] %>, 
+          <%= '{count} posts'[(count=forum.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] %><BR />
+        </div>
+      <% end -%>
+      <div class="forumdesc">
+        <%= forum.description %>
+      </div>
+    </td>
+      <td class="forumadmincol">
+      	<% if session[:user_id] -%>
+        <% if membership.club_id.to_s != "" -%>
+      	<% if current_club_committee(membership.club_id) -%>
+        [&nbsp;<%= link_to 'Edit'[:edit_title], edit_forum_path(forum), :class => "tiny", :rel => "directory" %>&nbsp;]
+        <% end -%>
+        <% end -%>
+        <% end -%>
+      </td>
+
+    <td class="forumlastpost">
+      <% if forum.recent_post %>
+          <% if !allowed_to_view_forum(forum, session[:user_id]) -%><span><%= time_ago_in_words(forum.recent_post.created_at) %><BR />...by <%= link_to forum.recent_post.user.full_name, :controller => "profile", :action => "show", :id => forum.recent_post.user.id %> (<%= link_to 'view post'[], forum_topic_path(:forum_id => forum, :id => forum.recent_post.topic_id, :page => forum.recent_post.topic.last_page, :anchor => forum.recent_post.dom_id) %>)</span><% end -%>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+<BR />
+
+
+
+
+</div>
+
+<p>
+  <%= link_to 'Recent posts'[:recent_posts], all_posts_path %>
+</p>
+

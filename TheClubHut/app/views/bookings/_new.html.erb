@@ -1,0 +1,54 @@
+<BR />
+<fieldset><legend>Make New Booking</legend>
+<%= error_messages_for :booking %>
+<% form_for(@booking) do |f| %>
+<%= f.hidden_field :user_id, :value => session[:user_id]  %>
+<table>
+  <tr>
+    <td>Start Time:</td>
+    <td><%= f.datetime_select :start_time, :minute_step=>15 %></td>
+  </tr>
+  <tr>
+    <td>Duration:</td>
+    <td>
+      <select name="booking[duration]">
+  		 	<option value="15">15 mins</Option>
+  		 	<option value="30" SELECTED>30 mins</Option>
+  		 	<option value="45">45 mins</Option>
+  		 	<option value="60">1 hour</Option>
+  		 	<option value="75">1 hour 15 minutes</Option>
+  		 	<option value="90">1 hour 30 minutes</Option>
+  		 	<option value="105">1 hour 45 minutes</Option>
+  		 	<option value="120">2 hours</Option>
+			</select>
+       </td>
+  </tr>
+  <tr>
+    <td>Weights room for Circuits/Weights?</td>
+    <td><select name="booking[weights]">
+<option value="0" SELECTED>No</Option>
+<option value="1">Yes</Option>
+</select></td>
+    </tr>
+  <tr>
+    <td>Number of Ergs:</td>
+    <td>
+<select name="booking[no_ergs]">
+<option value="8" SELECTED>8</Option>
+<option value="7">7</Option>
+<option value="6">6</Option>
+<option value="5">5</Option>
+<option value="4">4</Option>
+<option value="3">3</Option>
+<option value="2">2</Option>
+<option value="1">1</Option>
+</select>
+</td>
+  </tr>
+
+</table>
+    <%= f.hidden_field :club_id, :value => session[:club_id]  %>
+    <%= f.submit "Create" %>
+<% end %>
+</fieldset>
+<BR />

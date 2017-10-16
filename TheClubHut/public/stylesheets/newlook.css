@@ -1,0 +1,511 @@
+html {
+	font: 14px/18px Georgia;
+	color: #2b2b2b;
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+a:hover {
+	text-decoration: underline;
+	
+}
+
+a img {
+	border: inherit;
+}
+
+body {
+	width: 930px;
+	margin: 0 auto;
+	padding: 5px 36px 36px 36px;
+}
+
+h2 {
+	font-size: 24px;
+	line-height: 36px;
+	font-weight: normal;
+}
+
+#club {
+	display: none;
+}
+
+#logo {
+	float: left;
+}
+
+#body {
+	clear: both;
+	padding-top: 18px;
+}
+
+#TCHnav {
+	background-color: #b6b6b6;
+	padding: 3px;
+	text-align: center;
+}
+
+#clubadmin {
+	background-color: #b00000;
+	color: #FFFFFF;
+	font-weight: bold;
+	width: 300px;
+	float: right;
+	padding: 3px;
+	text-align: center;
+}
+
+#footer {
+	background-color: #a6a6a6;
+	margin: 50px 0px 0px 0px;
+	padding: 3px;
+	width: 930px;
+	height: 90px;
+	float: left;
+	vertical-align: bottom;
+	position: relative
+}
+
+#footer .TCH_footer_logo_offset {
+	width: inherit;
+	position: absolute; 
+	top: -27px; 
+	padding-left: 15px;
+}
+
+#footer .CompanyInfo {
+	width: inherit;
+	color: #FFFFFF;
+	padding-right: 18px;
+	font-size: 70%;
+	text-align: left;
+	margin: 0px 0px 30px 0px;
+}
+
+#topsections {
+	width: 600px;
+	float: right;
+}
+
+#usersections {
+	padding: 0px;
+}
+
+#usersections li {
+	float: left;
+	list-style: none;
+	font-size: 10px;
+	line-height: 14px;
+	color: #666666;
+	text-transform: uppercase;
+	text-align: center;
+	margin: 0 18px;
+}
+#usersections li em {
+	font-style: normal;
+	color: #000000;
+	font-size: 12px;
+	text-transform: none;
+}
+
+#sections {
+	padding: 0;
+	clear: both;
+}
+
+#sections li {
+	width: 150px;
+	float: left;
+	list-style: none;
+	text-align: center;
+	margin-top: 9px;
+}
+
+#sections strong {
+	display: block;
+	font-size: 36px;
+	font-weight: normal;
+	line-height: 36px;
+	color: #3b3b3b;
+}
+#sections em {
+	display: block;
+	font-style: normal;
+	font-size: 12px;
+	color: #2b2b2b;
+}
+
+.bookingDetails {
+  position: absolute;
+  width: 200px;
+  visibility: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #bbb;
+  background-color: #ddd;
+  font-size: 0.7em;
+  padding: 5px;
+  z-index: 1000; }
+  
+.box_blue {
+  background-color: #2957EB;
+  color: #FFF;
+  font-size: 0.85em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.box_lightgrey {
+  background-color: #d5d5d5;
+  border: 1px solid #dddddd;
+  font-size: 0.85em;
+  padding: 1px 5px 1px 5px;
+  margin: 0px 2px 0px 2px;
+  display: inline;
+  font-weight: normal; }
+  
+.box_red {
+  background-color: #BD142C;
+  color: #FFF;
+  font-size: 0.85em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.box_white {
+  background-color: #FFFFFF;
+  border: 1px solid #dddddd;
+  font-size: 0.85em;
+  padding: 1px 5px 1px 5px;
+  margin: 0px 2px 0px 2px;
+  display: inline;
+  font-weight: bold; }
+  
+.calendar {
+  position: relative; }
+  .calendar .calevent {
+    position: absolute;
+    border-width: 1px;
+    border-style: solid; }
+    
+.clear {
+	clear: both;
+}
+
+.clubtitle {
+	width: 250px;
+	text-align: center;
+	display: block;
+	float: left;
+}
+
+.clubtitle strong {
+	float: left;
+	font-size: 36px;
+	font-weight: normal;
+	line-height: 36px;
+	color: #3b3b3b;
+}
+
+.clubtitle em {
+	font-style: normal;
+	color: #000000;
+	font-size: 12px;
+	text-transform: none;
+}
+
+.event {
+	margin: 0 0 18px 0;
+}
+
+.event h2 {
+	font-size: 24px;
+	line-height: 36px;
+	font-weight: normal;
+}
+
+.event h3 {
+	font-size: 14px;
+	line-height: 18px;
+	color: #000000;
+	font-weight: bold;
+	display: inline;
+}
+.event h4 {
+	font-size: 12px;
+	line-height: 18px;
+	color: #666666;
+	font-weight: normal;
+	font-style: italic;
+	display: inline;
+}
+.event p {
+	margin: 0;
+	font-size: 12px;
+	color: #000000;
+}
+
+.event_tabnav {
+  color: #000000;
+  border-bottom: 1px solid black;
+  margin: 12px 0px 0px 0px;
+  padding: 0px;
+  z-index: 1;
+  padding-left: 10px; }
+  .event_tabnav ul {
+    margin: 0px;
+    padding: 0px; }
+  .event_tabnav li {
+    display: inline;
+    overflow: hidden;
+    list-style-type: none; }
+  .event_tabnav a, .event_tabnav a.active {
+    color: #000000;
+    background: #b6b6b6;
+    font: 1em "Trebuchet MS", Arial, sans-serif;
+    border: 1px solid black;
+    padding: 2px 5px 0px 5px;
+    margin: 0;
+    text-decoration: none; }
+  .event_tabnav a.active {
+    background: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+    text-decoration: none; }
+  .event_tabnav a.visited:hover {
+    color: #FFFFFF;
+    text-decoration: none; }
+
+.event_tabnav_content {
+  font: 0.9em/1.3em "bitstream vera sans", verdana, sans-serif;
+  text-align: justify;
+  background: #FFFFFF;
+  padding: 20px;
+  border: 1px solid black;
+  border-top: none;
+  z-index: 2; }
+  
+.front_page_left {
+	width: 450px;
+	float: left;
+}
+.front_page_right {
+	width: 450px;
+	float: right;
+}
+
+.gallery_background {
+  width: 100%;
+  background-color: #ddd;
+  padding: 10px;
+  margin: 20px;
+  text-align: center; 
+  display: block;
+}
+  
+.left {
+	width: 339px;
+	float: left;
+}
+
+.left_event {
+	width: 339px;
+	float: left;
+}
+
+.leftmenu {
+	width: 180px;
+	float: left;
+}
+
+.media {
+	float: left;
+	text-align: center;
+	margin: 5px;
+	padding: 0px 5px 0px 5px;
+	border: 1px solid #b6b6b6;
+}
+
+.media h3 {
+	font-size: 14px;
+	line-height: 14px;
+	color: #000000;
+	font-weight: bold;
+	display: block;
+	margin: 3px;
+}
+.media h4 {
+	font-size: 12px;
+	line-height: 12px;
+	color: #666666;
+	font-weight: normal;
+	font-style: italic;
+	display: block;
+	margin: 3px;
+}
+
+.media img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.member {
+  position: relative;
+  border: 1px solid #d4d4d4;
+  width: 140px;
+  height: 115px;
+  top: -7px;
+  left: -7px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  background: #f4f4f4;
+  vertical-align: middle;
+  text-align: center;
+  z-index: 10; }
+  .member img {
+    text-align: center;
+    position: relative;
+    border: 0px; }
+    
+.memberbackground {
+  float: left;
+  width: 140px;
+  height: 140px;
+  margin: 10px;
+  background: #a4a4a4;
+  z-index: 1; }
+  
+.newspost {
+  margin: 0 0 10px 0;
+  position: relative; }
+
+.newspostwithLborder {
+  float: left;
+  background: #FFFFFF;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  padding: 0px 0px 3px 7px;
+  margin: 0 0 0px 0; }
+
+.newspost_even {
+  border-left: 6px solid #AAA; }
+
+.newspost_odd {
+  border-left: 6px solid #DDD; }
+
+.newsbody {
+  font-size: 0.8em;
+  margin: 5px; }
+
+.newstitle {
+  font-weight: bold;
+  font-size: 1.1em; }
+
+.notice {
+  margin: 5px 0 5px 0;
+  padding: 4px;
+  background-color: #efefef;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc;
+  text-align: center; 
+  display: block;
+  }
+  
+.right {
+	width: 339px;
+	float: right;
+}
+  
+.rightcontent {
+	width: 678px;
+	float: left;
+}
+
+.right_event {
+	width: 330px;
+	padding-left: 9px;	
+	float: right;
+}
+
+.report_gallery {
+  float: right;
+  margin-top: 10px;
+  width: 170px;
+  text-align: center; }
+
+.report_odd {
+  background: #efefef;
+  border-top: 1px gray solid;
+  padding: 10px; }
+
+.report_even {
+  background: #d5d5d5;
+  border-top: 1px gray solid;
+  padding: 10px; }
+
+.shortevents {
+	list-style: none;
+	padding: 2px;
+	
+}
+	.shortevents li {
+		float: left;
+		margin: 0 9px 6px 0;
+	}
+	.shortevents strong {
+		display: block;
+		font-weight: normal;
+	}
+	.shortevents em {
+		display: block;
+		font-size: 12px;
+		color: #666666;
+	}
+	.shortevents span {
+		display: block;
+		font-size: 10px;
+		text-transform: uppercase;
+		color: #3a3a3a;
+	}
+
+.smaller {
+	font-size: 80%;	
+}
+
+.subtitle {
+  margin-bottom: 10px;
+  padding: 5px; }
+  
+.team {
+	float: left;
+	width: 195px;
+	border: 1px solid #d4d4d4;
+	padding: 5px 5px 0px 5px;
+	margin: 5px 5px 5px 5px;
+	vertical-align: middle;
+	text-align: left; }
+
+.teamlinks {
+	font-size: 80%;	
+	text-align: center;
+	margin: 5px 0px 5px 0px;
+}
+
+    
+#page_intro .events {
+	padding-top: 0px;
+}
+#page_intro .events h2 {
+	display: none;
+}
+#page_intro .shorteventlists h2 {
+	clear: both;
+	margin: 18px 0 0 0;
+}

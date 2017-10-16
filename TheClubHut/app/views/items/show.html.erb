@@ -1,0 +1,46 @@
+<div class="item">
+<table width=100% cellpadding=5>
+  <tr>
+    <td width=100%>
+          <H2><%=h @item.name %></H2>
+            <% @reviews = Review.find_by_item_id_and_user_id(@item, session[:user_id]) %>
+            <% if !@reviews %>
+            <div class="review odd white" align=center>
+              Have you used this kit?<br />
+              <% imagetag="<img src='/images/writereview.jpg' border='0' />" %>
+              <%= link_to imagetag, new_item_review_path(@item.id) %>
+            </div>
+            <div style='clear: both; height: 0'></div>
+            <% end %>
+            <BR />
+
+            <B>Manufacturers Description:</B>
+            <div class="smaller" align="right">[ <%= link_to "Edit #{ @item.name }", edit_item_path(@item) %> <% if session[:user_id] ==6 %>| <%= link_to "Delete #{ @item.name }", item_path(@item), :confirm => 'Are you sure?', :method => :delete %><% end %> ]</div>
+            <%= render :partial => "mandesc" %>
+            <BR />
+
+            <B>Reviews:</B>
+            <%= render :partial => "review", :collection => @item.review %>
+            <div style='clear: both; height: 0'></div>
+    </td>
+    <td valign=top align=center><div class="ads">
+<% if @item.amazon_link_tandi -%>
+  <%= @item.amazon_link_tandi %>
+<% end -%>
+<!-- <script type="text/javascript"><!--
+google_ad_client = "pub-7514487194148283";
+/* 120x600, created 28/09/08 */
+google_ad_slot = "3278506927";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>   -->
+  </div></td>
+  </tr>
+</table>  
+
+
+</div>

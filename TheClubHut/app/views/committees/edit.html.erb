@@ -1,0 +1,33 @@
+<h1>Editing committee</h1>
+
+<%= error_messages_for :committee %>
+
+<% form_for(:committee, :url => club_committee_path(:id => @committee), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <b>Committee Email Address</b><br />
+    <%= f.text_field :groupemail %>
+  </p>
+
+  <p>
+    <b>Elected on</b><br />
+    <%= f.datetime_select :elected_on %>
+  </p>
+
+  <p>
+    <b>In office from</b><br />
+    <%= f.datetime_select :in_office_from %>
+  </p>
+
+
+
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', club_committees_path(@club) %>

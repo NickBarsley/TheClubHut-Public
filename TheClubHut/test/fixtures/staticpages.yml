@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  club_id: 1
+  toolbar_title: MyString
+  title: MyString
+  body: MyText
+  indexorder: 1
+  indexlink: MyString
+
+two:
+  club_id: 1
+  toolbar_title: MyString
+  title: MyString
+  body: MyText
+  indexorder: 1
+  indexlink: MyString

@@ -1,0 +1,19 @@
+<!-- <tr>
+	<td> #attendees.team.description </td>
+	<td> #link_to 'Edit', edit_event_race_path(attendees.event_id, attendees.id) %>&nbsp;|&nbsp; </td>
+</tr> -->
+
+<tr>
+	<td>
+    <% if attendees.user.id == session[:user_id] %>
+      <b><%= link_to attendees.user.full_name, :controller => "profile", :action => "show", :id => attendees.user.id %></b>
+    <% else %>
+      <%= link_to attendees.user.full_name, :controller => "profile", :action => "show", :id => attendees.user.id %>
+    <% end %>
+    </td>
+  <td align=right>
+    <% if attendees.user.id == session[:user_id] and @status != "Completed" %>
+      <div class="smaller">[ Click <%= link_to 'here', event_race_path(attendees.event_id, attendees.id), :confirm => 'Are you sure?', :method => :delete %> to remove yourself from this event. ]</div>
+    <% end %>
+  </td>
+</tr>

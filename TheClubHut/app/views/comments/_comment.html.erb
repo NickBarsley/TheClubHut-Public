@@ -1,0 +1,17 @@
+<div id="comment_<%= comment.id %>">
+  <hr size=1px noshade />
+  <%= link_to comment.user.full_name, profile_for(comment.user) %>
+  commented
+  <%= time_ago_in_words comment.created_at %> ago:
+  <p>
+    <%= sanitize comment.body %>
+  </p>
+  <% if comment.user.id == session[:user_id] %>
+  <div align=right class=smaller>
+  [ <%= link_to_remote "Delete my comment", 
+           :url => blog_blogpost_comment_path(comment.blogpost.blog, comment.blogpost, comment.id), 
+           :method => :delete,
+           :confirm => 'Are you sure?' %> ]
+  </div>           
+  <% end %>
+</div>

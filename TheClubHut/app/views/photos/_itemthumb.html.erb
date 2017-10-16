@@ -1,0 +1,3 @@
+<% if itemthumb.id.to_i != @photo.id.to_i %>
+<%= link_to image_tag(itemthumb.public_filename('tiny'), :class => "photo_thumb"), item_photo_path(@item, itemthumb.id) %>
+<% end %>

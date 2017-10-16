@@ -1,0 +1,122 @@
+<h1>Edit Event</h1>
+
+<%= error_messages_for :event %>
+
+<% form_for(@event) do |f| %>
+	<%= f.hidden_field :user_id, :value => session[:user_id] %>
+	<table>
+		<!-- I need to put an option in here to pass ownership of the event to someone else -->
+		<tr>
+			<td>Are you the event organiser?</td>
+			<td><%= radio_button :event, :created_by_owner, "Yes" %>Yes<%= radio_button :event, :created_by_owner, "No" %>No</td>
+		</tr>
+		<tr>
+			<td>Is this a club-run event?</td>
+			<td>
+			 <select name="event[club_id]">
+				<option value="">No</Option>
+			 	<% @clubs.each do |membership| %>
+				 	<option value="<%= membership.id %>" <% if membership.id == @event.club_id %>selected<% end %>><%= membership.name %></option>
+				<% end %>
+			 </select>				
+			</td>
+		</tr>
+		<tr>
+			<td>Sport:</td>
+			<td>
+			 <select name="event[sport_id]">
+			 <% @sports.each do |sport| %>
+			 <option value="<%= sport.id %>" <% if sport.id == @event.sport_id %>selected<% end %>> 
+			 <%= sport.name %>
+			 </option>
+			 <% end %>
+			 </select>				
+			</td>
+		</tr>		
+		<tr>
+			<td>Event Type:</td>
+			<td>
+			 <select name="event[dataetype_id]">
+				 <% @etypes.each do |etype| %>
+					 <option value="<%= etype.id %>"<% if etype.id == @event.dataetype_id %> selected<% end %>> 
+						 <%= etype.description %>
+					 </option>
+				 <% end %>
+			 </select>
+			</td>
+		</tr>		
+<tr>
+			<td>Event Date, Time:</td>
+			<td>
+				<%= f.date_select :date %>, <%= f.time_select :start_time %>
+			</td>
+		</tr>
+		<tr>
+			<td>Will entries be on an <b>individual</b> or <b>team</b> basis?</td>
+			<td><%= radio_button :event, :ind_or_team, "Individual" %>Individual<%= radio_button :event, :ind_or_team, "Team" %>Team</td>
+		</tr>
+		<tr>
+			<td>When do Entries Open?:</td>
+			<td>
+				<%= f.datetime_select :when_entries_open %>
+			</td>
+		</tr>		
+		<tr>
+			<td>When do Entries Close?:</td>
+			<td>
+				<%= f.datetime_select :when_entries_close %>
+			</td>
+		</tr>				
+		<tr>
+			<td>Name of the Event:</td>
+			<td>
+				<%= f.text_field :title, :class => "text" %>
+			</td>
+		</tr>
+		<tr>
+			<td>Event Description:</td>
+			<td>
+				<%= f.text_area :description, :class => "text" %>
+			</td>
+		</tr>				
+		
+		<tr>
+			<td>Number of Categories:</td>
+			<td>
+				 <select name="event[num_of_categories]">
+					<% i = 0 %>
+					 <% 20.times do %>
+				     <% i += 1 %>
+						 <option value="<%= i %>"<% if @event.num_of_categories == i %> SELECTED<% end %>><%= i %></option>
+					 <% end %>
+				 </select>				
+			</td>
+		</tr>
+		<tr>
+			<td>Venue/Location</td>
+			<td>
+		    <%= f.text_field :venue, :class => "text" %>
+			</td>
+		</tr>	
+		<tr>
+			<td>Country:</td>
+			<td>
+				 <select name="event[datacountry_id]">
+					 <% @countrys.each do |country| %>
+						 <option value="<%= country.id %>"<% if country.id == @event.datacountry_id.to_i -%> SELECTED<% end -%>>
+							 <%= country.name %>
+						 </option>
+					 <% end %>
+				 </select>
+			</td>
+		</tr>	
+		<tr>
+			<td>Post or Zip Code:</td>
+			<td>
+				<%= f.text_field :locationcode, :class => "text" %>
+			</td>
+		</tr>	
+		<tr><td colspan=2><%= f.submit "Update Event" %></td></tr>
+		</table>
+<% end %>
+<%= link_to 'Back', events_path %>

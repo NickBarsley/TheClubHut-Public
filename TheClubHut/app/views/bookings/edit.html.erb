@@ -1,0 +1,42 @@
+<h1>Editing booking</h1>
+
+<%= error_messages_for :booking %>
+
+<% form_for(@booking) do |f| %>
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <b>Start time</b><br />
+    <%= f.datetime_select :start_time %>
+  </p>
+
+  <p>
+    <b>Finish time</b><br />
+    <%= f.datetime_select :finish_time %>
+  </p>
+
+  <p>
+    <b>No ergs</b><br />
+    <%= f.text_field :no_ergs %>
+  </p>
+
+  <p>
+    <b>Weights</b><br />
+    <%= f.text_field :weights %>
+  </p>
+
+  <p>
+    <b>Club</b><br />
+    <%= f.text_field :club_id %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @booking %> |
+<%= link_to 'Back', bookings_path %>

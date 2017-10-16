@@ -1,0 +1,8 @@
+<div style="background-color: #e4e4e4; padding: 15px; margin: 10px;">
+  <b>Title:</b> <%=h suggestion.title %><BR />
+  <b>By:</b> <% if suggestion.user_id %><%=h suggestion.user.full_name %><% else %><%=h suggestion.name %><% end %>
+<div class="smaller">
+  <%= suggestion.idea %>
+</div>
+
+</div>

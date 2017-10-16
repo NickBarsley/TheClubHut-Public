@@ -1,0 +1,47 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  trainingsession_id: 1
+  user_id: 1
+  order: 1
+  rest: 1
+  distance: 1
+  distance_units: MyString
+  duration: 1
+  duration_units: MyString
+  aim_for_rate: 1
+  aim_for_split_min: 1
+  aim_for_split_sec: 1
+  aim_for_split_point: 1
+  aim_for_wattage: 1
+  res_rate: 1
+  res_wattage: 1
+  res_avg_hr: 1
+  res_max_hr: 1
+  res_split_min: 1
+  res_split_sec: 1
+  res_split_point: 1
+  notes: MyString
+
+two:
+  trainingsession_id: 1
+  user_id: 1
+  order: 1
+  rest: 1
+  distance: 1
+  distance_units: MyString
+  duration: 1
+  duration_units: MyString
+  aim_for_rate: 1
+  aim_for_split_min: 1
+  aim_for_split_sec: 1
+  aim_for_split_point: 1
+  aim_for_wattage: 1
+  res_rate: 1
+  res_wattage: 1
+  res_avg_hr: 1
+  res_max_hr: 1
+  res_split_min: 1
+  res_split_sec: 1
+  res_split_point: 1
+  notes: MyString

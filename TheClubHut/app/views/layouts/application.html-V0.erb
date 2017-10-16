@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-US' xml:lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title><%= @title %></title>
+    <%= stylesheet_link_tag("site", "basetext", "specificlayouts", "review", "profile", "spec", "errors", "calendar", "forum") %>
+    <%= javascript_include_tag :defaults %>
+    <% background %>
+    <%= render :partial => "layouts/clubcolors" %>
+	<body>
+    <% if @title != "TheClubHut.com: QCBC Training Programme" %>
+                    <%= render :partial => "layouts/top_controls" %>
+                    <% if session[:club_id] != nil %>
+                      <table cellspacing=0px cellpadding=0 width=875 align=center>
+                      	<tr>
+                      		<td valign="top" width=180>
+                    	<div id="club_nav"><BR /><%=render :partial => "clubs/clubnav" %></div>
+                    			</td>
+                    			<td valign="top" align=left>
+                      <div id="page_content_club">
+                          <% if current_club_committee? or session[:user_id] == 6 %>
+                            <div class="smaller" style="float: right;"><%= link_to_unless_current "~ " + @club.initials + " Committee Admin ~", admin_club_path(session[:club_id]) %></div>
+													<% end %>
+                        <% if flash[:notice] %><div class="notice"><%= flash[:notice]%></div><% end %>
+                        <%= renderClubUnofficialNotice %>
+                        <%= @content_for_layout %>
+                        </div>
+                        </td>
+                        </tr>
+                        </table>
+                    <% else %>
+                      <table cellspacing=15px cellpadding=0 width=875 align=center>
+                      	<tr>
+                      		<td valign="top">
+                    
+                      <div id="page_content">
+												<% if flash[:notice] %><div class="notice"><%= flash[:notice]%></div><% end %>		
+                        <%= @content_for_layout %>
+                      </div>
+										</td></tr></table>
+                    <% end %>
+                    <BR /><BR /><BR /><BR />
+					<div style="position: relative; background-color: #a6a6a6;">
+						<div style="position: absolute; top: -39px; padding-left: 15px;" align=left>
+							<img src="/images/logo.jpg"><BR />
+							<font face="arial" color="white"><%= nav_link "Search Clubs", clubs_path %> | <%= nav_link "Create a Club", new_club_path %> | <%= link_to_unless_current "Latest News", news_club_path(8) %> | <%= link_to_unless_current "About Us", club_staticpage_path(8, 82) %> | <%= link_to_unless_current "Contact Us", club_staticpage_path(8, 82) %></font><BR />
+							<font face="arial" size="-4" color="white">TheClubHut.com Limited, UK Registered No. 06640871</font>
+						</div>
+						<BR /><BR /><BR /><BR /><BR /><BR /><BR /><BR /><BR /><BR /><BR /><BR />
+					</div>
+      <% if ENV["RAILS_ENV"] == "production" and session[:user_id].to_i != 6 %>
+        <%=render :partial => "/layouts/googleanalytics" %>
+      <% end %>
+    <% else %>
+    	<%= @content_for_layout %>
+  	<% end %>  

@@ -1,0 +1,18 @@
+
+<table width="100%" cellpadding=0 cellspacing=0>
+<tr>
+  <td width="120px" valign="top"><div class="post_creation_date, smaller">Posted <%= time_ago_in_words blogpost.created_at %> by <%= link_to blogpost.user.full_name, :controller=>"profile", :action=>"show", :id=>blogpost.user.id %>.<BR />
+    </div></td>
+  <td valign="top">  <div class="newspostwithLborder <%= cycle("newspost_even", "newspost_odd") %>">
+    <div class="newstitle"><%= sanitize blogpost.title  %></div>
+      <% if current_club_committee? -%>
+        <div class="smaller">[ <%= link_to_unless_current 'Edit News Story', edit_blog_blogpost_path(blogpost.blog, blogpost) %> |
+        <%= link_to 'Delete News Story', blog_blogpost_path(blogpost.blog, blogpost), :confirm => 'Are you sure?', :method => :delete %> ]
+        </div>
+      <% end %>
+    <div class="newsbody"><%= sanitize blogpost.body %></div>
+  </div> </td>
+  
+</tr>
+</table>
+<BR />

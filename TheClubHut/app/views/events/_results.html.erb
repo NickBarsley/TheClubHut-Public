@@ -1,0 +1,12 @@
+<tr>
+	<td><% if results.team_id %><%= link_to results.team.club.initials, :controller => "clubs", :action => "show", :id => results.team.club.id %> > <%= link_to results.team.description, :controller => "teams", :action => "show", :id => results.team.id %><% else %><%= link_to results.user.full_name, :controller => "profile", :action => "show", :id => results.user_id %><% end %></td>
+	<td><%=h results.result %></td>
+  <!-- need to let event owner edit this too --> 
+	<td align=right>
+	  <% if results.team_id %>
+      <% if current_club_committee(results.team.club_id) or current_team(results.team.id) %><div class="smaller">[ <%= link_to 'Edit Race Result/Report', edit_event_race_path(results.event_id, results.id) %>&nbsp;|&nbsp;<%= link_to 'Delete Team From Event', event_race_path(results.event_id, results.id), :confirm => 'Are you sure?', :method => :delete %> ]<% end %>
+    <% else %>
+      <% if results.user.id == session[:user_id] %><div class="smaller">[ <%= link_to 'Edit Race Result/Report', edit_event_race_path(results.event_id, results.id) %>&nbsp;|&nbsp;<%= link_to 'Remove Myself From Event', event_race_path(results.event_id, results.id), :confirm => 'Are you sure?', :method => :delete %> ]<% end %>    
+    <% end %>
+      </div></td>
+</tr>

@@ -1,0 +1,97 @@
+.smaller a {
+  color: #333;
+  text-decoration: underline; }
+.smaller a:hover {
+  color: #000;
+  text-decoration: none; }
+
+p {
+  margin-left: 15px;
+  margin-right: 15px;
+  line-height: 1.2em; }
+
+.technical {
+  font-family: "Courier New"; }
+
+.box_grey_emailto {
+  background-color: #2957EB;
+  color: #FFF;
+  font-size: 0.7em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.box_blue {
+  background-color: #2957EB;
+  color: #FFF;
+  font-size: 0.85em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.box_green {
+  background-color: #14BD20;
+  color: #FFF;
+  font-size: 0.85em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.box_red {
+  background-color: #BD142C;
+  color: #FFF;
+  font-size: 0.85em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: inline;
+  font-weight: bold; }
+
+.clubtitle {
+  font-size: 2.0em;
+  left: 0;
+  letter-spacing: 0.4em;
+  text-align: center;
+  font-weight: bold; }
+
+.form_row .legend {
+  color: #abb; }
+
+input.text {
+  border: 1px solid #888;
+  padding: 7px;
+  color: #444;
+  font-size: 1.2em; }
+
+input.textinterval {
+  border: 1px solid #888;
+  padding: 3px;
+  color: #444;
+  font-size: 1em;
+  text-align: right; }
+
+textarea.text {
+  border: 1px solid #888;
+  padding: 7px;
+  color: #444;
+  font-size: 1.1em;
+  font-family: sans-serif; }
+
+fieldset {
+  padding: 10px; }
+
+.boxlink {
+  background-color: #FFF;
+  border: 5px solid #F00;
+  padding: 15px;
+  margin: 5px 5px 5px 5px;
+  text-align: center;
+  vertical-align: center; }
+
+.boxlink:hover {
+  background-color: #F00; }
+  .boxlink:hover a:hover {
+    color: #FFF; }

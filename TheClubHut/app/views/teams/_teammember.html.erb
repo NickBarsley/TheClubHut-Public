@@ -1,0 +1,20 @@
+<div style="background: <%= cycle("#fbfbfb", "#eee") %>; text-align: left; padding-left: 5px; font-size: 80%;">
+	<% if teammember.position=="9" %>
+		C:
+	<% elsif teammember.position=="8" %>
+		S:
+	<% elsif teammember.position=="1" %>
+		B:
+	<% elsif teammember.position=="0" %>
+    <% if @intocoaches != true %>
+		Coaching:
+    <% @intocoaches = true %>
+    <% end %>
+	<% else %>	
+		<%= teammember.position %>:
+	<% end %> <%= link_to teammember.user.full_name, :controller => "profile", :action => "show", :id => teammember.user_id %>
+	<% if teammember.captain == 1 -%>
+	<div class="box_blue smaller">Captain</div>
+	<% end -%>
+	<BR />
+</div>

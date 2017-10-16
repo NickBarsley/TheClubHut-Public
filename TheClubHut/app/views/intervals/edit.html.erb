@@ -1,0 +1,117 @@
+<h1>Editing interval</h1>
+
+<%= error_messages_for :interval %>
+
+<% form_for(@interval) do |f| %>
+  <p>
+    <b>Trainingsession</b><br />
+    <%= f.text_field :trainingsession_id %>
+  </p>
+
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <b>Order</b><br />
+    <%= f.text_field :order %>
+  </p>
+
+  <p>
+    <b>Rest</b><br />
+    <%= f.text_field :rest %>
+  </p>
+
+  <p>
+    <b>Distance</b><br />
+    <%= f.text_field :distance %>
+  </p>
+
+  <p>
+    <b>Distance units</b><br />
+    <%= f.text_field :distance_units %>
+  </p>
+
+  <p>
+    <b>Duration</b><br />
+    <%= f.text_field :duration %>
+  </p>
+
+  <p>
+    <b>Duration units</b><br />
+    <%= f.text_field :duration_units %>
+  </p>
+
+  <p>
+    <b>Aim for rate</b><br />
+    <%= f.text_field :aim_for_rate %>
+  </p>
+
+  <p>
+    <b>Aim for split min</b><br />
+    <%= f.text_field :aim_for_split_min %>
+  </p>
+
+  <p>
+    <b>Aim for split sec</b><br />
+    <%= f.text_field :aim_for_split_sec %>
+  </p>
+
+  <p>
+    <b>Aim for split point</b><br />
+    <%= f.text_field :aim_for_split_point %>
+  </p>
+
+  <p>
+    <b>Aim for wattage</b><br />
+    <%= f.text_field :aim_for_wattage %>
+  </p>
+
+  <p>
+    <b>Res rate</b><br />
+    <%= f.text_field :res_rate %>
+  </p>
+
+  <p>
+    <b>Res wattage</b><br />
+    <%= f.text_field :res_wattage %>
+  </p>
+
+  <p>
+    <b>Res avg hr</b><br />
+    <%= f.text_field :res_avg_hr %>
+  </p>
+
+  <p>
+    <b>Res max hr</b><br />
+    <%= f.text_field :res_max_hr %>
+  </p>
+
+  <p>
+    <b>Res split min</b><br />
+    <%= f.text_field :res_split_min %>
+  </p>
+
+  <p>
+    <b>Res split sec</b><br />
+    <%= f.text_field :res_split_sec %>
+  </p>
+
+  <p>
+    <b>Res split point</b><br />
+    <%= f.text_field :res_split_point %>
+  </p>
+
+  <p>
+    <b>Notes</b><br />
+    <%= f.text_field :notes %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @interval %> |
+<%= link_to 'Back', intervals_path %>

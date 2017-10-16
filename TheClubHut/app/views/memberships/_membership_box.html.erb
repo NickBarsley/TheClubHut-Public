@@ -1,0 +1,7 @@
+<% if logged_in?  %>
+	<% @current_user = User.find(session[:user_id]) %>
+	<% @current_club = Club.find(session[:club_id]) %>	
+	<% unless Membership.exists?(@current_user, @current_club) %>
+		<%= link_to "Request membership", new_club_membership_path(@club) %>
+	<% end %>
+<% end %>

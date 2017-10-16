@@ -1,0 +1,32 @@
+<h1>Editing suggestion</h1>
+
+<%= error_messages_for :suggestion %>
+
+<% form_for(@suggestion) do |f| %>
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <b>Idea</b><br />
+    <%= f.text_area :idea %>
+  </p>
+
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @suggestion %> |
+<%= link_to 'Back', suggestions_path %>

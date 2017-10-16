@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  team_id: 1
+  start: 2008-09-30 15:54:13
+  duration: 1
+
+two:
+  user_id: 1
+  team_id: 1
+  start: 2008-09-30 15:54:13
+  duration: 1

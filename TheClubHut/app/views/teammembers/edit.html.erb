@@ -1,0 +1,31 @@
+<h1>Editing teammember</h1>
+
+<%= error_messages_for :teammember %>
+
+<% form_for(:teammember, 
+						:url => season_team_teammember_path(:id => @teammember), 
+            :html => { :method => :put }) do |f| %>
+									 
+	<%= f.hidden_field :team_id, :value => @team_id %>
+
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user_id %>
+  </p>
+
+  <p>
+    <b>Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+
+  <p>
+    <b>Roworder</b><br />
+    <%= f.text_field :roworder %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', season_teams_path %>

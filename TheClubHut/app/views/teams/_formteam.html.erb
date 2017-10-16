@@ -1,0 +1,7 @@
+  <% @users = User.find(:all, :order => "surname ASC") %>
+  <table cellpadding=5px>
+    <tr><td>Team&nbsp;Name:</td><td><%= text_field :team, :description, :class => "text" %></td><td><div class="smaller">E.g. "1st May VIII", "Varsity Mens's 1st Team", "B Team", etc...</div></td></tr>
+    <tr><td>Team&nbsp;Display&nbsp;Position:</td><td><%= text_field :team, :roworder, :class => "text" %></td><td><div class="smaller">Please enter a number here. The larger the number, the higher up the team list this team will be shown on the club page. I realise this isn't at all the ideal user interface, and I'm working to fix it in a future release of this website.</div></td></tr>
+  </table>
+  <%= add_formteammember_link "Add Another Team Member" %><BR /><BR />
+  <div id="teammembers"><%= render :partial => 'teams/formteammember', :collection => @team.teammember %></div>

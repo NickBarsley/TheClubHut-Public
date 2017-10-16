@@ -1,0 +1,37 @@
+<H1>Club Committees</H1>
+<% if current_club_committee? -%>
+<div class="smaller" align=right>[ <%= link_to 'Create a New Committee', new_club_committee_path %> ] </div>
+<% end %>
+
+<% if @committees.size != 0 %>
+  <table width="100%">
+  <% i = 0 -%>
+  <% for committee in @committees %>
+  <% i += 1 -%>
+    <% @previousposition = "" %>
+    <tr>
+      <td colspan=3>
+      	<H3><%=h committee.description %><% if committee.groupemail != "" and i == 1 -%>(<%= mail_to committee.groupemail %>)<% end -%></H3>
+</td></tr>
+  	<% if i == 1 -%>
+    <%= render :partial => "listmembers", :collection => committee.committeemember %>
+    <% else -%>
+    <%= render :partial => "listmembersonwards", :collection => committee.committeemember %>
+    <% end -%>
+     <tr> <td colspan=3>
+      	<% if current_club_committee? -%><div class="smaller" align="center" style="padding-top: 10px;"><%= link_to 'Add Member', new_club_committee_committeemember_path(@club, committee) %> | <%= link_to 'Edit Committee Name or Email', edit_club_committee_path(@club, committee) %> | <%= link_to 'Delete Committee', club_committee_path(@club, committee), :confirm => 'Are you sure?', :method => :delete %></div><% end %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+<BR />
+  There are currently no committee's, or committee members listed for this club. The committee has administrator priveleges across the whole of the <%= @club.initials %> pages. <BR /><BR />
+  If you are on the committee for this club you should:
+  <ol>
+      <li><%= link_to "Log In", :controller => "user", :action => "login" %> to your account, or <%= link_to "register", :controller => "user", :action => "register" %> for an account on the website.</li>
+  		<li><%= link_to_unless_current "Join " + @club.initials, new_club_membership_path(@club) %>. This link can also be found on the index to the left of this page.</li>
+      <li><%= link_to 'Create a New Committee', new_club_committee_path %> and add yourself to it.</li>    
+  </ol>
+
+
+<% end %>

@@ -1,0 +1,41 @@
+<h2><%= @title %></h2>
+
+<%= error_messages_for :substitute %>
+
+
+<% form_for(:substitute, :url => team_substitutes_path) do |f| %>
+  <p>
+    <b>Team:</b> <%= @team.description %><BR />
+    <%= f.hidden_field :team_id, :value => @team.id %>
+  </p>
+  <p>
+    <b>Race: </b>
+      <select id="substitute_race_id" name="substitute[race_id]">
+      <% @races.each do |race| -%>
+        <% @event = Event.find_by_id(race.event_id) -%>
+				<option value="<%= race.id %>"><%= @event.date.year %> > <%= @event.title %></option>
+      <% end -%>
+			</select><BR />
+  </p>
+  <p>
+    <b>Team Member (subbed out): </b>
+      <select id="substitute_teammember_id" name="substitute[teammember_id]">
+      <% @team.teammember.each do |teammember| -%>
+				<option value="<%= teammember.id %>"><% if teammember.position=="9" -%>C<% elsif teammember.position=="8" -%>S<% elsif teammember.position=="1" -%>B<% elsif teammember.position=="0" -%>Coach<% else %><%= teammember.position -%>
+<% end %>: <%= teammember.user.full_name %></option>
+      <% end -%>
+			</select><BR />    
+  </p>
+  <p>
+    <b>The Substitute: </b>
+    <%= f.collection_select(:user_id, @users, "id", "list_name") %>
+  </p>
+
+  <p>
+    <%= f.submit "Add Substitute" %>
+  </p>
+<% end %>
+<p>
+Note: Substitutes can be delete from the team page by either a team member, or a current committee member if needed.
+</p>
+

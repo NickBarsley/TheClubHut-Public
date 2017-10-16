@@ -1,0 +1,24 @@
+<label for="topic_title"><%= 'Title'[:title_title] %></label><br />
+<%= form.text_field :title, :onchange => "/*TopicForm.editNewTitle(this);*/", :class => "text", :tabindex => 10 %><BR /><BR />
+
+<% if admin? or @current_user.moderator_of?(@topic.forum) %>
+<label style="margin-left:1em;">
+<%= form.check_box :sticky %> <%= 'Sticky'[:sticky_title] %>
+</label>
+
+<label style="margin-left:1em;">
+<%= form.check_box :locked %> <%= 'Locked'[:locked_title] %>
+</label>
+
+<% end %>
+
+<% if @topic.new_record? %>
+<label for="topic_body"><%= 'Body'[:body_title] %></label><br />
+<%= form.text_area :body, :rows => 8, :tabindex => 20, :class => "text" %>
+<% end %>
+
+<% if admin? and not @topic.new_record? %>
+  <label for="topic_forum_id"><%= 'Forum'[:forum_title] %></label><br />
+  <%= form.select :forum_id, Forum.find(:all, :order => "position").map {|x| [x.name, x.id] } %>
+
+<% end %><BR />

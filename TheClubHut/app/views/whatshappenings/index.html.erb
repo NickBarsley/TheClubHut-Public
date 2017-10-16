@@ -1,0 +1,30 @@
+<h1>Listing whatshappenings</h1>
+
+<table>
+  <tr>
+    <th>Club</th>
+    <th>User</th>
+    <th>Team</th>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Event type</th>
+  </tr>
+
+<% for whatshappening in @whatshappenings %>
+  <tr>
+    <td><%=h whatshappening.club_id %></td>
+    <td><%=h whatshappening.user_id %></td>
+    <td><%=h whatshappening.team_id %></td>
+    <td><%=h whatshappening.title %></td>
+    <td><%=h whatshappening.body %></td>
+    <td><%=h whatshappening.event_type %></td>
+    <td><%= link_to 'Show', whatshappening %></td>
+    <td><%= link_to 'Edit', edit_whatshappening_path(whatshappening) %></td>
+    <td><%= link_to 'Destroy', whatshappening, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New whatshappening', new_whatshappening_path %>

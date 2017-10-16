@@ -1,0 +1,7 @@
+page.visual_effect :highlight, "new_comment_form_for_blogpost_#{@blogpost.id}" 
+page.replace_html "comments_for_blogpost_#{@blogpost.id}", 
+                  :partial => "comments/comment", 
+                  :collection => @blogpost.comments 
+page.show "add_comment_link_for_blogpost_#{@blogpost.id}" 
+page.hide "new_comment_form_for_blogpost_#{@blogpost.id}" 
+page.visual_effect :highlight, "comment_#{@comment.id}", :duration => 0.5

@@ -1,0 +1,64 @@
+ <h1><%= @club.initials %> photos for <%= @season.description %></h1>
+ <div class="smaller">Note: YouTube integration coming by the Mays 2011</div>
+ <% @teams.each do |team| -%>
+	<h2><%= link_to team.description, :controller => "teams", :action => "show", :id => team.id %></h2>
+	<% @photo = Photo.find(:first, :conditions => ["team_id=?", team]) -%>
+	<% @photos = Photo.find(:all, :conditions => ["team_id=?", team]) -%>
+	<% if @photo -%>
+		<div class="media">
+			<h3>Team Photos</h3>
+			<%= link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb", :title => [team.description + " Photos"]), team_photos_path(team.id) %>
+			<h4><%= pluralize(@photos.size, "photo") %></h4>
+			<!-- AND IF CLUB MEMBER! -->
+			<% if logged_in? %>
+				<%= link_to "Add&nbsp;a&nbsp;team&nbsp;photo", new_team_photo_path(team.id) %>
+			<% end %>   
+		</div>
+	<% else -%> 
+		<div class="media">
+			<h3>Team Photos</h3>
+			<h4>No photos</h4>
+			<% if logged_in? %>
+				<%= link_to "Add&nbsp;a&nbsp;team&nbsp;photo", new_team_photo_path(team.id) %>
+			<% end %>   
+		</div>
+	<% end -%> 
+
+ 
+ 	<% @races = Race.find(:all, :conditions => ["team_id=?", team]) -%>
+	<% @races.each do |race| -%>
+		<% @photo = Photo.find(:first, :conditions => ["race_id=?", race]) -%>
+		<% @photos = Photo.find(:all, :conditions => ["race_id=?", race]) -%>
+		<% if @photo -%>	
+			<div class="media">
+			<% @event = Event.find(race.event_id) -%>
+			<h3><%= nav_link @event.title, report_event_path(@event.id) %></h3>
+			<%= link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb", :title => [team.description + " Photos"]), event_race_photos_path(@event.id, race) %>
+			<h4><%= pluralize(@photos.size, "photo") %></h4>
+			
+			<!-- PUT CODE HERE FOR LINK FOR MORE PHOTOS -->
+			<% if logged_in? %>
+				<% link_string = "/events/" + @event.id.to_s + "/races/" + race.id.to_s + "/photos/new" -%>
+				<%= link_to "Add&nbsp;more&nbsp;photos", link_string -%>
+			<% end -%>
+			</div>
+			
+		<% else -%>
+			<div class="media">
+			<% @event = Event.find(race.event_id) -%>
+			<h3><%= nav_link @event.title, report_event_path(@event.id) %></h3>
+			<h4>No photos</h4>
+
+			<!-- PUT CODE HERE FOR LINK FOR MORE PHOTOS -->
+			<% if logged_in? %>
+				<% link_string = "/events/" + @event.id.to_s + "/races/" + race.id.to_s + "/photos/new" -%>
+				<%= link_to "Add&nbsp;race&nbsp;photos", link_string -%>
+			<% end -%>
+			</div>
+			
+			
+		<% end -%>
+	<% end -%>
+
+	<div class="clear"></div>
+ <% end -%>

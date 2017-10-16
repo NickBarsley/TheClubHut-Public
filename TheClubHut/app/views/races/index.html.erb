@@ -1,0 +1,35 @@
+<h1>Listing races</h1>
+
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Team</th>
+    <th>User</th>
+    <th>Result</th>
+    <th>Position</th>
+    <th>Gallery</th>
+    <th>Report</th>
+  </tr>
+
+<% for race in @races %>
+  <tr>
+    <td><%=h race.event_id %></td>
+    <td><%=h race.team_id %></td>
+    <td><%=h race.user_id %></td>
+    <td><%=h race.result %></td>
+    <td><%=h race.position %></td>
+    <td><%=h race.gallery_id %></td>
+    <td><%=h race.report %></td>
+    <td><%= link_to 'Show', event_race_path(race.event_id, race.id) %></td>
+    <td><%= link_to 'Edit', edit_event_race_path(race.event_id, race.id) %></td>
+    <td><%= link_to 'Destroy', event_race_path(race.event_id, race.id), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+
+
+	
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New race', new_event_race_path %>

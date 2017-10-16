@@ -1,0 +1,107 @@
+.item {
+  position: relative;
+  margin: 0 0 10px 0;
+  padding: 7px 15px 7px 15px;
+  background-color: #eee;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc; }
+  .item .desccont .desctext {
+    padding: 5px;
+    vertical-align: top; }
+  .item .desccont .photo {
+    display: inline-block;
+    margin: 15px;
+    text-align: center;
+    background-color: white;
+    padding: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc; }
+    .item .desccont .photo a img {
+      border-width: 0px; }
+
+.review {
+  float: left;
+  font-size: 0.8em;
+  padding: 5px 7px 7px 7px;
+  margin: 5px 0 10px 0; }
+  .review .header {
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #ccc;
+    font-size: 1.1em;
+    padding: 4px; }
+  .review .body {
+    display: table; }
+    .review .body .left_column {
+      display: table-cell;
+      width: 200px;
+      line-height: 2em;
+      padding: 4px; }
+    .review .body .right_column {
+      display: table-cell; }
+      .review .body .right_column .summary {
+        display: table-row; }
+      .review .body .right_column .below {
+        margin: 0; }
+        .review .body .right_column .below .strength {
+          width: 50%;
+          display: table-cell; }
+        .review .body .right_column .below .weakness {
+          width: 50%;
+          display: table-cell; }
+
+.even {
+  background-color: #f2f2f2;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc; }
+
+.odd {
+  background-color: #fff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #bbb; }
+
+.kitlistcontainer {
+  float: left; }
+
+.kitwindow {
+  position: relative; }
+
+.ads {
+  float: right; }
+
+.kitlist {
+  margin: 0 0 10px 0px;
+  padding: 7px;
+  position: relative; }
+  .kitlist .photo {
+    text-align: center;
+    background-color: white;
+    padding: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc; }
+    .kitlist .photo a img {
+      border-width: 0px; }
+
+.kitlocker {
+  margin: 0;
+  padding: 0;
+  position: relative; }
+  .kitlocker .photo {
+    background-color: white;
+    border-width: 0; }
+    .kitlocker .photo a img {
+      margin: 0 7px 0 0;
+      border-width: 0px; }
+  .kitlocker .title {
+    float: left;
+    margin: 0;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #ccc; }
+  .kitlocker .details {
+    line-height: 1.5em; }

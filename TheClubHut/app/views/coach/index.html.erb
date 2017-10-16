@@ -1,0 +1,194 @@
+<script type="text/javascript">
+function ShowMyTeams()
+{
+  document.getElementById("MyTeams").style.display = "block";
+  document.getElementById("ShowMyTeamsLink").className = 'active';
+  document.getElementById("ShowMyTeamsLinkLI").className = 'active';
+
+  document.getElementById("MyClubs").style.display = "none";
+  document.getElementById("ShowMyClubsLink").className = '';
+  document.getElementById("ShowMyClubsLinkLI").className = '';
+
+  document.getElementById("MyCoaches").style.display = "none";
+  document.getElementById("ShowMyCoachesLink").className = '';
+  document.getElementById("ShowMyCoachesLinkLI").className = '';  
+}
+
+function ShowMyClubs()
+{
+  document.getElementById("MyTeams").style.display = "none";
+  document.getElementById("ShowMyTeamsLink").className = '';
+  document.getElementById("ShowMyTeamsLinkLI").className = '';
+
+  document.getElementById("MyClubs").style.display = "block";
+  document.getElementById("ShowMyClubsLink").className = 'active';
+  document.getElementById("ShowMyClubsLinkLI").className = 'active';
+
+  document.getElementById("MyCoaches").style.display = "none";
+  document.getElementById("ShowMyCoachesLink").className = '';
+  document.getElementById("ShowMyCoachesLinkLI").className = '';
+}
+
+function ShowMyCoaches()
+{
+  document.getElementById("MyTeams").style.display = "none";
+  document.getElementById("ShowMyTeamsLink").className = '';
+  document.getElementById("ShowMyTeamsLinkLI").className = '';
+
+  document.getElementById("MyClubs").style.display = "none";
+  document.getElementById("ShowMyClubsLink").className = '';
+  document.getElementById("ShowMyClubsLinkLI").className = '';
+  
+  document.getElementById("MyCoaches").style.display = "block";
+  document.getElementById("ShowMyCoachesLink").className = 'active';
+  document.getElementById("ShowMyCoachesLinkLI").className = 'active';
+}
+
+
+</script>
+
+
+<h2>Coaching Centre</h2>
+<p>This page allows you to leave coaching feedback. The process is two-way in that:
+<ol>
+  <li>You can leave feedback for the people who you have directly coached (e.g. rowers, football players, future referees etc...)</li>
+  <li>You can also leave feedback on the people who have coached you. What advice would you give them? What drill / exercise / technique did you not understand?</li>
+</ol>
+</p>
+
+<div class="profiletabs_tabnav" id="profiletabs_tabnav">
+<ul>
+<li id="ShowMyTeamsLinkLI" class="active"><a href="javascript:ShowMyTeams();" title="Home Page" id="ShowMyTeamsLink" class="active">Team Coach To...</a></li> 
+<li id="ShowMyClubsLinkLI"><a href="javascript:ShowMyClubs();" title="About Me" id="ShowMyClubsLink">Club Coach To...</a></li> 
+<li id="ShowMyCoachesLinkLI"><a href="javascript:ShowMyCoaches();" title="About Me" id="ShowMyCoachesLink">My Coaches...</a></li> 
+</ul>
+</div>
+<BR />
+
+<div id="MyTeams">
+<table width="100%" border="0"  class="wide forums" cellpadding=0 cellspacing=0>
+  <tr>
+    <th class="forumtableth" style="background-color: #AAA;">Season</th>
+    <th class="forumtableth" style="background-color: #AAA;">Team</th>
+    <th class="forumtableth" style="background-color: #AAA;">Team Member</th>
+    <th class="forumtableth" style="background-color: #AAA;"># Races</th>
+    <th class="forumtableth" style="background-color: #AAA;" align="center">Actions</th>
+  </tr>
+  <% @teams = Team.find(:all, :conditions => ["user_id=? and position=?", session[:user_id], 0], :include => [:teammember, :season], :order => "starts_from DESC") -%>
+  <% @teams.each do |team| -%>
+  <% firstrow = true %>
+  <% @team = Team.find_by_id(team.id) -%>
+  <% @team.teammember.each do |member| -%>
+    <% if member.user.id != session[:user_id].to_i and member.position != "0" -%>
+    <tr>
+      <td align=center><% if firstrow == true %><%= link_to team.season.description, :controller => "seasons", :action => "show", :id => team.season.id %><% else -%>"<% end -%></td>
+      <td align=center><% if firstrow == true %><%= link_to team.description, :controller => "teams", :action => "show", :id => team.id %><% firstrow = false %><% else -%>"<% end -%></td>
+      <td><% if member.position=="9" %>
+		C:
+	<% elsif member.position=="8" %>
+		S:
+	<% elsif member.position=="1" %>
+		B:
+	<% elsif member.position=="0" %>
+		Coaching:
+	<% else %>	
+		<%= member.position %>:
+	<% end %><%= link_to member.user.full_name, :controller => "profile", :action => "show", :id => member.user.id %></td>  
+      <td><%= numofraces(member.user.id) %></td>  
+      <td class="smaller" align="right"><%= link_to "View/Leave Feedback", :controller => "coach", :action => "feedback", :id => member.user.id %></td>  
+    </tr>
+    <% end -%>
+  <% end -%>
+<% end -%>
+</table>
+<br />
+</div>
+
+<div id="MyClubs" style="display: none;">
+<table width="100%" border="0"  class="wide forums" cellpadding=0 cellspacing=0>
+  <tr>
+    <th class="forumtableth" style="background-color: #AAA;">Club Member</th>
+    <th class="forumtableth" style="background-color: #AAA;"># Races</th>
+    <th class="forumtableth" style="background-color: #AAA;" align="right">Actions</th>
+  </tr>
+  
+  <% @coachingclubmemberships = Membership.find(:all, :conditions => ["user_id=? and clubcoach=?", session[:user_id], 1], :include => :membershiptype ) -%>
+  <% if @coachingclubmemberships.size != 0 -%>
+  <% @coachingclubmemberships.each do |membership| -%>
+    <% @coachablemembershiptypes = Membershiptype.find(:all, :conditions => ["club_id=? and coachable=?", membership.club_id, 1]) -%>
+      <% if @coachablemembershiptypes.size != 0 -%>
+        <% @coachablemembershiptypes.each do |coachablemembershiptype| -%>
+          <% @coachablemembers = Membership.find(:all, :conditions => ["membershiptype_id=?", coachablemembershiptype.id], :order => "surname ASC", :include => :user) -%>  
+            <% if @coachablemembers.size != 0 -%>
+              <% @coachablemembers.each do |member| -%>
+                <tr>
+                  <td><%= link_to member.user.full_name, :controller => "profile", :action => "show", :id => member.user.id %></td>  
+                  <td><%= numofraces(member.user.id) %></td>  
+                  <td class="smaller" align="right"><%= link_to "View/Leave Feedback", :controller => "coach", :action => "feedback", :id => member.user.id %></td>  
+                </tr>
+              <% end -%>
+            <% end -%>
+        <% end -%>
+      <% end -%>
+    <% end %>
+  <% end %>
+</table>
+<br />
+</div>
+
+<div id="MyCoaches" style="display: none;">
+<% @teams = Team.find(:all, :conditions => ["user_id=?", session[:user_id]], :include => :teammember) -%>
+<% if @teams.size != 0 %>
+  <% coaches = Array.new -%>
+  <% @teams.each do |team| -%>
+    <% @team = Team.find_by_id(team.id) -%>
+    <% @team.teammember.each do |member| -%>
+      <% if member.position == "0" -%>
+        <% coaches << member.user.id -%>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+<% end -%>
+ 
+<% @coachingclubmemberships = Membership.find(:all, :conditions => ["user_id=? and coachable=?", session[:user_id], 1], :include => :membershiptype ) -%>
+<% if @coachingclubmemberships.size != 0 -%>
+  <% @coachingclubmemberships.each do |membership|  -%>
+    <% @coachablemembershiptypes = Membershiptype.find(:all, :conditions => ["club_id=? and clubcoach=?", membership.club_id, 1])  -%>
+      <% if @coachablemembershiptypes.size != 0  -%>
+        <% @coachablemembershiptypes.each do |coachablemembershiptype|  -%>
+          <% @coachablemembers = Membership.find(:all, :conditions => ["membershiptype_id=?", coachablemembershiptype.id], :order => "surname ASC", :include => :user) -%>
+            <% if @coachablemembers.size != 0  -%>
+              <% @coachablemembers.each do |member|  -%>
+                <% if member.user.id != session[:user_id].to_i -%>
+                  <% coaches << member.user.id -%>
+                <% end -%>
+              <% end -%>
+            <% end -%>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+
+
+<table width="100%" border="0"  class="wide forums" cellpadding=0 cellspacing=0>
+  <tr>
+    <th class="forumtableth" style="background-color: #AAA;">Coach</th>
+    <th class="forumtableth" style="background-color: #AAA;" align="right">Actions</th>
+  </tr>
+<% coaches.uniq! -%>
+<% coaches.each do |user| %> 
+  <% @user = User.find_by_id(user) -%>
+  <tr>
+    <td><%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %></td>  
+    <td class="smaller" align="right"><%= link_to "View/Leave Feedback", :controller => "coach", :action => "feedback", :id => @user.id %></td>  
+  </tr>
+<% end %>
+ </table>
+ <BR /><BR />
+ 
+ 
+ 
+ 
+ 
+ 
+</div>

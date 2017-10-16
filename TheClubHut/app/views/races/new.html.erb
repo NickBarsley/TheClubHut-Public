@@ -1,0 +1,66 @@
+
+<H2><%=h @event.title %> <%= @event.date.year %></H2>
+<%= tabnav :event %>
+<h1>SIGN UP</h1>
+
+
+
+<%= error_messages_for :race %>
+
+<% form_for(:race, :url => event_races_path) do |f| %>
+<% if params[:event_id] %>
+  <%= f.hidden_field :event_id, :value => params[:event_id] %>
+<% else %>
+  
+<% end %>
+
+
+<table>
+		<tr>
+			<td>Is this an Entry or a Result?</td>
+			<td><%= radio_button :race, :entry_or_result, "Entry" %>Entry<%= radio_button :race, :entry_or_result, "Result" %>Result</td>
+		</tr>
+	</table>
+  <p>
+    <b>Team</b><br />
+    <%= f.text_field :team_id %>
+  </p>
+
+			 <select name="race[user_id]">
+
+			 <% @users.each do |user| %>
+			 <option value="<%= user.id %>"> 
+			 <%= user.firstname %> <%= user.surname%>
+			 </option>
+
+			 <% end %>
+		</select>
+
+
+  <p>
+    <b>Result</b><br />
+    <%= f.text_field :result %>
+  </p>
+
+  <p>
+    <b>Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+
+  <p>
+    <b>Gallery</b><br />
+    <%= f.text_field :gallery_id %>
+  </p>
+
+  <p>
+    <b>Report</b><br />
+    <%= f.text_area :report %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', :controller => "events", :action => "index" %>
+

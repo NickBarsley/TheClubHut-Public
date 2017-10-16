@@ -1,0 +1,21 @@
+<h1><%= @club.initials %> Crews for <%= @seasons.description %></h1>
+
+<% if session[:user_id] %>
+<%= link_to 'Create a new team for this season', new_season_team_path %><br /><br />
+<% end %>
+
+<% i=1 %>
+<% for team in @teams %>
+  <div class="team">
+    <%= link_to team.description, :controller => "teams", :action => "show", :id => team.id %><BR />
+  	<% if current_club_committee? -%><div class="smaller">[ <%= link_to 'Edit Team', edit_season_team_path(team.season_id, team.id) %> | <%= link_to 'Delete Team', season_team_path(team.season_id,team.id), :confirm => 'Are you sure?', :method => :delete %> | <%= link_to "Add a Team Photo", new_team_photo_path(@team.id) %> ]</div><% end %>
+    <BR />
+      <%= render :partial => "teammember", :collection => team.teammember %> 
+    <BR />
+  </div>
+    <% if (i % 3 ) == 0 %>
+    <div style="clear: both; height: 0"></div>
+  <% end %>
+  <% i += 1 %>
+  
+<% end %>

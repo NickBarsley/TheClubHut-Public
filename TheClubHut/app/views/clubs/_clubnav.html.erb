@@ -1,0 +1,99 @@
+<% if club_page? -%>
+
+<div id="main_club_links">
+<br />
+
+<% if logged_in?  %>
+	<% @current_user = User.find(session[:user_id]) %>
+	<% @current_club = Club.find(session[:club_id]) %>	
+	<% unless Membership.exists?(@current_user, @current_club) %>
+  	<% if session[:club_id] != 7 %>
+  	  <%= link_to_unless_current "Join " + @club.initials, new_club_membership_path(@club) %><BR />
+  	<% else %>
+  	  <%= link_to_unless_current "Join MBC Erg Booking", new_club_membership_path(@club) %><BR />
+  	<% end %>
+	<% end %>
+<% else %>
+  	<% if session[:club_id] != 7 %>
+  	  <%= link_to_unless_current "Join " + @club.initials, new_club_membership_path(@club) %><BR />
+  	<% else %>
+  	  <%= link_to_unless_current "Join MBC Erg Booking", new_club_membership_path(@club) %><BR />
+  	<% end %>
+<% end %>
+
+<% if session[:club_id].to_i==7 and (session[:user_id] == nil or session[:user_id]=="" )%>
+
+  <%= nav_link "Important Notice", club_staticpage_path(7, 80) %>
+
+<% else %>
+
+<% if controller.controller_name != "seasons" and controller.controller_name != "events" and controller.controller_name != "medias" and controller.controller_name != "photos" -%>
+
+	<br />
+	<% @navigations = Navigation.find(:all, :conditions => ['club_id=? and sub_page=?', session[:club_id], '0'], :order => ['indexorder ASC']) %>
+	<% @subnavigations = Navigation.find(:all, :conditions => ['club_id=? and sub_page<>?', session[:club_id], '0'], :order => ['indexorder ASC']) %>
+	
+	<% for navigation in @navigations %>
+	  <% if navigation.staticpage_id != nil %>
+	    <%= link_to_unless_current navigation.indexlinkname, club_staticpage_path(session[:club_id], navigation.staticpage_id), :target => navigation.target %><BR />
+	  <% else %>
+	    <% @temp = eval(navigation.path) %>
+	    <%= link_to_unless_current navigation.indexlinkname, @temp %><BR />							
+	  <% end %>
+	
+	    <!-- check for sub level link. --> 
+	    <% for sub_navigation in @subnavigations %>
+	      <% if sub_navigation.sub_page == navigation.id %>    
+	        &nbsp;-&nbsp;
+	        <% if sub_navigation.staticpage_id != nil %>
+	          <%= link_to_unless_current sub_navigation.indexlinkname, club_staticpage_path(session[:club_id], sub_navigation.staticpage_id), :target => sub_navigation.target %><BR />
+	        <% else %>
+	          <% @temp = eval(sub_navigation.path) %>
+	          <%= link_to_unless_current sub_navigation.indexlinkname, @temp %><BR />							
+	        <% end %>
+	      <% end %>
+	    <% end %>
+  <% end %>
+
+<% end %>
+
+<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") %>
+<% if @seasons.size != 0 %>
+
+	<% if controller.controller_name == "seasons" or controller.controller_name == "teams" -%>
+		<br />Crews:<br />
+		<% for season in @seasons -%>
+		- <%= nav_link season.description, season_path(season.id) %><BR />
+		<% end -%>
+	
+	<% elsif controller.controller_name == "events" -%>
+		<br />Events:<br />
+		<!-- To do. I need to show only the events which the club has entered a team or an individual. -->
+		<% firstseason = true %>
+	
+		<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") %>
+		<% for season in @seasons -%>
+			- <a href="#" onclick="Element.toggle('Season<%= season.id %>');return false"><%= season.description %></a><BR />
+			<% if firstseason == true %>
+				<% @events = Event.find(:all, :conditions => ["date>=? and date<?", season.starts_from, Date.today], :order => "date DESC") %>
+				<% firstseason = false %>
+			<% else %>
+				<% @events = Event.find(:all, :conditions => ["date>=? and date<?", season.starts_from, season.ends_on], :order => "date DESC") %>
+			<% end %>
+				<div id="Season<%= season.id %>" style="display: none">
+					<% for event in @events -%>
+					&nbsp;&nbsp;&nbsp;- <%= nav_link event.title, report_event_path(event.id) %><BR />
+					<% end -%>
+				</div>
+		<% end -%>
+	<% elsif controller.controller_name == "medias" or  controller.controller_name == "photos" -%>
+		<br />Media by season:<br />
+		<% for season in @seasons -%>
+		- <%= nav_link season.description, "medias", "show", season.id %><BR />
+		<% end -%>	
+	<% end -%>
+
+<% end -%>
+<% end -%>
+<% end -%>
+</div>

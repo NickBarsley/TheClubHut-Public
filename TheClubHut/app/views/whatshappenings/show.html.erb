@@ -1,0 +1,33 @@
+<p>
+  <b>Club:</b>
+  <%=h @whatshappening.club_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @whatshappening.user_id %>
+</p>
+
+<p>
+  <b>Team:</b>
+  <%=h @whatshappening.team_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @whatshappening.title %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%=h @whatshappening.body %>
+</p>
+
+<p>
+  <b>Event type:</b>
+  <%=h @whatshappening.event_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_whatshappening_path(@whatshappening) %> |
+<%= link_to 'Back', whatshappenings_path %>

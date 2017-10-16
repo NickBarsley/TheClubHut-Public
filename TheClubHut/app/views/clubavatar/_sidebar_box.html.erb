@@ -1,0 +1,10 @@
+<p id="logo">
+<% if @club != nil and @club.clubavatar.exists? %>
+	<%= nav_link clubavatar_tag(@club), "clubs", "show", session[:club_id] %>
+	<BR />
+<% elsif @club != nil and !@club.clubavatar.exists? %>
+	<div class="clubtitle"><strong><%= nav_link @club.name, "clubs", "show", session[:club_id] %></strong><em>No club logo, <%= link_to "upload one here", :controller => "clubavatar", :action => "upload" %></em></div>
+<% else -%>		
+	No club logo, <%= link_to "upload one here", :controller => "clubavatar", :action => "upload" %>
+<% end %>
+</p>

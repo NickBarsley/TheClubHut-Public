@@ -1,0 +1,19 @@
+<h1>Upcoming Events</h1>
+
+<%= link_to 'Create New Event', new_event_path %><BR /><BR />
+
+<table class="event_row" width=100%>
+  <tr>
+    <th>Date</th>
+    <th>Title</th>
+    <th>Location</th>
+    <th>Status</th>
+		<th>Admin</th>
+  </tr>
+<%= render :partial => "event", :collection => @events %>
+</table>
+
+<br />
+
+
+

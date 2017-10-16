@@ -1,0 +1,81 @@
+<% if @staticpage.navigation.firstpage == 1 and @latestnews.size != 0 %>
+
+	<div class="left">
+		<%= @staticpage.body %>
+	</div>
+
+	<div class="right">
+		<img src="/images/exampleeventimage.jpg" align="left"/>
+	</div>
+	
+	<!-- Latest news -->	
+	<div class="left_event clear event">
+		<h2>Latest News</h2>
+		<% if @posts.size != 0 -%>
+			<% i=1 -%>
+			<% @posts.each do |blogpost| -%>
+				<% if i <= 3 -%>
+					<div class="event">	
+						<h3><%= sanitize blogpost.title  %></h3>
+						<h4>posted <%= time_ago_in_words(blogpost.created_at) %> by <%= link_to blogpost.user.full_name, :controller=>"profile", :action=>"show", :id=>blogpost.user.id %></h4>
+						<p><%= sanitize blogpost.body.strip[0,200] %><% if blogpost.body.size > 200 %>...<% end %></p>
+						<h4><%= nav_link "Read full article", "clubs", "news", session[:club_id]%></h4>
+					</div>
+					<% i += 1 -%>
+				<% end %>
+			<% end -%>    
+		<% end -%>
+	</div>
+
+	<!-- Upcoming events -->	
+	<% @events = Event.find(:all, :conditions => ["date>=?", Date.today], :order => "date DESC") %>
+	<% i=1 -%>
+	<% if @events != nil -%>
+		<% if @events.size != 0 -%>
+		<div class="right_event shorteventlists">
+		<h2>Upcoming events</h2>
+		<ol class="shortevents">
+		<% for event in @events -%>
+			<% if i <= 4 -%>
+				<% @teams = Race.find(:all, :conditions => ["event_id=?", event]) -%>
+				<li><%= nav_link "<strong><b>"+event.title+"</b></strong><em>"+distance_of_time_in_words(Date.today, event.date, include_seconds = false)+"</em><span>"+@teams.size.to_s+" boats</span>", report_event_path(event.id) %></li>
+				<% i += 1 -%>
+			<% end -%>
+		<% end -%>
+		</ol>
+		<% end -%>
+	<% end -%>
+	
+	<!-- Past events -->	
+	<% firstseason = true -%>
+	<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") -%>
+	<% for season in @seasons -%>
+		<% if firstseason == true -%>
+			<% @events = Event.find(:all, :conditions => ["date>=? and date<?", season.starts_from, Date.today], :order => "date DESC") -%>
+			<% firstseason = false -%>
+		<% end -%>
+	<% end -%>
+	<% i=1 -%>
+	<% if @events != nil -%>
+		<h2>Past events</h2>
+		<ol class="shortevents">
+		<% for event in @events -%>
+			<% if i <= 6 -%>
+				<% @teams = Race.find(:all, :conditions => ["event_id=?", event]) -%>
+				<li><%= nav_link "<strong><b>"+event.title+"</b></strong><em>"+time_ago_in_words(event.date)+"</em><span>"+@teams.size.to_s+" boats</span>", report_event_path(event.id) %></li>
+				<% i += 1 -%>
+			<% end -%>
+		<% end -%>
+		</ol>
+	<% end -%>
+	</div>
+
+<% else %>
+    <% if @staticpage.title %><H1><%=h @staticpage.title %></H1><% end %>
+    <p><%= @staticpage.body %></p>
+    <BR /><BR />
+    <% if current_club_committee? -%>
+    <div align="right" class="smaller">[ <%= link_to 'Edit this Page', edit_club_staticpage_path(@club, @staticpage) %> ]</div>
+    <% end %>
+<% end %>
+

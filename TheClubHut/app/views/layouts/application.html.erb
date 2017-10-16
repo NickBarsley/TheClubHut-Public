@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<title><%= @title %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Nick Barsley (nickbarsley.com) and Michael Clark (mjac.co.uk)" />
+	<%= stylesheet_link_tag("newlook") %>
+	<%= javascript_include_tag :defaults %>
+</head>
+
+<body id="page_intro">
+
+<% if @title != "TheClubHut.com" %>
+
+<%= render :partial => "layouts/top_controls" %>
+
+<% if session[:club_id] != nil %>
+<!-- A CLUB PAGE -->
+<div id="header">
+
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice]%></div><% end %>
+	<%= renderClubUnofficialNotice %>	
+
+	<%= render :partial => 'clubavatar/sidebar_box' %></p>
+	
+	<div id="topsections">
+		<%= render :partial => 'layouts/userlinks' %>
+
+		<ul id="sections">
+			<li><%= nav_link "<strong>About</strong> <em>News, committee &amp; members</em>", "clubs", "show", session[:club_id] %></li>
+						
+			<% firstseason_limit = false -%>
+			<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from ASC") -%>
+			<% if @seasons.size != 0 -%>
+				<% for season in @seasons -%>
+					<% if firstseason_limit == false -%>
+						<% start_year = season.starts_from.year -%>
+						<% firstseason_limit = true -%>
+					<% end -%>
+				<% end -%>
+			<% end %>
+	
+			<% latestseason_limit = false -%>			
+			<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") -%>
+			<% if @seasons.size != 0 -%>
+				<% for season in @seasons -%>
+					<% if latestseason_limit == false -%>
+						<% latestseason = season.id.to_i -%>
+						<% latestseason_limit = true -%>
+					<% end -%>
+				<% end -%>
+				<li><%= nav_link "<strong>Crews</strong> <em>"+start_year.to_s+" to present</em>", "seasons", "show", latestseason %></li>
+			<% else -%>
+				<li><strong>Crews</strong> <em>Current &amp; historic</em></li>
+			<% end -%>
+			
+
+			<li><%= nav_link "<strong>Events</strong> <em>Races &amp; socials</em>", "events", "index" %><a href="#"></a></li>
+			
+			
+			
+			<% latestseason_limit = false -%>			
+			<% @seasons = Season.find(:all, :conditions => ["club_id=?", session[:club_id]], :order => "starts_from DESC") -%>
+			<% if @seasons.size != 0 -%>
+				<% for season in @seasons -%>
+					<% if latestseason_limit == false -%>
+						<% latestseason = season.id.to_i -%>
+						<% latestseason_limit = true -%>
+					<% end -%>
+				<% end -%>
+				<li><%= nav_link "<strong>Media</strong> <em>Photos and videos</em>", "medias", "show", latestseason %></li>
+			<% else -%>
+				<li><strong>Media</strong> <em>Photos and videos</em></li>
+			<% end -%>
+			
+		</ul>
+	</div>
+</div>
+
+	<% if controller.controller_name == "staticpages" -%>
+	<!-- Give control of layout to static pages show.html.erb -->
+	<div id="body">
+		<div class="leftmenu">
+			<%=render :partial => "clubs/clubnav" %>
+		</div>
+		<div class="rightcontent">
+			<%= @content_for_layout %>
+		</div>
+	<% else -%>
+	<!-- Use standard club nav on left hand side, and main content on right hand side -->
+		<div id="body">
+			<div class="leftmenu">
+				<%=render :partial => "clubs/clubnav" %>
+			</div>
+			<div class="rightcontent">
+				<%= @content_for_layout %>
+			</div>
+		</div>
+	<% end -%>
+<% else %>
+<!-- NOT A CLUB PAGE -->
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice]%></div><% end %>		
+    <%= @content_for_layout %>
+
+<% end %>
+                    
+
+<div id="footer">
+	<div class="TCH_footer_logo_offset">
+		<img src="/images/TCH_logo.jpg" /><br/>
+		<a href="/clubs">Search TheClubHut's Clubs</a> | <a href="/clubs/new">Create a website for your Club</a> | <a href="/clubs/8/staticpages/82">About Us</a>
+		<br/>
+		<div class="CompanyInfo">TheClubHut.com Limited, UK Registered No. 06640871</div>
+	</div>
+</div>	
+
+<% if ENV["RAILS_ENV"] == "production" and session[:user_id].to_i != 6 %>
+	<%=render :partial => "/layouts/googleanalytics" %>
+<% end %>
+
+<% else %>
+	<!-- QCBC Training Programme - show with no other content -->
+	<%= @content_for_layout %>
+<% end %>
+
+
+<!-- Add Admin Pannel -->
+<% if session[:club_id] != nil -%>
+	<% @club = Club.find(session[:club_id]) -%>
+	<% if session[:user_id] == 6 or session[:user_id].to_i == 752 -%>
+		<div class="clear"></div><br /><br />
+		<div class="box_red">
+			Super-Users: 
+			<a href="https://www.google.com/analytics/reporting/?reset=1&id=11661507&scid=5774802">Google Analytics</a>, 
+			<%= link_to "Remove Spam Users ", :controller => "user", :action => "show_duplicates" %>
+		</div>
+		<br />
+		<br />
+	<% end -%>
+<% end -%>
+
+</body>
+
+
+
+
+
+
+
+
+

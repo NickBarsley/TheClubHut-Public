@@ -1,0 +1,32 @@
+<% @memberships = Membership.find(:all, :select => "distinct(club_id)", :conditions => ["user_id=? AND status=?", session[:user_id], "granted"]) %>
+
+<% if session[:club_id] %>
+<% @clubfound = false %>
+<% @memberships.each do |member| %>
+  <% if member.club_id.to_i == session[:club_id].to_i %>
+    <!-- Is a member, it will be rendered below. -->
+    <% @clubfound = true %>
+  <% end %>
+<% end %>
+
+<% unless @clubfound %>
+  <% @club = Club.find(session[:club_id]) %>
+  <% @initial = @club.initials.split("") %>  
+  <div class="club_links, club_links_selected">
+  	<%= @club.initials %>
+  </div>
+<% end %>
+<% end %>
+
+<% @memberships.each do |member| %>
+  <% @initial = member.club.initials.split("") %>
+  <% if member.club_id.to_i == session[:club_id].to_i %>
+    <div class="club_links, club_links_selected">
+  	<%= member.club.initials %>
+  <% else %>
+    <div class="club_links, club_links_unselected">
+  	<%= link_to member.club.initials, club_path(member.club.id) %>
+  <% end %>
+  </div> 
+<% end %>
+

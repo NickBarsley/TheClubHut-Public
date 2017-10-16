@@ -1,0 +1,5 @@
+<h2>Your Blog Posts</h2>
+<p class="edit_link">
+  <%= link_to 'Add a new post', new_blog_blogpost_path %> 
+</p>
+<%= render :partial => "post", :collection => @posts %>

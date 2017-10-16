@@ -1,0 +1,21 @@
+%div{ :class => "kitlocker" }
+  - @photo = Photo.find(:first, :conditions => ["item_id=?", kitlockeritem.item.id])
+  - if @photo
+    .photo
+      %TABLE{:style => "border: 0; cell-padding: 0; cell-spacing: 0;"}
+        %TR
+          %TD
+            = link_to image_tag(@photo.public_filename('tiny'), :class => "photo_thumb", :title => [kitlockeritem.item.name + " Manufacturers Photos."]), item_path(kitlockeritem.item.id)
+          %TD{:style => "v-align: center; white-space: nowrap;"}
+            = link_to kitlockeritem.item.name, item_path(kitlockeritem.item.id)
+            = "- " + pluralize(kitlockeritem.item.review.size, "review")
+  - else
+    .photo.smaller.center
+      .title
+        = link_to kitlockeritem.item.name, item_path(kitlockeritem.item.id)
+        = "- " + pluralize(kitlockeritem.item.review.size, "review")
+      [
+      = link_to "Add a Photo", new_item_photo_path(kitlockeritem.item.id)
+      ]
+  %div{:style => "clear: both; height: 0"}
+  %BR

@@ -1,0 +1,9 @@
+<h1>Listing reviews</h1>
+
+<table>
+<%= render :partial => "review", :collection => @reviews %>
+</table>
+
+<br />
+
+<%= link_to 'New review', new_item_review_path(@item) %>

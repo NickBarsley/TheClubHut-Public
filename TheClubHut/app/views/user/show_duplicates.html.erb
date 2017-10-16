@@ -1,0 +1,14 @@
+<H1>Remaining duplicates</H1>
+
+<%= link_to "Delete duplicate user table entries", :controller => "user", :action => "purge_duplicates" %><br />
+
+<% for user in @remainingusers -%>
+<% if user.id != 784 %>	
+	<% if (user.firstname == user.surname) -%>
+	<%= user.id %>: <%= user.firstname %> <%= user.surname %><BR />
+	<% end -%>
+<% end %>
+<% end -%>
+
+
+<br/>

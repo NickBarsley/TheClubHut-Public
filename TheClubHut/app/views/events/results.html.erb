@@ -1,0 +1,24 @@
+<H2><%=h @event.title %> <%= @event.date.year %></H2>
+<%= tabnav :event %>
+
+
+
+<% if @event.dataetype_id == 1%>
+  <table width=100%>
+  	<tr>
+  		<td><b>Name</b></td>
+  		<td></td>
+  	</tr>
+  <%= render :partial => "attendees", :collection => @event.race %> 
+  </table>
+
+<% else %>
+<table cellpadding=3px width=100%>
+	<tr>
+		<td><b>Crew Name</b></td>
+		<td><% if @status == "Completed" %><b>Result</b><% end %></td>
+		<td></td>		
+	</tr>
+<%= render :partial => "results", :collection => @event.race, :order => ["position ASC"] %> 
+</table>
+<% end %>

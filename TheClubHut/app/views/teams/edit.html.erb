@@ -1,0 +1,49 @@
+  <% # Who is wanting to create a new team? %>
+  <% @user = User.find(session[:user_id]) %>
+  
+  <% # Refine this to allow club users only. %>
+  <% @users = User.find(:all, :order => "surname ASC") %>
+    
+  <% if session[:club_id] %>
+    <% @club = Club.find(session[:club_id]) %>
+    <% # What seasons does this club have? %>
+    <% @seasons = Season.find(:all, :conditions => ["club_id=?", @club.id], :order => "starts_from DESC") %>
+    <% @title = "Create a New Team for " + @club.initials %>
+  <% else %>
+    <% # Not a club page. %>
+    <% flash[:error] = "In order to create a team you need to: be a member of the team's club AND be looking at one of their sipbib pages. Sorry!" %>
+    <% # redirect to their membership page. %>
+  <% end %>
+
+<H2><%= @title %></H2>
+
+<%= error_messages_for :team %>
+ 
+<% form_for(:team, :url => team_path, :html => { :method => :put }) do |f| %>
+	<%= f.hidden_field :club_id, :value => @club.id %>
+  
+	<div class="smaller" style="display: inline;">
+  <p>
+    <b>Season</b><br />
+    <%= f.collection_select(:season_id, @seasons, "id", "description") %><BR />
+    Each team must belong to a season. If the season you would like to create a team for does not exist, click here to create a new season.
+  </p>
+  <p>
+    <b>Team Name:</b><br />
+    <%= f.text_field :description, :class => "text", :size => 45 %><BR />
+    E.g. <i>"1st May VIII", "Varsity Mens's 1st Team", "B Team", etc...</i>
+  </p>
+  <p>
+    <b>Team Display Position:</b><br />
+    <%= f.text_field :roworder, :class => "text", :size => 4 %><BR />
+    Please enter a number here. The larger the number, the higher up the team list this team will be shown on the club page. I realise this isn't at all the ideal user interface, and I'm working to fix it in a future release of this website.
+  </p>
+  </div>
+
+  <%= add_formteammember_link "Add Another Team Member" %><BR /><BR />
+  <div id="teammembers"><%= render :partial => 'formteammember', :collection => @team.teammember %></div>
+
+<div style="clear: both; height: 0"></div><BR />
+  <%= f.submit "Update Team!" %>
+  <div style="clear: both; height: 0"></div><BR />
+<% end %>

@@ -1,0 +1,9 @@
+<div id="blog">
+  <%= pluralize(@blog.posts.count, "blog post") %><BR /><BR />
+
+  <% if session[:profile_viewed_matches_login] -%>
+  <%= link_to 'Add a new post', new_blog_post_path(blog) %> <BR /><BR />
+	<% end %>
+
+  <%= render :partial => "posts/post", :collection => @posts %>
+</div>

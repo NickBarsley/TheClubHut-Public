@@ -1,0 +1,7 @@
+if session[:numinterval] != nil
+  session[:numinterval] += 1
+else
+  session[:numinterval] = 1
+end
+@numinterval = session[:numinterval].to_i
+page.insert_html :bottom, :intervals, :partial => 'forminterval', :object => Interval.new, :local => @numinterval

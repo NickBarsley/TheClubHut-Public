@@ -1,0 +1,53 @@
+<h1><%= @club.initials %> Crews for <%= @seasons.description %></h1>
+
+<% if session[:user_id] -%>
+<%= link_to 'Create a new team', new_team_path %><br /><br />
+<% end -%>
+
+<% i=1 -%>
+<% for team in @teams -%>
+  <% @photo = Photo.find(:first, :conditions => ["team_id=?", team]) -%>
+  <div class="team">
+    <% if @photo -%>
+      <table width=100%><tr>
+        <td width=100%><%= link_to team.description, :controller => "teams", :action => "show", :id => team.id %>
+        </td>
+        <td align=center><%= link_to image_tag(@photo.public_filename('tiny'), :class => "photo_thumb", :title => [team.description + " Photos"]), :controller => "teams", :action => "show", :id => team.id %></td>
+      </tr></table>
+    <% else -%>
+      	<%= link_to team.description, :controller => "teams", :action => "show", :id => team.id %><BR />
+		<div style="height: 10px; font-size: 0.1em;">&nbsp;</div>  
+    <% end -%>
+      <%= render :partial => "/teams/teammember", :collection => team.teammember %> 
+      <% if logged_in? %>
+        <% c = current_club_committee? -%>
+        <% t = current_team(team.id) -%>
+      	<% if c and t -%>
+          <div class="teamlinks"> 
+          <%= link_to 'Email&nbsp;Crew', teamemail_team_path(team.id) %>, 
+          <%= link_to "Add&nbsp;a&nbsp;Team&nbsp;Photo", new_team_photo_path(team.id) %>, 
+          <%= link_to 'Edit&nbsp;Crew', edit_team_path(team.id) %>, 
+          <%= link_to 'Delete&nbsp;Crew', team_path(team.id), :confirm => 'Are you sure?', :method => :delete %>
+          </div>
+        <% elsif c and !t %>
+          <div class="teamlinks"> 
+          <%= link_to 'Email&nbsp;Crew', teamemail_team_path(team.id) %>, 
+          <%= link_to "Add&nbsp;a&nbsp;Team&nbsp;Photo", new_team_photo_path(team.id) %>, 
+          <%= link_to 'Edit&nbsp;Crew', edit_team_path(team.id) %>, 
+          <%= link_to 'Delete&nbsp;Crew', team_path(team.id), :confirm => 'Are you sure?', :method => :delete %>
+          </div>  
+        <% elsif !c and t%>
+          <div class="teamlinks"> 
+          <%= link_to 'Email&nbsp;Crew', teamemail_team_path(team.id) %>, 
+          <%= link_to "Add&nbsp;a&nbsp;Team&nbsp;Photo", new_team_photo_path(team.id) %>, 
+          <%= link_to 'Edit&nbsp; Crew', edit_team_path(team.id) %>
+          </div>  
+          <% end %>  
+      <% end %>    
+  </div>
+    <% if (i % 3 ) == 0 %>
+    <div style="clear: both; height: 0"></div>
+  <% end %>
+  <% i += 1 %>
+  
+<% end %>

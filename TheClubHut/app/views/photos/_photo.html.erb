@@ -1,0 +1,4 @@
+<div class="gallery_image">
+<%= link_to image_tag(photo.public_filename('thumb'), :class => "photo_thumb"), event_race_photo_path(@event, :race_id => photo.race, :id => photo) %>
+<div class="smaller">[ <%= link_to 'Edit', edit_event_race_photo_path(@event, @race, photo) %> | <%= link_to 'Delete', event_race_photo_path(@event, @race, photo), :confirm => 'Are you sure?', :method => :delete %> ]</div>
+</div>	

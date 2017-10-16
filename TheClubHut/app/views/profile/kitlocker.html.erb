@@ -1,0 +1,28 @@
+<h2><%= @user.full_name %></h2>
+
+<table width=100% cellpadding=1px cellspacing=0px>
+<tr valign=top><td width=220px>
+<%= render :partial => 'avatar/sidebar_box' %>
+
+<BR /><BR /><b>Personal Info <% if session[:profile_viewed_matches_login] %>(<%= nav_link "edit", "spec", "edit" %>)<% end %></b><BR />
+<div class="smaller"><b>Email: </b><%= @user.email %></div><BR />
+<%= render :partial     => "spec/field_row", :collection   => Spec::ALL_FIELDS %>
+<BR />
+<%= render :partial => "memberships/clubs" %>
+<%= render :partial => "contact_box" %>
+
+
+</td>
+<td valign=top>
+      
+<%= tabnav :profiletabs %>
+
+<H3>Kit Locker:</H3>
+<% for item in @youritems %>
+  <%= render :partial => "items/kitlockeritem", :collection => item.review %>
+<% end %>
+<div style="clear: both; height: 0"></div>
+
+
+
+</td></tr></table>

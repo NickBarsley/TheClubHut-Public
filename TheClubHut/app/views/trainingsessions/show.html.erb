@@ -1,0 +1,23 @@
+<p>
+  <b>Team:</b>
+  <%=h @trainingsession.team_id %>
+</p>
+
+<p>
+  <b>Scheduled:</b>
+  <%=h @trainingsession.scheduled %>
+</p>
+
+<p>
+  <b>Booking:</b>
+  <%=h @trainingsession.booking_id %>
+</p>
+
+<p>
+  <b>Teamorind:</b>
+  <%=h @trainingsession.teamorind %>
+</p>
+
+
+<%= link_to 'Edit', edit_trainingsession_path(@trainingsession) %> |
+<%= link_to 'Back', trainingsessions_path %>

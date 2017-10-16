@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  cal_embed: MyText
+  feed: MyString
+  name: MyString
+  qty: 1
+
+two:
+  cal_embed: MyText
+  feed: MyString
+  name: MyString
+  qty: 1

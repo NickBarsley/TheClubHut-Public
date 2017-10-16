@@ -1,0 +1,25 @@
+<b>Memberships<% if session[:user_id] == @user.id -%> (<%= link_to "edit", admin_memberships_path %>)<% end -%></b>
+<div class="smaller">
+<% @memberships = Membership.find(:all, :conditions => ["user_id=?", @user.id], :order => "club_id ASC") %>
+<% currentclub = 0 -%>
+<% if @memberships.size == 0 %>
+  None found.
+<% else -%>
+  <% @memberships.each do |membership| %>
+    <% if currentclub != membership.club_id -%>
+      <%= link_to membership.club.name, :controller => "clubs", :action => "show", :id => membership.club.id %><BR />
+      <% currentclub = membership.club_id -%>
+    <% end %>
+    <ul style="line-height: 0.5em;">
+    <% if membership.status == "granted" -%>
+      <li><%= membership.membershiptype.name %></li>
+    <% elsif membership.status == "requested" -%>
+      <li>Requested: <%= membership.membershiptype.name %></li>
+    <% elsif membership.status == "invited" -%>
+      <li>Invited to: <%= membership.membershiptype.name %></li>
+    <% end -%>  
+    </ul>
+  <% end -%>
+<% end -%>  
+</div>
+<BR />

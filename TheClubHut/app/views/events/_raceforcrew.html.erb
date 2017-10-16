@@ -1,0 +1,61 @@
+<% @photo = Photo.find(:first, :conditions => ["race_id=?", raceforcrew.id]) %>
+<% @event = Event.find(:first, :conditions => ["id=?", raceforcrew.event_id]) %>
+
+<div class="<%= cycle('report_odd', 'report_even')%>">
+<table width=100%>
+  <tr>
+    <td><b><%= link_to @event.title, :controller => "events", :action => "show", :id => @event.id %> <% if raceforcrew.result != nil %>- <%=h raceforcrew.result %><% end %></b><BR /><div class="smaller"><%= returndatestring(@event.date) %></div></td>
+    <td align=right>
+
+<% if current_team(raceforcrew.team.id) %>
+<div class="smaller">
+[ <%= link_to 'Edit Report', edit_event_race_path(raceforcrew.event_id, raceforcrew.id) %> | <%= link_to 'Add a Substitute', new_team_substitute_path(raceforcrew.team.id) %> <% if !@photo %>| <%= link_to "Add Photos", new_event_race_photo_path(raceforcrew.event_id, raceforcrew.id) %> <% end %> ]
+</div>
+<% end %>
+
+</td>
+	</tr>
+  
+	<tr>
+    <td colspan=2 width=100%>
+
+	<% if @photo  %>
+	<div class="report_gallery">
+	<%= link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb"), event_race_photos_path(@event.id, raceforcrew.id) %>
+	<div class="smaller">[ <%= link_to "Add More Photos", new_event_race_photo_path(raceforcrew.event_id, raceforcrew.id) %> ]</div>
+	</div>
+	<% end %>
+  <div class="smaller">
+    <% if raceforcrew.report != nil %>
+      <%= raceforcrew.report %>
+    <% else %>
+      <% if current_team(raceforcrew.team.id) %>
+        <BR />None of your team mates have written a race report yet. Click <%= link_to 'here', edit_event_race_path(raceforcrew.event_id, raceforcrew.id) %> to write one!<BR /><BR />
+      <% else %>
+        <BR />No-one from this crew has written a race report yet.<BR /><BR />
+      <% end %>
+    <% end %>
+  
+  <% c = current_club_committee? -%>
+  <% t = current_team(@team.id) -%>
+  <% @substitute = Substitute.find(:all, :conditions => ["team_id=? and race_id=?", raceforcrew.team.id, raceforcrew.id]) %>
+  <% if @substitute.size != nil -%>
+	<BR /><BR />
+  <div style="margin-left: 20px">
+    <% @substitute.each do |sub| %>
+    <%= link_to sub.user.full_name, :controller => "profile", :action => "show", :id => sub.user.id -%> subbed for <%= link_to sub.teammember.user.full_name, :controller => "profile", :action => "show", :id => sub.teammember.user.id -%>
+    <% if c or t %>
+      [ <%= link_to "Delete Sub", team_substitute_path(sub.team_id, sub.id), :confirm => 'Are you sure?', :method => :delete -%> ]
+    <% end %>
+    <BR />
+    <% end %>
+  <% end -%>
+  </div>
+
+    
+  </div>
+		</td>
+	</tr>
+
+</table>
+</div>

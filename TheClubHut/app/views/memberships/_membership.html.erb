@@ -1,0 +1,78 @@
+<% @club = Club.find(session[:club_id]) -%>
+<% @membershiptypes = Membershiptype.find(:all, :conditions => ["club_id=?", session[:club_id]]) -%>
+
+<% people = Array.new -%>
+<% @membershiptypes.each do |membershiptype| -%>
+<% @members = Membership.find(:all, :conditions => ["membershiptype_id=? and (status=? or status=?)", membershiptype.id, "requested", "invited"], :order => "surname ASC", :include => :user) -%>
+  <% @members.each do |member| -%>
+    <% people << member.id %>
+  <% end -%>
+<% end -%>
+
+<% if current_club_committee? -%>
+  <H2>Membership administration (committee only)</H2>
+  <table width="100%" border="0" cellpadding=0 cellspacing=0>
+    <tr>
+      <th align="left"><b>People</b></th>
+      <th align="left"><b>Membership</b></th>
+      <th align="left"><b>Actions</b></th>
+    </tr>
+  <% if people.size == 0 -%>
+    <tr><td colspan=3><i class="smaller">No members are currently requesting membership, or have invited and are yet to accept.</i></td></tr>
+  <% else -%>
+    <% @membershiptypes.each do |membershiptype| -%>
+    <% @members = Membership.find(:all, :conditions => ["membershiptype_id=? and (status=? or status=?)", membershiptype.id, "requested", "invited"]) -%>
+    <% @members.each do |member| -%>
+        <tr>
+          <td><%= member.user.full_name %> 
+            <% if member.status == "requested" -%>
+            has asked to become a...
+            <% elsif member.status == "invited" -%>
+            has been invited by the club to be...
+            <% end -%>
+          </td>
+          <td><%= membershiptype.name %> </td>
+          <td><div class="smaller">
+            <% if member.status == "requested" -%>
+              <%= link_to "Accept", accept_club_membership_path(@club, member.id) %> | <%= link_to 'Reject', club_membership_path(@club, member.id), :confirm => 'Are you sure you want to reject this person?', :method => :delete %>
+            <% elsif member.status == "invited" -%>
+              <%= link_to 'Cancel Invitation', club_membership_path(@club, member.id), :confirm => 'Are you sure you want to reject this person?', :method => :delete %>
+            <% end -%>
+          </div></td>
+        </tr>
+      <% end %>
+    <% end -%>
+  <% end -%>
+  </table>
+<% end -%>
+
+<% if current_club_committee? -%>
+
+  <% @membershiptypes.each do |membershiptype| -%>
+  <% @members = Membership.find(:all, :conditions => ["membershiptype_id=? and status=?", membershiptype.id, "granted"], :order => "surname ASC", :include => :user) -%>
+  <H2><%= @members.size %> <%= membershiptype.name_plural %></H2>
+    <% @members.each do |member| -%>
+      <% if membershiptype.display_type == "square" -%>
+        <div class="memberbackground"><div class="member"><%= link_to thumbnail_tag(member.user), :controller => "profile", :action => "show", :id => member.user_id %><BR /><%= link_to member.user.full_name, :controller => "profile", :action => "show", :id => member.user.id %><div class="smaller"><%= numofraces(member.user.id) %> races</div>
+        <% if current_club_committee? -%><div class="smaller">[ <%= link_to "edit membership", edit_club_membership_path(@club, member.id) %> ]</div><% end %>
+        </div></div>
+      <% elsif membershiptype.display_type == "list" -%>
+        
+    	<% end -%>  
+    	<% end -%>
+    <div style='clear: both; height: 0'></div>
+  <% end -%>
+<% else -%>
+  <% @membershiptypes.each do |membershiptype| -%>
+  <% @members = Membership.find(:all, :conditions => ["membershiptype_id=? and status=?", membershiptype.id, "granted"], :order => "surname ASC", :include => :user) -%>
+  <H2><%= @members.size %> <%= membershiptype.name_plural %></H2>
+    <% @members.each do |member| -%>
+      <% if membershiptype.display_type == "square" -%>
+        <div class="memberbackground"><div class="member"><%= link_to thumbnail_tag(member.user), :controller => "profile", :action => "show", :id => member.user_id %><BR /><%= link_to member.user.full_name, :controller => "profile", :action => "show", :id => member.user.id %><div class="smaller"><%= numofraces(member.user.id) %> races</div>
+        </div></div>
+      <% elsif membershiptype.display_type == "list" -%>
+        <% end -%><% end -%>
+    <div style='clear: both; height: 0'></div> 
+  <% end -%>
+
+<% end -%>

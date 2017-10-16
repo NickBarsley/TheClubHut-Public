@@ -1,0 +1,419 @@
+
+td.nomargin {
+	margin: 0 0 0 0;
+  border-collapse: collapse; 
+	border-bottom:		0px;
+	border-left:		0px;
+	border-right:		0px;
+	border-top: 0px;
+	border-width: 0px;
+	padding:			0px;
+	vertical-align: top;	
+}
+
+table.main {
+	width: 100%;
+	border-collapse: collapse; 
+	border-bottom:		0px;
+	border-top: 0px;
+	border-left:		0px;
+	border-right:		0px;
+	padding:			0px;
+	margin:			0px;
+}
+
+td.coloured {
+	background-color: #206000;
+
+}
+
+td.backcolour {
+	background-color: #FFFFFF;
+}
+
+#sipbib_title {
+	color: #206000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+	font-weight: bold;
+	letter-spacing: 1em;
+	margin-left: 0.5em;
+}
+
+td.sipbib_subtitle {
+	color: #777;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-size: 0.75em;
+}
+
+td.sipbib_subtitle_left {
+margin-left: 0.5em;
+	text-align: left;
+}
+
+
+#notice {
+position: absolute; 
+right: 25px; 
+top: 65px; 
+
+text-align: center;
+width: 50%;
+border: 1px solid gray;
+padding: 0.5em;
+background-color: white;
+font: bold smaller sans-serif;
+}
+
+td.sipbib_subtitle_right {
+	margin-right: 0.5em;
+	text-align: right;
+}
+
+/* Main club links */
+#main_club_links {
+	margin-left: 10px;
+	text-align: left;
+}
+#main_club_links a:link { color: #206000; text-decoration: none; }
+#main_club_links a:visited { color: #206000; }
+#main_club_links a:hover { color: #206000; text-decoration: underline; }
+#main_club_links a:active { color: #206000; } 
+
+/* Personal Links */
+
+
+#personal_links p {
+	margin-right: 10px;
+	text-align: right;
+    font-size: 0.8em; 	
+}
+
+#personal_links a {
+	color: #777; 
+	text-decoration: none; 
+
+}
+
+#personal_links a:link {
+}
+
+#personal_links a:visited {
+}
+
+#personal_links a:hover {
+    color: #000; 
+    text-decoration: underline;
+}
+
+#personal_links a:active {
+}
+
+#club_logo{
+}
+
+#main_content_page{
+	vertical-align: top;
+	text-align: left;
+	margin-left: 20px;
+	margin-top: 5px;
+	margin-right: 10px;
+}
+
+#main_content_page h1 {
+	color: #206000;
+}
+	
+	h2.main_content_page {
+	color: #206000;
+	text-indent: 0px;
+}
+
+	h3.main_content_page {
+	color: #206000;
+	text-indent: 15px;
+}
+	
+p.main_content_page {
+	margin-left: 40px;
+	
+}
+
+hr.main_content_page {
+	width: 100%;
+	color: #bbb;
+	
+}
+	
+a.main_content_page:link { }
+a.main_content_page:visited { }
+a.main_content_page:hover { }
+a.main_content_page:active { } 
+
+
+td.club_nav{
+	text-align: center;
+	vertical-align: top;
+}
+
+td.club_nav_unselected{
+	border-color: #000000;
+	border-top:1px solid #000; 
+	border-left:1px solid #000; 
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000;
+}
+
+td.club_nav_selected{
+	color: #ffffff;
+	font-weight: bold;
+	border-color: #000000;
+	border-top:1px solid #000; 
+	border-left:1px solid #000; 	
+}
+
+
+#whole_page {
+	width: 50em;
+	margin: auto;
+	padding: 0;
+	text-align: left;
+	border-width: 0 1px 1px 1px;
+	border-color: black;
+	border-style: solid;
+}
+
+html fieldset {
+    position: relative;
+}
+
+html legend {
+    position:absolute;
+    top: -1em;
+    left: 0.5em;
+}
+
+html fieldset {
+    position: relative;
+    margin-top:1em;
+    padding-top:2em;
+    padding-bottom:2em;
+}
+
+fieldset {
+    background: #ddd;
+}
+
+legend {
+    color:white;
+    background: #206000;
+    padding: .4em 1em;
+}
+
+#bottom_site_links {
+    text-align: right;
+    vertical-align: bottom;
+}
+
+
+label {
+    width: 10em;
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    display: block;
+}
+
+.form_row {
+    white-space: nowrap;
+    padding-bottom: 0.5em;
+}
+
+.submit {
+    margin-left:15em;
+}
+    
+#header {
+	color: white;
+	background: maroon; 
+	font-size: 24pt;
+	padding: 0.25em;
+	margin-bottom: 0;
+}
+
+#nav {
+	color: black;
+	font-size: 12pt;
+	font-weight: bold;
+	background: #ccc;
+	padding: .5em;
+}
+
+#nav a, #nav a:visited {
+	color: maroon;
+	text-decoration: none;
+}
+
+#nav a:hover {
+	border-bottom: 2px dotted maroon;
+}
+
+#content {
+	height: 100%;
+	background: white;
+	padding: 1em;
+}
+
+#content h1 {
+	font-size: 18pt;
+}	
+
+.debug_dump { 
+        text-align: left; 
+        border-top: 1px dashed black; 
+        background: #ccc; 
+        margin: 0; 
+        padding: 0.5em; 
+} 
+
+code.debug_dump{ 
+        padding: 0px; 
+        border-top: 0px; 
+        margin: 0px; 
+} 
+#session_dump{ 
+        background: #ccc; 
+        border-top: 1px dashed black; 
+} 
+
+
+/* Error Reporting Styles */
+.fieldWithErrors input {
+    background-color: orange;
+}
+
+#errorExplanation {
+border: 2px solid red;
+padding: 1em;
+margin: 1em;
+margin-bottom: 2em;
+background-color: white;
+}
+
+#errorExplanation h2 {
+    font-weight: bold;
+}
+
+#errorExplanation p {
+    color: #333;
+}
+
+#errorExplanation ul li {
+    font-size: 11pt;
+    list-style: square;
+}
+
+#debug {
+margin-top: 1em;
+margin-left: auto;
+}
+
+#debug a, #debug a.visited {
+text-decoration: none;
+color: maroon;
+}
+
+fieldset.debug_info {
+text-align: left;
+margin: 1em;
+background: #eee;
+}
+
+
+
+
+/* Community Styles */
+
+a, a#visited {
+  color: maroon;
+  text-decoration: none;
+}
+
+a#hover {
+  color: white;
+}
+
+.letter, .letter_current {
+  width: 1em;
+  text-align: center;
+  border: 1px solid gray; 
+  background: #fff; 
+  padding: 5px 2px 1px 2px; 
+  float: left; 
+  margin: 2px
+}
+
+.letter:hover {
+  background: #206000;
+}
+
+.letter_current {
+  background: #fff;
+  font-weight: bold;
+  border: 2px solid black;
+}
+
+table.clubs {
+  background: #fff;
+  margin-top: 1em;
+}
+
+table.clubs td.bottom {
+  border-top: 1px solid #999;
+  padding-top: 10px;
+}
+
+table.clubs th {
+  color: white;
+  background: #206000;
+  font-weight: normal;
+}
+
+table.clubs th a {
+  color: white;
+  text-decoration: underline;
+}
+
+table.clubs tr.even {
+  background: #ddd;
+}
+
+table.clubs tr.odd {
+  background: #eee;
+}
+
+/* Blog Styles */
+
+.post {
+  display: block;
+  margin-bottom: 1.5em;
+}
+.post_title {
+  font-weight: bold;
+}
+.post_body {
+  padding: 1em;
+}
+.post_creation_date, .post_modification_date {
+  text-align: right;
+}
+.post_actions {
+  float: right;
+}
+
+/* Comment Styles */ 
+
+.comment { 
+  min-height: 90px; 
+}

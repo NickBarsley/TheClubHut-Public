@@ -1,0 +1,126 @@
+<% content_for :right do %>
+
+<% unless @forum.description.blank? %>
+<%= @forum.description_html %>
+<hr />
+<% end %>
+
+<h5 style="margin-bottom:1.0em;"><%= 'Moderators'[:moderators] %></h5>
+
+<% unless @forum.moderators.empty? -%>
+<ul class="flat" style="margin-top:1em;">
+<% @forum.moderators.each do |user| -%>
+  <li><%= link_to user.display_name, user_path(user) %></li>
+<% end -%>
+</ul>
+<% else -%>
+<p><%= 'This forum is currently unmoderated.'[:forum_is_unmoderated] %></p>
+<p><%= 'Please always be courteous.'[:please_be_courteous] %></p>
+<% end -%>
+
+<% end %>
+
+<% @page_title = @forum.name %>
+
+<h1 style="margin-top:0.5em">
+  <%= h @forum.name %>
+</h1>
+<% if @forum.user_id != nil -%>
+  <% bg = "#AAA" -%>
+<% elsif @forum.club_id != nil -%>
+  <% @club = Club.find_by_id(@forum.club_id) -%>
+  <% bg = @club.backgroundcolor -%>  
+<% end %>
+
+<p class="topsubtitle">
+<%= link_to 'All Forums'[:forums_title], forums_path %> <span class="arrow">&rarr;</span> <% if @forum.club_id != nil -%><%= @club.initials %><% end -%> <%= @forum.name %>
+</p>
+<p class="topsubtitle">
+  <%= feed_icon_tag @forum.name, formatted_forum_posts_path(@forum, :rss) %> 
+  <%= '{count}'[(count=@forum.topics.size)==1 ? :topic_count : :topics_count, number_with_delimiter(count)] 
+  pluralize(count, "topic") %> , 
+  <%= '{count}'[(count=@forum.posts.size)==1 ? :post_count : :posts_count, number_with_delimiter(count)] 
+  pluralize(count, "post") %>
+</p>
+
+
+
+<% if @forum.team_id != nil -%>
+<% @team = Team.find_by_id(@forum.team_id) -%>
+
+<div class="forumlastpost">This forum is for members of the <%= link_to @team.description, team_path(@team.id) %>. <BR /><br/>Only the following members can view this forum: 
+  <% @team.teammember.each do |teammember| -%>
+  <%= link_to teammember.user.full_name, :controller => "profile", :action => "show", :id => teammember.user.id %>, 
+  <% end -%>
+  <BR /><BR />
+  <%= link_to 'Send an email to the Team', teamemail_team_path(@team.id) %>
+  
+</div><BR />
+<% else -%>
+<div class="forumlastpost"><b>Forum Description: </b><%= @forum.description %></div><BR />
+<% end -%>
+
+<% if @topics.page_count > 1 -%>
+<% if logged_in? %>
+<p style="float:right; margin-top:0;"><%= link_to 'New topic'[], new_forum_topic_path(@forum), :class => "utility" %></p>
+<% end %>
+<%= pagination @topics %>
+<% end -%>
+
+
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%" class="wide forums posts">
+<tr>
+  <th class="forumtableth" style="background: <%= bg %>;" colspan="2"><%= 'Topic'[:topic_title] %></th>
+  <th class="forumtableth" style="background: <%= bg %>;" width="1%"><%= 'Posts'[:posts_title] %></th>
+  <th class="forumtableth" style="background: <%= bg %>;" width="1%"><%= 'Views'[:views_title] %></th>
+  <th class="forumtableth" style="background: <%= bg %>;"><%= 'Last post'[:last_post] %></th>
+</tr>
+<% for topic in @topics %>
+<tr class="hentry">
+  <td style="padding:5px; width:16px;" class="c1">
+    <% 
+    icon = "comment"
+    color = ""
+    if topic.locked?
+      icon = "lock"
+      post = ", this topic is locked."[:comma_locked_topic]
+      color = "darkgrey"
+    end
+    %>
+    <% if recent_topic_activity(topic) %>
+    <%= image_tag "clearbits/#{icon}.gif", :class => "icon green", :title => "Recent activity"[]+"#{post}", :plugin => "savage_beast" %>
+    <% else %>
+      <%= image_tag "clearbits/#{icon}.gif", :class => "icon grey #{color}", :title => "No recent activity"[]+"#{post}", :plugin => "savage_beast" %>
+    <% end %>
+  </td>
+  <td class="c2">
+    <%= "Sticky"[:sticky_title]+": <strong>" if topic.sticky? %>
+    <%= topic_title_link (topic), :class => "entry-title", :rel => "bookmark" %>
+    <%#= link_to h(topic.title), topic_path(@forum, topic), :class => "entry-title", :rel => "bookmark" %>
+    <%= "</strong>" if topic.sticky? %>
+    <% if topic.paged? -%>
+    <div class="smaller" style="display: inline;">(<%= link_to 'last page of posts'[], forum_topic_path(:forum_id => @forum, :id => topic, :page => topic.last_page) %>)</div>
+    <% end -%>
+    <% if @forum.club_id != nil -%>
+    <% if current_club_committee(@forum.club_id) and !topic.locked? -%><div class="smaller" style="display: inline; vertical-align: middle;">&nbsp;&nbsp;&nbsp;[&nbsp;<%= link_to 'Delete'[:create_new_forum], forum_topic_path(@forum.id, topic.id), :confirm => 'Are you sure you want to delete this entire topic?', :method => :delete %>&nbsp;]</div><% end %>
+    <% elsif @forum.user_id != nil -%>
+    <% if @forum.user_id == session[:user_id].to_i -%><div class="smaller" style="display: inline; vertical-align: middle;">&nbsp;&nbsp;&nbsp;[&nbsp;<%= link_to 'Delete'[:create_new_forum], forum_topic_path(@forum.id, topic.id), :confirm => 'Are you sure you want to delete this entire topic?', :method => :delete %>&nbsp;]</div><% end %>
+    <% end -%>
+  </td>
+  
+  <td class="ca inv stat"><% if topic.posts.size == 0 -%>1<% else -%><%= topic.posts.size %><% end -%></td>
+  <td class="ca inv stat"><%= number_with_delimiter(topic.views) %></td>
+  <td class="forumlastpost">
+    <abbr title="<%= topic.replied_at.xmlschema %>"><%= time_ago_in_words(topic.replied_at) %></abbr>
+    by <%= link_to topic.replied_by_user.full_name, :controller => "profile", :action => "show", :id => topic.replied_by_user.id %>
+    <span>(<%= link_to 'view post'[], forum_topic_path(:forum_id => @forum, :id => topic, :page => topic.last_page, :anchor => "posts-#{topic.last_post_id}") %>)</span>
+  </td>
+</tr>
+<% end %>
+</table>
+
+<%= next_page @topics %>
+<%= pagination @topics %>
+
+<p><%= link_to 'Post a New Topic'[:new_topic], new_forum_topic_path(@forum), :class => "utility" %></p>

@@ -1,0 +1,28 @@
+<H2>Email All Team Members:</H2>
+<% @user = User.find_by_id(session[:user_id]) -%>
+<% form_for :teamemail, :url => {:controller => "email", :action => "teamemail" } do |form| %>
+<%= form.hidden_field :team_id, :value => params[:id] %>
+<table align=center cellspacing="10">
+<tr><td valign=top align=right> From:</td><td><%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %> <i>< <%= @user.email %> ></i></td>
+<tr><td valign=top align=right> To:</td><td class="smaller">
+<% @team.teammember.each do |member| -%>
+  	<% if member.position=="9" %>
+		C:
+	<% elsif member.position=="8" %>
+		S:
+	<% elsif member.position=="1" %>
+		B:
+	<% elsif member.position=="0" %>
+		Coaching:
+	<% else %>	
+		<%= member.position %>:
+	<% end %> <%= check_box_tag "teamemail[user_ids][]", member.user.id, 0 -%> <%= link_to member.user.full_name, :controller => "profile", :action => "show", :id => member.user.id %>  <i>< <%= member.user.email %> ></i><BR />
+<% end -%>
+
+</td>
+<tr><td valign=middle align=right> Email Subject:</td><td><%= form.text_field :emailsubject, :class => "text" %></td>
+<tr><td valign=top align=right>Email Body:</td><td><%= form.text_area :emailbody, :rows => 7, :cols => 50, :class => "text" %></td></tr>
+<tr><td colspan=2 align=center><%= submit_tag "Email the Team", :class => "submit" %></td></tr>
+</table>
+<% end %>
+

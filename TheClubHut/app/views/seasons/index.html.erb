@@ -1,0 +1,20 @@
+<h1>Listing seasons</h1>
+<%= link_to 'New season', new_season_path %>
+
+<table>
+  <tr>
+    <th>Description</th>
+  </tr>
+
+<% for season in @seasons %>
+  <tr>
+    <td><%=h season.description %></td>
+    <td><%= link_to 'Edit', edit_season_path(season) %> | </td>
+    <td><%= link_to 'Delete Season', season, :confirm => 'Are you sure?? THIS WILL DELETE ALL CREWS AND EVENTS WITHIN SEASON!', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+

@@ -1,0 +1,45 @@
+<h1>Create a New Committee for <%= @club.initials %></h1>
+
+<%= error_messages_for :committee %>
+
+<% form_for(:committee, :url => club_committees_path) do |f| %>
+	<%= f.hidden_field :club_id, :value => params[:club_id] %>
+<BR />
+<table cellpadding=10>
+  <tr>
+    <td><b>Description</b></td>
+    <td><%= f.text_field :description, :class => "text" %></td>
+    <td><div class="smaller">E.g. 2008 to 2009</div></td>        
+  </tr>
+  <tr>
+    <td><b>Committee Email Address</b></td>
+    <td><%= f.text_field :groupemail, :class => "text" %></td>
+    <td><div class="smaller">E.g. committee@qcbc.net</div></td>        
+  </tr>
+  <tr>
+    <td><b>Elected on</b></td>
+    <td><%= f.datetime_select :elected_on %></td>
+    <td></td>        
+  </tr>
+  <tr>
+    <td><b>In Office From</b></td>
+    <td><%= f.datetime_select :in_office_from %></td>
+    <td></td>        
+  </tr>
+  <tr>
+    <td colspan=3 align=center><%= f.submit "Create" %></td>        
+  </tr>      
+</table>
+
+<% fields_for "committee[member_attributes]" do |foreign| %>
+	<%= foreign.hidden_field :position, :value => "Creator" %>
+	<%= foreign.hidden_field :user_id, :value => session[:user_id] %>
+	<%= foreign.hidden_field :roworder, :value => 1 %>
+<% end %>
+
+
+
+
+<% end %>
+
+<%= link_to 'Back', club_committees_path(@club) %>

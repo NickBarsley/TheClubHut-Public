@@ -1,0 +1,57 @@
+<H2><%= @title %></H2>
+<p>The functions below are only available to the current commmittee of the club.</p>
+
+<H3>Club Administration</H3>
+<i>Frequently used:</i>
+<ul>
+  <li><%= link_to "Invite a Member to Join", :controller => :email, :action => :invite %></li>
+  <li><%= link_to 'Create a New Team', new_team_path %></li>
+  <li><%= link_to "Create a New Event", new_event_path %></li>
+  <li><%= link_to "Email the different club Membership Types", :controller => :email, :action => :clubemail %></li>
+</ul>
+<i>Less Frequently Used:</i>
+<ul>
+  <li><%= link_to "Create a New Committee", new_club_committee_path(@club) %></li>
+  <li><%= link_to "Create or Edit Membership Types", membershiptypes_path %></li>
+  <li><%= link_to "Create New Season", new_season_path %></li>
+  <li><%= link_to "Edit or Delete Season", seasons_path %></li>
+</ul>
+
+<h3>Website Administration</H3>
+<ul>
+<li><%= link_to 'Create a New Website Page', new_club_staticpage_path(session[:club_id]) %></li>
+</ul>
+<i>Edit your club pages here:</i>
+<ul>
+<% @navigations = Navigation.find(:all, :conditions => ['club_id=? and sub_page=?', session[:club_id], '0'], :order => ['indexorder ASC']) -%>
+<% @subnavigations = Navigation.find(:all, :conditions => ['club_id=? and sub_page<>?', session[:club_id], '0'], :order => ['indexorder ASC']) -%>
+<% for navigation in @navigations -%>
+  <% if navigation.staticpage_id != nil -%>
+    <li><%= nav_link navigation.indexlinkname, club_staticpage_path(session[:club_id], navigation.staticpage_id) %> - <%= link_to 'Edit', edit_club_staticpage_path(session[:club_id], navigation.staticpage_id) %> | <%= link_to 'Delete', club_staticpage_path(session[:club_id], navigation.staticpage_id), :confirm => 'Are you sure?', :method => :delete %></li>
+  <% else -%>
+    <% @temp = eval(navigation.path) -%>
+    <li><%= link_to_unless_current navigation.indexlinkname, @temp %> - go to this page to make a change.</li>
+  <% end %>
+
+    <!-- check for sub level link. --> 
+    <% for sub_navigation in @subnavigations -%>
+      <% if sub_navigation.sub_page == navigation.id -%>    
+        <ul>
+        <% if sub_navigation.staticpage_id != nil -%>
+          <li><%= link_to_unless_current sub_navigation.indexlinkname, club_staticpage_path(session[:club_id], sub_navigation.staticpage_id), :target => sub_navigation.target %> - <%= link_to 'Edit', edit_club_staticpage_path(session[:club_id], sub_navigation.staticpage_id) %> | <%= link_to 'Delete', club_staticpage_path(session[:club_id], sub_navigation.staticpage_id), :confirm => 'Are you sure?', :method => :delete %></li>
+        <% else %>
+          <% @temp = eval(sub_navigation.path) -%>
+          <li><%= link_to_unless_current sub_navigation.indexlinkname, @temp %> - go to this page to make a change.</li>
+        <% end -%>
+        </ul>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+</ul>
+<i>Other functions:</i>
+<ul>
+  <li><%= link_to "Edit Club Logo", :controller => "clubavatar", :action => "upload" %></li>
+  <li><%= link_to "Edit Club Name / Colour", :controller => "clubs", :action => "edit", :id => session[:club_id] %></li>
+</ul>
+
+

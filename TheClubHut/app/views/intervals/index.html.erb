@@ -1,0 +1,60 @@
+<h1>Listing intervals</h1>
+
+<table>
+  <tr>
+    <th>Trainingsession</th>
+    <th>User</th>
+    <th>Order</th>
+    <th>Rest</th>
+    <th>Distance</th>
+    <th>Distance units</th>
+    <th>Duration</th>
+    <th>Duration units</th>
+    <th>Aim for rate</th>
+    <th>Aim for split min</th>
+    <th>Aim for split sec</th>
+    <th>Aim for split point</th>
+    <th>Aim for wattage</th>
+    <th>Res rate</th>
+    <th>Res wattage</th>
+    <th>Res avg hr</th>
+    <th>Res max hr</th>
+    <th>Res split min</th>
+    <th>Res split sec</th>
+    <th>Res split point</th>
+    <th>Notes</th>
+  </tr>
+
+<% for interval in @intervals %>
+  <tr>
+    <td><%=h interval.trainingsession_id %></td>
+    <td><%=h interval.user_id %></td>
+    <td><%=h interval.order %></td>
+    <td><%=h interval.rest %></td>
+    <td><%=h interval.distance %></td>
+    <td><%=h interval.distance_units %></td>
+    <td><%=h interval.duration %></td>
+    <td><%=h interval.duration_units %></td>
+    <td><%=h interval.aim_for_rate %></td>
+    <td><%=h interval.aim_for_split_min %></td>
+    <td><%=h interval.aim_for_split_sec %></td>
+    <td><%=h interval.aim_for_split_point %></td>
+    <td><%=h interval.aim_for_wattage %></td>
+    <td><%=h interval.res_rate %></td>
+    <td><%=h interval.res_wattage %></td>
+    <td><%=h interval.res_avg_hr %></td>
+    <td><%=h interval.res_max_hr %></td>
+    <td><%=h interval.res_split_min %></td>
+    <td><%=h interval.res_split_sec %></td>
+    <td><%=h interval.res_split_point %></td>
+    <td><%=h interval.notes %></td>
+    <td><%= link_to 'Show', interval %></td>
+    <td><%= link_to 'Edit', edit_interval_path(interval) %></td>
+    <td><%= link_to 'Destroy', interval, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New interval', new_interval_path %>

@@ -1,0 +1,24 @@
+<h2>Upload Club Logo</h2>
+
+<% form_tag("upload", :multipart => true) do %>
+<fieldset>
+  <legend><%= @title %></legend> 
+  
+  <%= error_messages_for 'clubavatar' %>
+
+  <% if @club.clubavatar.exists? %>
+  <div class="form_row">
+    <%= clubavatar_tag(@club) %>
+    <BR />
+    [ <%= link_to "Delete this Photo", { :action => "delete" }, :confirm => "Are you sure?" %> ]
+    <BR /><BR />
+  </div>
+  <% end %>
+  <div class="form_row">
+    <label for="new_avatar">New Logo:</label>
+    <%= file_field "clubavatar", "image" %>
+  </div>
+
+  <%= submit_tag "Upload Club Photo", :class => "submit" %> 
+</fieldset>
+<% end %>

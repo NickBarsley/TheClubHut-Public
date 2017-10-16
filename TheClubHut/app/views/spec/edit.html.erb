@@ -1,0 +1,39 @@
+<% form_for :spec do |form| %>
+  <h2><%= @user.firstname %> <%= @user.surname %></h2>
+  <%= error_messages_for 'spec' %>
+
+<table>
+  <tr><td></td><td></td><td colspan=5 align=center bgcolor=#ccc>Privacy Options</td></tr>
+  <tr><td></td><td></td><td align=center class="smaller">Public</td><td align=center class="smaller">Sipbib<br>Registered<br>Users</td><td align=center class="smaller">My<BR>Club<BR>Members</td><td align=center class="smaller">My<BR>Club<BR>Committee</td><td align=center class="smaller">My<BR>Team<BR>Mates</td></tr>
+  
+  <tr><td>Gender:</td><td><%= radio_button :spec, :gender, "Male"%>Male <%= radio_button :spec, :gender, "Female" %>Female</td><!--<td><%= check_box("spec", "gender_privacy_public", options = {}, checked_value = "1", unchecked_value = "0")  %></td><td><%= check_box("spec", "gender_privacy_sipbib", options = {}, checked_value = "1", unchecked_value = "0")  %></td><td><%= check_box("spec", "gender_privacy_clubmembers", options = {}, checked_value = "1", unchecked_value = "0")  %></td><td><%= check_box("spec", "gender_privacy_clubcommittee", options = {}, checked_value = "1", unchecked_value = "0")  %></td><td><%= check_box("spec", "gender_privacy_teammates", options = {}, checked_value = "1", unchecked_value = "0")  %></td>--></tr>
+  <tr><td>Date of Birth:</td><td>    <%= date_select :spec, :birthdate, 
+                           :start_year => Spec::START_YEAR,
+                           :end_year => Time.now.year,
+                           :include_blank => true,
+                           :order => [:day, :month, :year] %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Occupation:</td><td><%= form.text_field :occupation, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Address Line 1:</td><td><%= form.text_field :address_line1, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Address Line 2:</td><td><%= form.text_field :address_line2, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>City:</td><td><%= form.text_field :city, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>County:</td><td><%= form.text_field :county, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Country:</td><td><%= form.text_field :country, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Post Code:</td><td><%= form.text_field :locationcode, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Land Line:</td><td><%= form.text_field :phone_landline, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Mobile Phone:</td><td><%= form.text_field :phone_mobile, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Language:</td><td><%= form.text_field :language, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Height:</td><td><%= form.text_field :height_cm, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Armspan:</td><td><%= form.text_field :armspan_cm, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Inside Leg:</td><td><%= form.text_field :insideleg_cm, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Shoe Size:</td><td><%= form.text_field :shoesize, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>University:</td><td><%= form.text_field :university, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Matriculation Year:</td><td><%= form.text_field :matriculation_year, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Course:</td><td><%= form.text_field :course, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Rower Type:</td><td><%= form.text_field :rower_type, :class => "text" %></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>About Me:</td><td colspan=6><%= form.text_area :aboutme, :class => "text" %></td></tr>  
+</table>
+
+
+  <%= submit_tag "Update", :class => "submit" %> 
+
+<% end %>

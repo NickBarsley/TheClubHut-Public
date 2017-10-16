@@ -1,0 +1,8 @@
+.DS_Store
+public/images
+public/photos
+config/mongrel_cluster.yml
+log/*.log
+tmp/**/*
+db/*.sqlite
+vendor/plugins/redcloth

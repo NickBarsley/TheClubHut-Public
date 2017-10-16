@@ -1,0 +1,36 @@
+<% if @event %>
+  <% if @event.ind_or_team == "Individual" %>
+    <!-- Individual Event --> 
+    <H2><%=h @event.title %> <%= @event.date.year %>: <%= @race.user.full_name %> Photos</H2>
+    <div class="smaller">[ <%= link_to 'Add Photos', new_event_race_photo_path %> | <%= link_to 'Back to Event', report_event_path(params[:event_id]) %> ]</div>
+
+    <div class="gallery_background">
+    <%= render :partial => 'photo', :collection => @photos %>
+    <div style='style: both; height: 0'></div>
+    </div>
+
+  
+  <% elsif @event.ind_or_team == "Team" %>
+    <!-- Team Event --> 
+    <H2><%=h @event.title %> <%= @event.date.year %>: <%= @race.team.description %> Photos</H2>
+    <div class="smaller">[ <%= link_to 'Add Photos', new_event_race_photo_path %> | <%= link_to 'Back to Event', report_event_path(params[:event_id]) %> ]</div>
+
+    <div class="gallery_background">
+      <%= render :partial => 'photo', :collection => @photos %>
+    <div style='style: both; height: 0'></div>
+    </div>
+
+  <% end %>
+
+<% elsif @team %>
+<H2><%= @team.description %></H2>
+
+    <div class="gallery_background">
+    <%= render :partial => 'teamthumb', :collection => @photos %>
+    <div style='style: both; height: 0'></div>
+    </div>
+    
+    <div class="smaller">[ <%= link_to 'Add Another Photo', new_team_photo_path %> ]</div><br />
+    Back to: <%= link_to 'Team', team_path(@team) %>
+    
+<% end %>

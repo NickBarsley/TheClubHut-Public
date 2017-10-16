@@ -1,0 +1,23 @@
+<p>
+  <b>Title:</b>
+  <%=h @suggestion.title %>
+</p>
+
+<p>
+  <b>Idea:</b>
+  <%= @suggestion.idea %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @suggestion.user_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @suggestion.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_suggestion_path(@suggestion) %> |
+<%= link_to 'Back', suggestions_path %>

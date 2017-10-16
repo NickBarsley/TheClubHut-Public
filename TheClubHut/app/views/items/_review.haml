@@ -1,0 +1,46 @@
+%div{ :class => "review " + cycle('odd', 'even')}
+  .header 
+    Written by
+    = link_to review.user.full_name, :controller => "profile", :action => "show", :id => review.user.id
+    in 
+    = Date::MONTHNAMES[review.date.month.to_i]
+    = review.date.year
+
+  .body
+    .left_column
+      %b Used since: 
+      =h Date::MONTHNAMES[review.used_product_since.month.to_i] + " " + review.used_product_since.year.to_s
+      %BR
+      %b Value rating: 
+      = printstars(review.rating_value)
+      %BR
+      %b Overall rating: 
+      = printstars(review.rating_overall)
+      %BR
+      %b Price Paid:
+      =h review.price_paid
+      %BR
+      %b Bought At:
+      =h review.bought_where
+    .right_column
+      .summary
+        %b Summary: 
+        =h review.summary
+        %BR
+        %BR
+      .below
+        .strength
+          %b Strengths: 
+          =h review.strengths      
+        .weakness
+          %b Weaknesses: 
+          =h review.weaknesses
+  - if session[:user_id]
+    -if session[:user_id] == review.user_id
+      %div{:class=>"smaller", :style=>"float: right;"}
+        [
+        = link_to "Edit", edit_item_review_path(review.item_id, review.id)
+        |
+        = link_to "Delete", item_review_path(review.item_id, review.id), :confirm => 'Are you sure?', :method => :delete
+        ]
+  %div{:style => "clear: both; height: 0"}

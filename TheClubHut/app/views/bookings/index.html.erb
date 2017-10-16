@@ -1,0 +1,165 @@
+<% if session[:club_id] != nil -%>
+	
+<% if session[:club_id] == 1 or session[:club_id] == 7 -%>
+
+<script language="Javascript">
+<!--
+function toggleDiv(id,flagit) {
+if (flagit=="1"){
+if (document.layers) document.layers[''+id+''].visibility = "show"
+else if (document.all) document.all[''+id+''].style.visibility = "visible"
+else if (document.getElementById) document.getElementById(''+id+'').style.visibility = "visible"
+}
+else
+if (flagit=="0"){
+if (document.layers) document.layers[''+id+''].visibility = "hide"
+else if (document.all) document.all[''+id+''].style.visibility = "hidden"
+else if (document.getElementById) document.getElementById(''+id+'').style.visibility = "hidden"
+}
+}
+
+function toggleLayer(val)
+{
+	if(val === true)
+	{
+		document.getElementById('weights_yes_toggle').checked = true;
+		document.getElementById('ergbooking').style.display = 'none';
+		document.getElementById('weightsbooked').style.display = 'block';
+	}
+	else if(val === false)
+	{
+		document.getElementById('weights_no_toggle').checked = true;
+		document.getElementById('ergbooking').style.display = 'block';
+		document.getElementById('weightsbooked').style.display = 'none';
+	}
+}
+
+//-->
+</script>
+
+
+<% if logged_in? -%>
+  <% @bookingsdate = Booking.find(:all, :order => "start_time ASC", :conditions => ["user_id=?", session[:user_id]]) -%>
+<% end -%>
+<% @bookings = Booking.find(:all, :order => "no_ergs DESC", :conditions => ["start_time>=? AND start_time<?", session[:booking_viewingweek], (session[:booking_viewingweek] + 7.days)]) -%>
+<% @title = "Erg and Weights Room Booking" %>
+
+
+<H3>Erg and Weight Room Booking</H3>
+<div align=center><%= link_to "<< Back a week", :controller => "works", :action => "retreat" %>&nbsp;|&nbsp;<%= link_to "Forward a week >>", :controller => "works", :action => "advance" %></div>
+<%= error_messages_for :booking %>
+<div class="calendar">
+<img src="/images/calendar.gif">
+
+<% daysofweek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] -%>
+<% daytitleleft = 51 -%>
+<% 7.times do |theday| -%>
+  <div class="calevent" style="top: 0px; left: <%= daytitleleft %>px; background-color: #FFFFFF; border-color: #aaa; padding: 0 4px 3px 4px;\"><div class="smaller"><%= daysofweek[theday] %> <%= number_to_ordinal((session[:booking_viewingweek] + theday.days).day) %> <%= monthname((session[:booking_viewingweek] + theday.days).month) %></div></div>
+  <% daytitleleft += 85 -%>
+  <% indents = Array.new(size=81) %>
+  <% 81.times do |i| %>
+  <% indents[i] = 45 + 85 * (theday+1)  %>
+  <% end %>
+  <% @bookings.each do |booking| %>
+    <% if booking.start_time.day == (session[:booking_viewingweek] + theday.days).day %>
+      <% no_indents = booking.duration / 15 %>
+      <% current_left = 0 %>
+      <% no_indents.times do |ind| %>
+        <% if current_left < indents[(((booking.start_time.hour-4)*4+(booking.start_time.min/15)) + ind)] %>
+          <% current_left = indents[(((booking.start_time.hour-4)*4+(booking.start_time.min/15)) + ind)] %>
+        <% end %>
+      <% end %>
+      <%= booking.renderEvent(current_left, logged_in?) %>
+      <% no_indents.times do |ind| %>
+        <% if booking.weights == 0 %>
+        <% indents[(((booking.start_time.hour-4)*4+(booking.start_time.min/15)) + ind)] += 9*booking.no_ergs %>
+        <% else %>
+        <% indents[(((booking.start_time.hour-4)*4+(booking.start_time.min/15)) + ind)] += 9 %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+</div>
+<% if logged_in? %>
+<fieldset><legend>Make a New Booking</legend>
+<% form_for(@booking) do |f| %>
+<%= f.hidden_field :user_id, :value => session[:user_id]  %>
+<table>
+  <tr>
+    <td>Start Time:</td>
+    <td><%= f.datetime_select :start_time, :minute_step=>15 %></td>
+  </tr>
+  <tr>
+    <td>Duration:</td>
+    <td>
+      <select name="booking[duration]">
+  		 	<option value="15">15 mins</Option>
+  		 	<option value="30" SELECTED>30 mins</Option>
+  		 	<option value="45">45 mins</Option>
+  		 	<option value="60">1 hour</Option>
+  		 	<option value="75">1 hour 15 minutes</Option>
+  		 	<option value="90">1 hour 30 minutes</Option>
+  		 	<option value="105">1 hour 45 minutes</Option>
+  		 	<option value="120">2 hours</Option>
+			</select>
+       </td>
+  </tr>
+  <tr>
+    <td>Weights Room for Circuits/Weights?</td>
+    <td>
+      <input id="weights_no_toggle" name="booking[weights]" type="radio" value="0" checked="checked" onclick="toggleLayer(!this.checked);" /><label for="weights_no_toggle">No</label>
+      <input id="weights_yes_toggle" name="booking[weights]" type="radio" value="1" onclick="toggleLayer(this.checked);" /><label for="weights_yes_toggle">Yes</label>
+    </tr>
+  <tr>
+    <td>Number of Ergs:</td>
+    <td>
+      <div id="ergbooking">
+        <select name="booking[no_ergs]">
+        <option value="8" SELECTED>8</Option>
+        <option value="7">7</Option>
+        <option value="6">6</Option>
+        <option value="5">5</Option>
+        <option value="4">4</Option>
+        <option value="3">3</Option>
+        <option value="2">2</Option>
+        <option value="1">1</Option>
+      </select></div>
+      <div id="weightsbooked" style="display: none;">
+        <div class="smaller">Please book ergs separately if you need them as well as the erg room.</div>
+        
+      </div>
+</td>
+  </tr>
+<tr><td colspan=2 align=right><%= f.submit "Create Booking!" %></td>
+</table>
+
+<% @member = Membership.find(:all, :conditions => ["user_id=? and status=? and (membershiptype_id=? or membershiptype_id=?)", session[:user_id], "granted", 1, 6]) %>
+<% if @member.size == 1 #and user_id != 6 -%>
+  <% @member.each do |member| -%>
+  <%= f.hidden_field :club_id, :value => member.club_id  %>
+  <% end -%>
+<% else -%>
+  <%= f.hidden_field :club_id, :value => session[:club_id]  %>
+<% end -%>
+    
+    
+<% end %>
+</fieldset>
+
+<fieldset><legend>Your Erg Bookings</legend>
+<% @bookingsdate.each do |booking| %>
+<%= returndatestring(booking.start_time) %> <%= returntimer(booking.start_time) %> for <%= booking.duration.to_s %> minutes: <% if booking.weights == 1 %>Weights Room for Circuits<% else %><%= booking.no_ergs %> ergs<% end %> [ <%= link_to 'Delete', booking_path(booking.id), :confirm => 'Are you sure?', :method => :delete %> ]<BR />
+<% end %>
+</fieldset>
+<% end %>
+<Br />
+<% else %>
+<H3>Erg and Weight Room Booking</H3>
+This booking page is only for <%= link_to "MBC", club_path(7) %> and <%= link_to "QCBC", club_path(1) %>. Please find the booking page through their club pages. 
+<% end %>
+<% else %>
+<H3>Erg and Weight Room Booking</H3>
+This booking page is only for <%= link_to "MBC", club_path(7) %> and <%= link_to "QCBC", club_path(1) %>. Please find the booking page through their club pages. 
+<% end %>

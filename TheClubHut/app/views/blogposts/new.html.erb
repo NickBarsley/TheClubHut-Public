@@ -1,0 +1,13 @@
+<h2>Add a News Story</h2>
+<%= javascript_include_tag "fckeditor/fckeditor" %>
+
+<% form_for(:blogpost, :url => blog_blogposts_path) do |form| %>
+<%= error_messages_for :blogpost %>
+<%= form.hidden_field :user_id, :value => session[:user_id] %>
+<table align=center cellspacing=5>
+<%= render :partial => "form", :locals => { :form => form } %>
+<tr><td colspan=2 align=center><%= submit_tag "Create News Story", :class => "submit" %> </td></tr>
+</table>
+<% end %>
+<BR />
+<BR />

@@ -1,0 +1,32 @@
+
+<div class="teammember">
+<% new_or_existing = formteammember.new_record? ? 'new' : 'existing' %>
+<% prefix = "team[#{new_or_existing}_teammember_attributes][]" %>
+
+<% fields_for prefix, formteammember do |teammember_form| -%>
+<div class="newspostwithLborder <%= cycle("newspost_even", "newspost_odd") %>">
+	<div class="smaller" style="display: inline;">
+  <p>
+    <b>Name:</b> <%= teammember_form.collection_select(:user_id, @users, "id", "list_name") %> [ <%= link_to_function "Remove Member", "$(this).up('.teammember').remove()" %> ]<BR />
+  </p>
+  <p>
+    <b>Position&nbsp;In&nbsp;Team:</b> <%= teammember_form.text_field :position, :class=> "text", :size => 1 %><BR />
+    <% if @club.sport_id == 20 -%>
+      Enter a Number: <i>9 = Cox, 8 = Stroke, 7, 6, 5, 4, 3, 2 , 1 = Bow, 0 = Coach.</i>
+    <% else -%>
+      E.g. <i>Goalkeeper, Stroke, Coach</i>
+    <% end -%>
+  </p>
+  <p>
+    <b>Member&nbsp;Display&nbsp;Position:</b> <%= teammember_form.text_field :roworder, :class=> "text", :size => 3 %><BR />
+  </p>
+  <p>
+    <b>Team Captain?</b> <%= teammember_form.text_field :captain, :class=> "text", :size => 3 %><BR />
+    Enter <b>1</b> if the team captain, <b>0</b> if not a crew captain.
+  </p>
+  </div>
+  </div>
+<div style="clear: both; height: 0"></div><BR />
+<% end -%>
+
+</div>

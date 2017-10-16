@@ -1,0 +1,47 @@
+<% if @race %>
+<H2><%=h @event.title %> <%= @event.date.year %>: <%= @race.team.description %> Photos</H2>
+<%= error_messages_for :photo %>
+<div class="smaller">[ <%= link_to 'Back to Gallery', event_race_photos_path(params[:event_id], params[:race_id]) %> ]</div>
+<div class="gallery_background">
+<div class="subtitle"><B><%= @photo.title %></B></div>
+<div class="subtitle"><%= image_tag(@photo.public_filename('thumb'), :class => "photo_thumb") %></div>
+<div class="subtitle"><%= @photo.body %></div>
+</div>
+<% form_for(:photo, :url => event_race_photo_path(:id => @photo), :html => { :method => :put }) do |f| %>
+<%= f.hidden_field :race_id, :value => @race.id %>
+<p>Title:<BR /><%= f.text_field 'title' %></p>
+<p>Description: <BR /><%= f.text_area 'body', :rows => 6, :cols => 40 %></p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+Back to: <%= link_to 'Photo', event_race_photo_path %> | <%= link_to 'Gallery', event_race_photos_path %>
+
+<% elsif @item %>
+
+<H2><%=h @item.name %></H2>
+
+<%= error_messages_for :photo %>
+I'm sorry, you can't edit this image. The only operations allowed are delete (by an administrator).<BR /><BR />
+<%= link_to 'Back to Images', item_photo_path(params[:item_id], params[:id]) %>
+
+<% elsif @team %>
+
+<H2><%=h @team.description %> Photos</H2>
+<%= error_messages_for :photo %>
+<div class="smaller">[ Back to: <%= link_to 'Gallery', team_photos_path(params[:team_id]) %> | <%= link_to 'Team Page', team_path(@team) %> ]</div>
+<div class="gallery_background">
+<div class="subtitle"><B><% if @photo.title != nil %><%= @photo.title %><% else %>No Title Found<% end %></B></div>
+<div class="subtitle"><%= image_tag(@photo.public_filename('thumb'), :class => "photo_thumb") %></div>
+<div class="subtitle"><% if @photo.body != nil %><%= @photo.body %><% else %>No Description Found<% end %></div>
+</div>
+<% form_for(:photo, :url => team_photo_path(:id => @photo), :html => { :method => :put }) do |f| %>
+<%= f.hidden_field :team_id, :value => @team.id %>
+<p>Title:<BR /><%= f.text_field 'title' %></p>
+<p>Description: <BR /><%= f.text_area 'body', :rows => 6, :cols => 40 %></p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<% end %>

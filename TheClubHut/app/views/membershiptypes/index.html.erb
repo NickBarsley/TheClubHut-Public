@@ -1,0 +1,32 @@
+<h2><%= @club.initials %> Membership Types</h2><BR />
+
+<table width="100%" border="0"  class="wide forums" cellpadding=0 cellspacing=0>
+  <tr>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Name</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Plural</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Description</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Display</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Coach</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">Coachable</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;">#&nbsp;Members</th>
+    <th class="forumtableth" style="background-color: <%= @club.backgroundcolor %>;" align="center">Actions</th>
+  </tr>
+
+<% for membershiptype in @membershiptypes %>
+  <tr>
+    <td><%=h membershiptype.name %></td>
+    <td class="smaller"><%=h membershiptype.name_plural %></td>
+    <td class="smaller"><%=h membershiptype.description %></td>
+    <% @memberships = Membership.find(:all, :conditions => ["membershiptype_id=? and club_id=?", membershiptype.id, @club.id]) -%>
+    <td align="center" class="smaller"><%=h membershiptype.display_type %></td>
+    <td align="center" class="smaller"><% if membershiptype.clubcoach == 1 -%>Yes<% else -%>No<% end -%></td>
+    <td align="center" class="smaller"><% if membershiptype.coachable == 1 -%>Yes<% else -%>No<% end -%></td>
+    <td align="center"><%= @memberships.size %></td>
+    <td align="center"><div class="smaller"><%= link_to 'Edit', edit_membershiptype_path(membershiptype) %> | <%= link_to 'Delete', membershiptype, :confirm => "Are you sure? THIS WILL DELETE ALL " + @memberships.size.to_s + " MEMBERS OF THIS TYPE. It can\'t be undone.", :method => :delete %></div></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Create a New Membership Type', new_membershiptype_path %>

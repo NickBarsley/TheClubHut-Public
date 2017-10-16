@@ -1,0 +1,34 @@
+<h1>Editing trainingsession</h1>
+
+<%= error_messages_for :trainingsession %>
+
+<% form_for(@trainingsession) do |f| %>
+  <p>
+    <b>Team</b><br />
+    <%= f.text_field :team_id %>
+  </p>
+
+  <p>
+    <b>Scheduled</b><br />
+    <%= f.datetime_select :scheduled %>
+  </p>
+
+  <p>
+    <b>Booking</b><br />
+    <%= f.text_field :booking_id %>
+  </p>
+
+  <p>
+    <b>Teamorind</b><br />
+    <%= f.text_field :teamorind %>
+  </p>
+  <% session[:numinterval] = nil -%>
+  <% @numinterval = 0  -%>
+<div id="intervals"><%= render :partial => 'forminterval', :collection => @trainingsession.interval  %></div>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @trainingsession %> |
+<%= link_to 'Back', trainingsessions_path %>

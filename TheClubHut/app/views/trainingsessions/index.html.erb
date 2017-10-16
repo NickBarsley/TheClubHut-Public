@@ -1,0 +1,26 @@
+<h1>Listing trainingsessions</h1>
+
+<table>
+  <tr>
+    <th>Team</th>
+    <th>Scheduled</th>
+    <th>Booking</th>
+    <th>Teamorind</th>
+  </tr>
+
+<% for trainingsession in @trainingsessions %>
+  <tr>
+    <td><%=h trainingsession.team_id %></td>
+    <td><%=h trainingsession.scheduled %></td>
+    <td><%=h trainingsession.booking_id %></td>
+    <td><%=h trainingsession.teamorind %></td>
+    <td><%= link_to 'Show', trainingsession %></td>
+    <td><%= link_to 'Edit', edit_trainingsession_path(trainingsession) %></td>
+    <td><%= link_to 'Destroy', trainingsession, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New trainingsession', new_trainingsession_path %>

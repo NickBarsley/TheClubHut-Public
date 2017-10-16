@@ -1,0 +1,18 @@
+<h1>QCBC Bookable Resources</h1>
+
+<table cellpadding=5>
+  <tr>
+    <th>Name</th>
+    <th>Qty</th>
+  </tr>
+<% for resource in @resources %>
+  <% if resource.club_id_1.to_i == session[:club_id].to_i or resource.club_id_2.to_i == session[:club_id].to_i or resource.club_id_3.to_i == session[:club_id].to_i %>
+    <tr>
+      <td><%= link_to resource.name, resource %></td>
+      <td align=center><%= resource.qty%></td>
+    </tr>
+  <% end %>
+<% end %>
+</table>
+
+<br />

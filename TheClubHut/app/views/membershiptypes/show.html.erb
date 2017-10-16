@@ -1,0 +1,23 @@
+<p>
+  <b>Club:</b>
+  <%=h @membershiptype.club_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @membershiptype.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @membershiptype.description %>
+</p>
+
+<p>
+  <b>Hasowncalendar:</b>
+  <%=h @membershiptype.hasowncalendar %>
+</p>
+
+
+<%= link_to 'Edit', edit_membershiptype_path(@membershiptype) %> |
+<%= link_to 'Back', membershiptypes_path %>

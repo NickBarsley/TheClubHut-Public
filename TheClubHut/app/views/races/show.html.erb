@@ -1,0 +1,38 @@
+<p>
+  <b>Event:</b>
+  <%=h @race.event_id %>
+</p>
+
+<p>
+  <b>Team:</b>
+  <%=h @race.team_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @race.user_id %>
+</p>
+
+<p>
+  <b>Result:</b>
+  <%=h @race.result %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @race.position %>
+</p>
+
+<p>
+  <b>Gallery:</b>
+  <%=h @race.gallery_id %>
+</p>
+
+<p>
+  <b>Report:</b>
+  <%=h @race.report %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_race_path(@race.event_id, @race.id) %> |
+<%= link_to 'Back', event_races_path %>

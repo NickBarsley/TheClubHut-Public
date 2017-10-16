@@ -1,0 +1,52 @@
+<H2><%=h @event.title %> <%= @event.date.year %></H2>
+<%= tabnav :event %>
+<% if @event.user_id == session[:user_id] or @event.created_by_owner == "No" or session[:user_id]==6 %><div class="smaller" align=right>[ <%= link_to 'edit event', edit_event_path(@event) %> ]</div><% end %>
+
+<div class="event_description">
+<h3><%=h @event.title %></h3>
+<table id="event_table">
+	<tr>
+ 		<td colspan=2><b></b></td>
+	</tr>
+	<tr>
+		<td><%=h @sport.name %> Event Type:&nbsp;&nbsp;</td>
+		<td><%=h @dataetype.description %><% if @event.club_id %> run by <%= link_to @event.club.name, club_path(@event.club_id) %><% end %></td>
+	</tr>
+	<tr>
+		<td><% if @event.start_time %>Time, <% end %>Date:</td>
+		<td><% if @event.start_time %><%=h @event.start_time.hour %>:<%=h @event.start_time.min %>, <% end %><%=h @event.date.day %>-<%=h @event.date.month %>-<%=h @event.date.year %></td>
+	</tr>
+	<% if @event.created_by_owner=="Yes" -%>
+		<tr>
+			<td>Event Organiser:</td>
+			<td><% fullname(@user.firstname, @user.surname) %><%= link_to @fullname, :controller => "profile", :action => "show", :id => @event.user_id -%></td>
+		</tr>		
+		<tr>
+			<td></td>
+			<td><a href="mailto:<%= @user.email %>"><%= @user.email %></a></td>
+		</tr>
+	<% else -%>
+		<tr>
+			<td>Created By:</td>
+			<td><% fullname(@user.firstname, @user.surname) %><%= link_to @fullname, :controller => "profile", :action => "show", :id => @event.user_id -%> (although <%= @user.firstname %> was not the event organiser)</td>
+		</tr>	
+	<% end -%>
+	<tr>
+		<td>Event Status:</td>
+		<td><%= @status %></td>
+	</tr>
+	<tr><td><BR /></td><td></td></tr>
+	<tr>
+		<td>Venue / Location:</td>
+		<td><%=h @event.venue %>, <%= @event.locationcode %>, <%= @country.name %></td>
+	</tr>
+</table>
+</div>
+
+<div class="event_description">
+<div class="event_legend">Description</div>
+  <%= @event.description %>
+</div>
+<BR /><BR />
+
+

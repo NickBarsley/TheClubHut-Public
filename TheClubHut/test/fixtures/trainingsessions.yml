@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  team_id: 1
+  scheduled: 2008-11-28 16:38:27
+  booking_id: 1
+  teamorind: MyString
+
+two:
+  team_id: 1
+  scheduled: 2008-11-28 16:38:27
+  booking_id: 1
+  teamorind: MyString

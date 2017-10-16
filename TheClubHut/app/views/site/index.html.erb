@@ -1,0 +1,59 @@
+<div align="center"><img src="/images/sipbibcom.jpg"></div>
+
+<div align="center"><i>Sipbib.com provides a free website for your sports club. </i></div>
+<table width="100%" cellspacing="10">
+  <tr>
+    <td width="50%" valign="top">
+      <H3>What does Sipbib.com Offer?</H3>
+      Its a <b>free</b> and <b>completely customisable</b> website for your sports club! :
+      <ul>
+        <li>Allow members of your club to contribute to your club online with photos and race reports.</li>
+        <li>Communicate with your club members by email and <%= link_to "forums", forums_path %>. Forget trying to manage email lists for crews/squads and membership types!</li>
+        <li>Administer your club memberships.</li>
+        <li>Create teams, events and races.</li>
+        <li>You can create your own colour scheme and pages.</li>
+        <li>Allow members to book a shared resource such as a room, a boat, or a pitch.</li>
+      </ul>
+    </td>
+    <td width="50%" valign=top>
+      <H3>Latest Online Activity:</H3>
+        <% if @latestnews.size == 0 %>
+          <div class="smaller">None found.</div>
+        <% else %>
+          <% i = 1 -%>
+          <% @latestnews.each do |news| -%>
+            <% if i <= 10 -%>
+              <div style="background-color: #ddd; width: 100%; height: 1px; margin-bottom: 5px; margin-top: 5px;">&nbsp;</div>
+              <% if news.event_type == "Race" -%>
+                <div class="smaller">
+                <% @team = Team.find_by_id(news.team_id) -%>
+                <% @user = User.find_by_id(news.user_id) -%>
+                <% @event = Event.find_by_id(news.event_id) -%>
+                <% @club = Club.find_by_id(news.club_id) -%>
+                <div class="box_blue">RACE RESULT</div>&nbsp;<%= time_ago_in_words(news.created_at) %> the <%= link_to @team.description, :controller => "teams", :action => "show", :id => @team.id %> of <%= link_to @club.name, club_path(@club.id) %> came <%= link_to news.title, results_event_path(@event.id) %> in the <%= link_to @event.title, event_path(@event.id) %>. 
+                <%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %> has written a race report: "<i><%= link_to news.body, report_event_path(@event.id) %></i>"
+              <% elsif news.event_type == "News" -%>
+                <% @club = Club.find_by_id(news.club_id) -%>
+                <div class="smaller">
+                <div class="box_green">NEWS</div>&nbsp;<% @user = User.find_by_id(news.user_id) -%>
+                <%= time_ago_in_words(news.created_at) %> <%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %> of <%= link_to @club.name, club_path(@club.id) %> posted a news story <%= link_to news.title, news_club_path(news.club_id) %>: "<i><%= link_to news.body, news_club_path(news.club_id) %></i>"
+              <% elsif news.event_type == "Entry" -%>
+                <div class="smaller">
+                <% @team = Team.find_by_id(news.team_id) -%>
+                <% @user = User.find_by_id(news.user_id) -%>
+                <% @event = Event.find_by_id(news.event_id) -%>
+                <% @club = Club.find_by_id(news.club_id) -%>                
+                <div class="box_red">RACE ENTRY</div>&nbsp;<%= time_ago_in_words(news.created_at) %> the <%= link_to @team.description, :controller => "teams", :action => "show", :id => @team.id %> of <%= link_to @club.name, club_path(@club.id) %> was entered into the <%= link_to @event.title, event_path(@event.id) %> by <%= link_to @user.full_name, :controller => "profile", :action => "show", :id => @user.id %>.
+              <% end -%>
+              </div>
+            <% i += 1 -%>
+            <% end -%>
+          <% end -%>
+          <% end -%>
+
+        
+        
+      
+    </td>
+  </tr>
+</table>

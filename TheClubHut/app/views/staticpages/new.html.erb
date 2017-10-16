@@ -1,0 +1,54 @@
+<h1>New staticpage</h1>
+
+<%= error_messages_for :staticpage %>
+
+<% form_for(:staticpage, :url => club_staticpages_path) do |f| %>
+	<%= f.hidden_field :club_id, :value => params[:club_id] %>
+
+  <p>
+    <b>Toolbar title</b><br />
+    <%= f.text_field :toolbar_title %>
+  </p>
+
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <b>Body</b><br />
+    <%= f.text_area :body %>
+  </p>
+
+    
+
+<% fields_for "staticpage[navigation_attributes]" do |foreign| %>
+	<%= foreign.hidden_field :club_id, :value => params[:club_id] %>
+
+  <p>
+    <b>Is this a Sub-Index Item?</b><br />
+    <% @navigations = Navigation.find(:all, :conditions => ['club_id=? and sub_page=?', session[:club_id], '0'], :order => ['indexorder ASC']) %>
+
+		 <select name="staticpage[navigation_attributes][sub_page]">
+		 	<option value="0">No - Appear on Top Level of Links</Option>
+      <% @navigations.each do |navigation| %>      
+        <option value="<%= navigation.id %>"><%= navigation.indexlinkname %></Option>
+      <% end %>
+		 </select>	
+     </p>
+
+	<% @currentnavs = Navigation.find(:all, :conditions => ["club_id=?", params[:club_id]], :order => ["indexorder ASC"]) %>	
+	<!-- #TO DO: This isn't fool proof! -->
+	<%= foreign.hidden_field :indexorder, :value => @currentnavs.size %>	
+  <p>
+    <b>Link Name for Club Index:</b><br />
+    <%= foreign.text_field :indexlinkname %>
+  </p>
+<% end %>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', club_staticpages_path %>

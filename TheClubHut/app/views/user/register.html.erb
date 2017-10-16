@@ -1,0 +1,22 @@
+<h2>Register</h2> 
+<% form_for :user do |form| %> 
+  <fieldset> 
+    <legend>Enter Your Details</legend> 
+    <%= error_messages_for 'user' %>
+    
+<table>
+  <tr><td><label for="firstname">Firstname:</label> </td><td><%= form.text_field :firstname, :class => "text" %> </td></tr>
+  <tr><td><label for="surname">Surname:</label> </td><td><%= form.text_field :surname, :class => "text" %> </td></tr>
+  <%= render :partial => "email_field_row", :locals => { :form => form } %>
+  <%= render :partial => "password_field_row",
+               :locals  => { :form => form, 
+                             :field => "password" } %>
+  <%= render :partial => "password_field_row",
+               :locals  => { :form => form, 
+                             :field => "password_confirmation",
+                             :field_title => "Confirm" } %>
+  <tr><td colspan=2><%= submit_tag "Register!", :class => "submit" %> </td></tr>    
+</table>
+  </fieldset> 
+<% end %> 
+

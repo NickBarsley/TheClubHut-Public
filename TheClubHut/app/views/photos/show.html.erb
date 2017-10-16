@@ -1,0 +1,43 @@
+<% if @race %>
+  <% if @event.ind_or_team == "Individual" %>
+    <H2><%=h @event.title %> <%= @event.date.year %>: <%= @race.user.full_name %> Photos</H2>
+  <% elsif @event.ind_or_team == "Team" %>
+    <H2><%=h @event.title %> <%= @event.date.year %>: <%= @race.team.description %> Photos</H2>
+  <% end %>
+  <div class="smaller">[ <%= link_to 'Back to Gallery', event_race_photos_path(params[:event_id], params[:race_id]) %> ]</div>
+  <div class="gallery_background">
+  <div class="subtitle"><B><%= @photo.title %></B></div>
+  <div class="subtitle"><%= image_tag(@photo.public_filename, :class => "photo_full") %></div>
+  <div class="subtitle"><%= @photo.body %></div>
+  <div class="subtitle"><div class="smaller">[ <%= link_to 'Edit', edit_event_race_photo_path(@event, @race, @photo) %> | <%= link_to 'Delete', event_race_photo_path(@event, @race, @photo), :confirm => 'Are you sure?', :method => :delete %> ]</div></div>
+  </div>
+
+<% elsif @item %>
+<H2><%=h @item.name %></H2>
+<div class="gallery_background">
+<div class="subtitle white">Back to: <B><%= link_to @item.name, item_path(@item) %></B></div>
+<div class="subtitle white"><%= image_tag(@photo.public_filename, :class => "photo_full") %></div>
+<% if session[:user_id] == 6 %>
+<div class="subtitle"><div class="smaller">[ <%= link_to 'Edit', edit_item_photo_path(@item, @photo) %> | <%= link_to 'Delete', item_photo_path(@item, @photo), :confirm => 'Are you sure?', :method => :delete %> ]</div></div>
+<% end %>
+<% if @item.photo.size != 1 %>
+  <div class="subtitle white"><%= render :partial => "itemthumb", :collection => @item.photo %></div>
+<% end %>
+  <div class="subtitle white"><div class="smaller">[ <%= link_to 'Add Another Manufacturers Photo', new_item_photo_path(@item) %> ]</div></div>
+</div>
+
+<% elsif @team %>
+<H2><%=h @team.description %></H2>
+<div class="gallery_background">
+<div class="subtitle white">Back to: <B><%= link_to @team.description, team_path(@team) %></B></div>
+<div class="subtitle white"><%= image_tag(@photo.public_filename, :class => "photo_full") %></div>
+<% if session[:user_id] == 6 %>
+<div class="subtitle"><div class="smaller">[ <%= link_to 'Edit', edit_team_photo_path(@team, @photo) %> | <%= link_to 'Delete', team_photo_path(@team, @photo), :confirm => 'Are you sure?', :method => :delete %> ]</div></div>
+<% end %>
+<% if @team.photos.size != 1 %>
+  <div class="subtitle white"><%= render :partial => "teamthumb", :collection => @team.photos %></div>
+<% end %>
+  <div class="subtitle white"><div class="smaller">[ <%= link_to 'Add Another Team Photo', new_team_photo_path(@team) %> ]</div></div>
+</div>
+
+<% end %>

@@ -1,0 +1,102 @@
+<h1>Create a New Training Session</h1>
+
+<%= error_messages_for :trainingsession %>
+
+<script type="text/javascript">
+function toggleLayerDistance(val, num)
+  {
+    if(val == 'on' || val === true)
+    {
+      document.getElementById('duration_toggle_' + num).checked = true;
+      document.getElementById('target_header_' + num).innerHTML = '<b>Time</b> Hr:Min:Sec.P';
+      document.getElementById('result_header_' + num).innerHTML = '<b>Distance</b>';
+      
+      document.getElementById('target_' + num).innerHTML = '<select id="trainingsession_new_interval_attributes__duration_hr" name="trainingsession[new_interval_attributes][][duration_hr]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option></select><b> : </b><select id="trainingsession_new_interval_attributes__duration_min" name="trainingsession[new_interval_attributes][][duration_min]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select><b> : </b><select id="trainingsession_new_interval_attributes__duration_sec" name="trainingsession[new_interval_attributes][][duration_sec]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select><b> . </b><select id="trainingsession_new_interval_attributes__duration_point" name="trainingsession[new_interval_attributes][][duration_point]"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select>';
+      document.getElementById('result_' + num).innerHTML = '<input type="text" size="5" name="trainingsession[new_interval_attributes][][distance]" id="trainingsession_new_interval_attributes__distance" class="textinterval"/>&nbsp;<select name="trainingsession[new_interval_attributes][][distance_units]" id="trainingsession_new_interval_attributes__distance_units"><option value="m">m</option><option value="Miles">Miles</option><option value="Km">Km</option></select>';
+      
+      document.getElementById('dist_or_duration_' + num).innerHTML = '<input type="hidden" value="duration" name="trainingsession[new_interval_attributes][][dist_or_dur]" id="trainingsession_new_interval_attributes__dist_or_dur"/>';
+      
+    }
+    else if(val == 'off' || val === false)
+    {
+      document.getElementById('distance_toggle_' + num).checked = true;
+      document.getElementById('target_header_' + num).innerHTML = '<b>Distance</b>';
+      document.getElementById('result_header_' + num).innerHTML = '<b>Time</b> Hr:Min:Sec.P';
+      
+      document.getElementById('target_' + num).innerHTML = '<input type="text" size="5" name="trainingsession[new_interval_attributes][][distance]" id="trainingsession_new_interval_attributes__distance" class="textinterval"/>&nbsp;<select name="trainingsession[new_interval_attributes][][distance_units]" id="trainingsession_new_interval_attributes__distance_units"><option value="m">m</option><option value="Miles">Miles</option><option value="Km">Km</option></select>';
+      document.getElementById('result_' + num).innerHTML = '<select id="trainingsession_new_interval_attributes__duration_hr" name="trainingsession[new_interval_attributes][][duration_hr]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option></select><b> : </b><select id="trainingsession_new_interval_attributes__duration_min" name="trainingsession[new_interval_attributes][][duration_min]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select><b> : </b><select id="trainingsession_new_interval_attributes__duration_sec" name="trainingsession[new_interval_attributes][][duration_sec]"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select><b> . </b><select id="trainingsession_new_interval_attributes__duration_point" name="trainingsession[new_interval_attributes][][duration_point]"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select>';
+      
+      document.getElementById('dist_or_duration_' + num).innerHTML = '<input type="hidden" value="distance" name="trainingsession[new_interval_attributes][][dist_or_dur]" id="trainingsession_new_interval_attributes__dist_or_dur"/>';
+      
+      //      Power (Watts) = 2.8/(pace)3
+      //where pace is given as: Pace = time (seconds)/distance (metres)
+    }
+  }
+  
+function toggle_aim_for_rate(val, num)
+  {
+    if(val == 'on' || val === true)
+    {
+      document.getElementById('aim_for_rate_' + num).style.display = 'block';
+    }
+    else if(val == 'off' || val === false)
+    {
+      document.getElementById('aim_for_rate_' + num).style.display = 'none';
+    }
+  }
+function toggle_aim_for_split(val, num)
+  {
+    if(val == 'on' || val === true)
+    {
+      document.getElementById('aim_for_split_' + num).style.display = 'block';
+    }
+    else if(val == 'off' || val === false)
+    {
+      document.getElementById('aim_for_split_' + num).style.display = 'none';
+    }
+  }
+function toggle_aim_for_wattage(val, num)
+  {
+    if(val == 'on' || val === true)
+    {
+      document.getElementById('aim_for_wattage_' + num).style.display = 'block';
+    }
+    else if(val == 'off' || val === false)
+    {
+      document.getElementById('aim_for_wattage_' + num).style.display = 'none';
+    }
+  }
+</script> 
+
+
+
+<% form_for(@trainingsession) do |f| %>
+<div class="smaller">
+  <p>
+    <b>When will or did the workout happen?</b><br />
+    <%= f.datetime_select :scheduled %>
+  </p>
+  <p>
+    <b>This work out is/was for:</b><br />
+    <%= f.radio_button :teamorind, "Individual" %>Me Only&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :teamorind, "Team", :checked => true %>A Team
+    <%= f.hidden_field :user_id, :value => session[:user_id].to_i %>
+  </p>
+  <!-- <p>
+    <b>Team ID</b><br />
+    <%= f.text_field :team_id %>
+  </p> -->
+  <% session[:numinterval] = nil -%>
+  <p>
+    <%= link_to_remote "Add An Interval", :url => {:action => 'insert_interval' }  %>
+  </p>
+  </div>
+  <div id="intervals"></div>
+  
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+
+<% end %>
+
+<%= link_to 'Back', trainingsessions_path %>

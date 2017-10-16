@@ -1,0 +1,10 @@
+<tr>
+	<td align="right"><% if @previousposition != listmembers.position %><%= listmembers.position %>:<% end %><% @previousposition = listmembers.position %></td>
+	<td><%= link_to listmembers.user.full_name, :controller => "profile", :action => "show", :id => listmembers.user.id %><% if current_club_committee? -%>
+<div class="smaller" style="display: inline;">&nbsp;&nbsp;[&nbsp;<%= link_to "Edit", edit_club_committee_committeemember_url(listmembers.committee.club, listmembers.committee, listmembers) %>&nbsp;|&nbsp;<%= link_to "Delete", club_committee_committeemember_url(listmembers.committee.club, listmembers.committee, listmembers), :method => :delete, :confirm => 'Are you sure?' %>&nbsp;]</div>
+<% end %></td>
+<td>
+  <div class="smaller"><%= mail_to listmembers.position_email %></div>
+</td>
+</tr>
+

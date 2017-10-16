@@ -1,0 +1,55 @@
+
+<h1>Edit <%= @club.initials %> Details:</h1>
+
+<%= error_messages_for :club %>
+
+<% form_for(@club) do |f| %>
+<table>
+  <tr>
+    <td><b>Name:</b></td>
+    <td><div class="smaller"><%= f.text_field :name, :class => "text" %></div></td>
+    <td><div class="smaller">For example: Queens' College Boat Club</div></td>
+  </tr>
+  <tr>
+    <td><b>Initials:</b></td>
+    <td><%= f.text_field :initials, :class => "text" %></td>
+    <td><div class="smaller">For example: QCBC</div></td>
+  </tr>
+  <tr>
+    <td><b>Official Website for Club Hosted on Sipbib.com?:</b></td>
+    <td>
+      <select name="club[officialsite]">
+		 	  <option value="No"<% if @club.officialsite == "No" %> SELECTED<% end %>>No</Option>
+  		 	<option value="Yes"<% if @club.officialsite == "Yes" %> SELECTED<% end %>>Yes</Option>
+		 </select>	
+    </td>
+  </tr>
+  <tr>
+    <td><b>Official Club Website:</b></td>
+    <td><%= f.text_field :website, :class => "text" %></td>
+    <td><div class="smaller">If you have answered "No" above, then you likely have a website elsewhere. Please enter it here so that on each page that your club has on this site, notifies the user that a) this is not the official website, and b) gives them a link to the official one.</div></td>
+  </tr>  
+  <tr>
+     <% @sports = DataSports.find(:all, :order => "name ASC") -%>
+    <td><b>Sport:</b></td>
+    <td><%= f.collection_select(:sport_id, @sports, "id", "name", options ={:prompt => "Select a Sport"}) %></td>
+    <td><div class="smaller">Choose the sport that this club is involved with.</div></td>
+  </tr>
+  <tr>
+    <td><b>Club Colour:</b></td>
+    <td><%= f.text_field :backgroundcolor, :class => "text" %></td>
+    <td><div class="smaller">Choose your club's primary colour.</div></td>
+  </tr>      
+  <tr>
+    <td><b>Location Code:</b></td>
+    <td><%= f.text_field :locationcode, :class => "text" %></td>
+    <td><div class="smaller">E.g. CB3 9ET. This is important as the location of your club's postcode determines where the website places your club on the map.</td>
+  </tr> 
+</table>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @club %> |
+<%= link_to 'Back', clubs_path %>

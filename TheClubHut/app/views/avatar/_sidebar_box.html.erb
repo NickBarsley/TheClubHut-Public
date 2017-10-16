@@ -1,0 +1,13 @@
+<% if @user.avatar.exists? %>
+	<%= avatar_tag(@user) %>
+	<BR />
+	<% if profile_viewed_matches_login?(params[:id], session[:user_id]) %>
+		<div class="smaller">[ <%= link_to "Edit Photo", :controller => "avatar", :action => "upload" %> ]</div>
+	<% end %>
+<% else %>
+	No profile picture yet.<BR />
+	<% if profile_viewed_matches_login?(params[:id], session[:user_id]) %>
+	<%= link_to "Upload one!", :controller => "avatar", 
+	                       :action => "upload" %>
+	<% end %>
+<% end %>

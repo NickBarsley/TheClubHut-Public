@@ -1,0 +1,4 @@
+<% if @user.spec[field_row] == nil or @user.spec[field_row] == "" %>
+<% else %>
+<div class="smaller"><b><%= field_row.humanize %></b>: <%= h @user.spec[field_row] %></div>
+<% end %>

@@ -1,0 +1,53 @@
+<h2>Create a New Membership Type for <%= @club.initials %></h2>
+
+<%= error_messages_for :membershiptype %>
+
+<% form_for(@membershiptype) do |f| %>
+    <%= f.hidden_field :club_id, :value => session[:club_id].to_i %>
+  <div class="smaller" style="display: inline;">
+    <p>
+    <b>Name</b><br />
+    <%= f.text_field :name, :class => "text" %><BR />
+    E.g. <i>Coach</i>
+  </p>
+  <p>
+    <b>Name Plural</b><br />
+    <%= f.text_field :name_plural, :class => "text" %><BR />
+    E.g. <i>Coaches</i>
+  </p>
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description, :class => "text", :size => 50 %><BR />
+    E.g. <i>coaches of QCBC</i>. The description should be lower-case and plural.
+  </p>
+  <p>
+    <b>Display Type</b><br />
+    <select name="membershiptype[display_type]">
+				<option value="square">Square</option>
+				<option value="list">List</option>
+			</select><BR />
+    This sets how the membership type is shown on the Members page of your club. There are currently two styles: square and list.
+  </p>  
+  <p>
+    <b>Club Coach?</b><br />
+    <select name="membershiptype[clubcoach]">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</select><BR />
+    Select "Yes" if you would like this membership type to be a coach for all <b>coachable</b> members of your club. 
+  </p>  
+  <p>
+    <b>Coachable?</b><br />
+    <select name="membershiptype[coachable]">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</select><BR />
+    Select "Yes" if you would like this membership type to able to have coaching feedback left by the club coaches. An example of when you would want this, is for Current Members. An example where you would not, would be club Alumni.
+  </p>  
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+  </div>
+<% end %>
+
+<%= link_to 'Back', membershiptypes_path %>

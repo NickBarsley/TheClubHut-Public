@@ -1,0 +1,26 @@
+<h1>Listing committeemembers</h1>
+
+<table>
+  <tr>
+    <th>Committee</th>
+    <th>User</th>
+    <th>Position</th>
+    <th>Roworder</th>
+  </tr>
+
+<% for committeemember in @committeemembers %>
+  <tr>
+    <td><%=h committeemember.committee_id %></td>
+    <td><%=h committeemember.user_id %></td>
+    <td><%=h committeemember.position %></td>
+    <td><%=h committeemember.roworder %></td>
+    <td><%= link_to 'Show', committeemember %></td>
+    <td><%= link_to 'Edit', edit_committeemember_path(committeemember) %></td>
+    <td><%= link_to 'Destroy', committeemember, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New committeemember', new_committeemember_path %>

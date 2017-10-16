@@ -1,0 +1,22 @@
+<H2>Log In</H2>
+
+<% form_for :user do |form| %>
+	<fieldset>
+	  <legend>Enter Your Details</legend> 
+<table>
+  <%= render :partial => "email_field_row", :locals => { :form => form } %>
+  <%= render :partial => "password_field_row", :locals => { :form => form, :field => "password" } %>
+  <tr><td><label for="remember_me">Remember Me?:</label></td><td><%= form.check_box :remember_me %></td></tr>
+  <tr><td colspan=2 align=right><%= submit_tag "Login!", :class => "submit" %></td></tr>  
+</table>
+ 
+</fieldset>
+<% end %>
+<p>
+Forgotten your password? <%= link_to "Click here to reset it", :controller => "email", :action => "remind" %>.
+</p>
+<p>
+Not a member?  <%= link_to "Register now!", :action => "register" %>
+
+
+

@@ -1,0 +1,38 @@
+<%= javascript_include_tag "fckeditor/fckeditor" %>
+
+<h2>Edit Race Report:</h2>
+<%= error_messages_for :race %>
+<% form_for(:race, :url => event_race_path(:id => @race), :html => { :method => :put }) do |f| %>
+  <%= f.hidden_field :event_id, :value => params[:event_id] %>
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
+  <div class="smaller" style="display: inline;">
+  <% if @event.dataetype_id != 1 %>
+  <!-- Event is NOT a social event. Therefore it is a race, and should have a result and position -->
+  <p>
+    <b>Race Result:</b><br />
+    <%= f.text_field :result, :class => "text" %><BR />
+    <i>E.g. "3rd in the 2nd Division".</i>
+  </p>
+  <p>
+    <b>Race Position:</b>&nbsp;<select id="race_position" name="race[position]">
+    <% 1000.times do |i| -%>
+      <% if i != 0 -%><option value="<%= i %>"<% if @race.position.to_i == i %> SELECTED<% end -%>><%= i %></option><% end -%>
+    <% end -%>
+    </select><BR />
+    <i>E.g. "3" for third.</i>
+  </p>
+  <% end %>
+  <p>
+    <% if @event.dataetype_id != 1 -%>
+      <b>Race Report:</b><br />
+    <% else -%>
+      <b>Event Report:</b><br />
+    <% end -%>
+      <div id="<%= fckeditor_div_id('race', 'report') %>" width="1000px" height="700px">
+        <%= fckeditor_textarea("race", "report", :width => '100%', :height => '500px') %>
+      </div>
+    <%= f.submit "Update Race Result" %> or <%= link_to 'Back', report_event_path(params[:event_id]) %>
+  </p>
+  </div>
+<% end %>
+

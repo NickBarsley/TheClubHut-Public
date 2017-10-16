@@ -1,0 +1,55 @@
+<h1><%= @title %></h1>
+
+<%= error_messages_for :item %>
+
+<table width=100%>
+<% form_for(@item, :html => { :multipart => true }) do |f| %>
+  <tr><td>Item Name</td><td><%= f.text_field :name %></td></tr>
+  <tr><td>Manufacturer</td><td><%= f.text_field :manufacturer %></td></tr>
+  <tr><td>Manufacturers Description <div class="smaller">Try to make this as factual<br />as possible, opinions go in <BR />the Summary box.</div></td><td><%= f.text_area :description, :rows => '5', :style => 'width:75%;' %></td></tr>
+  
+  <% fields_for "item[review_attributes]" do |foreign| %>
+    <%= foreign.hidden_field :user_id, :value => session[:user_id] -%>
+    <%= foreign.hidden_field :item_id, :value => params[:item_id] -%>
+    <%= foreign.hidden_field :date, :value => Time.now -%>
+    <tr><td>Rating Value (out of 5)</td><td>
+			 <select name="item[review_attributes][rating_value">
+       <% j=0 %>
+			 <% 6.times do %>
+			 <option value="<%= j %>"> 
+			 <%= j %>
+			 </option>
+       <% j+=1 %>
+			 <% end %>
+			 </select>	
+    </td></tr>
+    <tr><td>Overal Rating (out of 5)</td><td>
+			 <select name="item[review_attributes][rating_overall">
+       <% j=0 %>
+			 <% 6.times do %>
+			 <option value="<%= j %>"> 
+			 <%= j %>
+			 </option>
+       <% j+=1 %>
+			 <% end %>
+			 </select>	
+    </td></tr>
+    <tr><td>Used product since</td><td><%= foreign.date_select :used_product_since %></td></tr>
+    <tr><td>Price paid</td><td><%= foreign.text_field :price_paid %></td></tr>
+    <tr><td>Bought where</td><td><%= foreign.text_field :bought_where %></td></tr>
+    <tr><td>Summary</td><td><%= foreign.text_area :summary, :rows => '5', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Strengths</td><td><%= foreign.text_area :strengths, :rows => '3', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Weaknesses</td><td><%= foreign.text_area :weaknesses, :rows => '3', :style => 'width:75%;'  %></td></tr>
+    <tr><td>Similar products</td><td><%= foreign.text_field :similar_products %></td></tr>
+  <% end %>
+
+  <% fields_for "item[photo_attributes]" do |foreign| %>
+    <%= foreign.hidden_field :item_id, :value => params[:item_id] %>
+    <tr><td>Select a photo to upload</td><td><%= foreign.file_field :uploaded_data %></td></tr>
+  <% end %>
+
+  <tr><td colspan=2><%= f.submit "Create" %></td></tr>
+<% end %>
+</table>
+
+<%= link_to 'Back', items_path %>

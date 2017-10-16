@@ -1,0 +1,5 @@
+page.hide "add_comment_link_for_post_#{@blogpost.id}" 
+
+form_div = "new_comment_form_for_post_#{@blogpost.id}" 
+page.replace_html form_div, :partial => "new" 
+page.show "new_comment_form_for_post_#{@blogpost.id}" 

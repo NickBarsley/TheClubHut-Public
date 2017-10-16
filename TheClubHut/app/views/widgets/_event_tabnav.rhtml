@@ -1,0 +1,201 @@
+<%  
+render_tabnav :event, :generate_css => false do 
+
+# All events have an information tab. 
+add_tab do |t|
+	t.named 'Event Info'
+	t.titled 'Race information: location, date, etc...'
+	t.links_to hash_for_description_event_path(params[:event_id])
+end 
+
+if @event.created_by_owner == "Yes"
+	# The event is being run by an owner. 
+	# Check that a sensible window exists.
+	if @event.date < Date.today	
+	# Event is in the past!
+  	@status = "Completed"
+		if @event.dataetype_id == 1	# For Social Events
+  		add_tab do |t|
+  			t.named 'Attendees'
+  			t.titled 'Reports of the event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Reports'
+  			t.titled 'Reports of the event.'
+  			t.links_to hash_for_report_event_path(params[:event_id])
+  		end
+			# ADD TAB HERE FOR EVENT OWNER.
+		else # For races.
+  		add_tab do |t|
+  			t.named 'Results'
+  			t.titled 'Results of the event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Reports'
+  			t.titled 'Reports of the event.'
+  			t.links_to hash_for_report_event_path(params[:event_id])
+  		end
+			# ADD TAB HERE FOR EVENT OWNER.
+		end
+	else	# The event is in the future. Need the complicated cases.
+		if @event.dataetype_id==1 # For social events.
+  		if @event.when_entries_open.to_date > Date.today
+  			# Entries not yet open.
+  			@status = "Pending - entries open on " + number_to_ordinal(@event.when_entries_open.to_date.day) + " " + monthname(@event.when_entries_open.to_date.month) + " " + @event.when_entries_open.to_date.year.to_s
+  		elsif @event.when_entries_open.to_date <= Date.today 
+  			# ENTRIES HAVE OPENED IN THE PAST
+				if @event.when_entries_close.to_date > Date.today
+					# ENTRIES STILL OPEN
+					@status = "Entries NOW OPEN, sign up now."
+      		add_tab do |t|
+      			t.named 'Attendees'
+      			t.titled 'Reports of the event.'
+      			t.links_to hash_for_results_event_path(params[:event_id])
+      		end
+					if session[:user_id]
+            signedinuserhasentered = false
+            @event.race.each do |race|
+            	if race.user_id == session[:user_id]
+                signedinuserhasentered = true
+            	end
+            end
+
+						if signedinuserhasentered == false
+  						add_tab do |t|
+  							t.named '&nbsp;SIGN UP&nbsp;'
+  							t.titled 'Sign up for this social event.'
+  							t.links_to hash_for_enter_event_path(params[:event_id])
+  						end
+						end
+					end
+				else
+					# ENTRIES WERE OPEN, NOW CLOSED
+  				@status = "Entries closed."
+      		add_tab do |t|
+      			t.named 'Attendees'
+      			t.titled 'Reports of the event.'
+      			t.links_to hash_for_results_event_path(params[:event_id])
+      		end
+				end
+			end
+    else # for races which are organised on the website.
+    	if @event.date < Date.today
+      	# IN THE PAST
+      	@status = "Completed"
+    		add_tab do |t|
+    			t.named 'Results'
+    			t.titled 'Results of the event.'
+    			t.links_to hash_for_results_event_path(params[:event_id])
+    		end
+    		add_tab do |t|
+    			t.named 'Report'
+    			t.titled 'Reports of the event.'
+    			t.links_to hash_for_report_event_path(params[:event_id])
+    		end
+    	else # IN THE FUTURE
+    		if @event.when_entries_open.to_date > Date.today
+    			# Entries not yet open.
+    			@status = "Pending - entries not yet open"
+    		elsif @event.when_entries_open.to_date <= Date.today 
+    			# ENTRIES HAVE OPENED IN THE PAST
+      			if @event.when_entries_close.to_date > Date.today
+  					# ENTRIES STILL OPEN
+  						@status = "Entries NOW OPEN, sign up now."
+  						add_tab do |t|
+  							t.named 'Race Entrants'
+  							t.titled 'People who have signed up to this event.'
+  							t.links_to hash_for_results_event_path(params[:event_id])
+  						end
+  						add_tab do |t|
+  							t.named 'ENTER EVENT'
+  							t.titled 'Sign up for this social event.'
+  							t.links_to hash_for_enter_event_path(params[:event_id])
+  						end
+    				else
+    					# ENTRIES WERE OPEN, NOW CLOSED
+      				@status = "Entries closed."
+    					add_tab do |t|
+    						t.named 'Race Entrants'
+    						t.titled 'People who have signed up to this event.'
+    						t.links_to hash_for_results_event_path(params[:event_id])
+    					end
+    				end
+    			end
+    		end
+			end
+		end
+else
+	# The event is NOT being run through the website. The window is irrelevant.
+	if @event.date < Date.today
+		# Event is in the past.
+		@status = "Completed"
+		if @event.dataetype_id == 1	# For Social Events
+  		add_tab do |t|
+  			t.named 'Attendees'
+  			t.titled 'Attendees of the event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Reports'
+  			t.titled 'Reports of the event.'
+  			t.links_to hash_for_report_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Add Attendee'
+  			t.titled 'Add an attendee to this event.'
+  			t.links_to hash_for_enter_event_path(params[:event_id])
+  		end
+		else # Else the event is a race.
+  		add_tab do |t|
+  			t.named 'Results'
+  			t.titled 'Results of the event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Reports'
+  			t.titled 'Reports of the event.'
+  			t.links_to hash_for_report_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Add A Result / Report'
+  			t.titled 'Add a result or report to this event.'
+  			t.links_to hash_for_enter_event_path(params[:event_id])
+  		end
+		end
+	else
+		# Event is in the future. 
+		@status = "Entries NOW OPEN, sign up now."
+		if @event.dataetype_id == 1	# For Social Events
+  		add_tab do |t|
+  			t.named 'Attendees'
+  			t.titled 'Attendees of the event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'Add Attendee'
+  			t.titled 'Add an attendee to this event.'
+  			t.links_to hash_for_enter_event_path(params[:event_id])
+  		end	  		
+		else # For races.
+			add_tab do |t|
+  			t.named 'Race Entrants'
+  			t.titled 'People who have signed up to this event.'
+  			t.links_to hash_for_results_event_path(params[:event_id])
+  		end
+  		add_tab do |t|
+  			t.named 'ENTER EVENT'
+  			t.titled 'Sign up for this social event.'
+  			t.links_to hash_for_enter_event_path(params[:event_id])
+  		end		
+		end
+	end
+
+end
+
+
+
+
+end 
+%>

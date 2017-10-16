@@ -1,0 +1,19 @@
+.review.odd
+  .header 
+    Manufactured by
+    = @item.manufacturer
+  .desccont
+    %table{:cellpadding => "0", :cellspacing => "5", :margin => "0", :width=>"100%"}
+      %tr
+        %td{:width=>"100%", :valign=>"top"}
+          = @item.description
+        %td
+          .photo{:valign=>"top"}
+            - @photo = Photo.find(:first, :conditions => ["item_id=?", @item])
+            - if @photo
+              = link_to image_tag(@photo.public_filename('thumb'), :class => "photo_thumb", :title => [@item.name + " Manufacturers Photos."]), item_photo_path(@item, @photo.id)
+              %div{:class => "smaller", :style=>"white-space: nowrap;"}
+                = link_to "View&nbsp;#{pluralize(@item.photo.size.to_s, "Photo")}", item_photo_path(@item, @photo.id)
+                %BR
+                = link_to "Add Photo", new_item_photo_path(@item)
+    %div{:style => "clear: both; height: 0"}

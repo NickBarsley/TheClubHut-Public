@@ -1,0 +1,41 @@
+<% if logged_in? -%>
+
+	<% @memberships = Membership.find(:all, :conditions => ["user_id=?", session[:user_id]], :order => "club_id ASC") -%>
+	<% currentclub = 0 -%>
+	<% if @memberships.size == 0 -%>
+	  	<div id="TCHnav">You have no club memberships yet.&nbsp;&nbsp;&nbsp;<a href="/clubs">Browse existing Club Huts</a>, <%= link_to "sign up to a club", admin_memberships_path %>, or <a href="/clubs/new">create a new club</a>.</div>
+	<% else -%>
+		<div id="TCHnav">Your Club Huts: 
+		<% nongranted = false -%>
+		<% @memberships.each do |membership| -%>
+	    	<% if currentclub != membership.club_id and membership.status == "granted" -%>
+	      		<% if membership.club_id == session[:club_id] -%><div class="box_white"><%= link_to membership.club.name, :controller => "clubs", :action => "show", :id => membership.club.id %><% else -%><div class="box_lightgrey"><%= link_to membership.club.initials, :controller => "clubs", :action => "show", :id => membership.club.id %><% end -%></div>
+	      		<% currentclub = membership.club_id -%>
+	    	<% end -%>
+			
+			<% if membership.status == "requested" -%>
+				<% nongranted = true -%>
+			<% elsif membership.status == "invited" -%>
+				<% nongranted = true -%>
+			<% end -%>  
+	  	<% end -%>
+	  	
+		&nbsp;&nbsp;&nbsp;<%= link_to "Join", admin_memberships_path %> or <a href="/clubs/new">create</a> another Club Hut?
+		<% if nongranted == true -%>
+			You have applied for memberships which are not yet granted, see them <%= link_to "here", admin_memberships_path %>
+		<% end -%>
+		</div>
+	<% end -%>  
+	<% if session[:club_id] != nil -%>
+		<% @club = Club.find(session[:club_id]) -%>
+		<% if current_club_committee? or session[:user_id] == 6 or session[:user_id].to_i == 752 -%>
+			<div align="right"><div class="box_red"><%= link_to_unless_current @club.initials + " Committee Administration ", admin_club_path(session[:club_id]) %></div></div>
+		<% end -%>
+	<% end -%>
+
+<% else -%>
+
+<div id="TCHnav"><%= renderTopLogInForm %>&nbsp;&nbsp;&nbsp;<%= link_to "Forgotten password?", :controller => "email", :action => "remind" %>&nbsp;&nbsp;&nbsp;No account? <%= nav_link "Sign up!", "user", "register" %></div>
+
+<% end -%>
+
